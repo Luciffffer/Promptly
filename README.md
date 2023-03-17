@@ -4,7 +4,7 @@ This is a project for the course PHP in my education. It is a platform/website w
 
 ## To contributors
 
-Try using branches to work on features. Commands are as follows:
+Try using branches to work on features. For each feature you work on, create a new branch. Commit changes in this branch. When finished, merge and delete branch. Commands are as follows:
 
 <br/>
 
