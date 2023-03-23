@@ -10,6 +10,10 @@ figma design file: https://www.figma.com/file/BwfNtmZc51Pu2kKwhkbk2M/PHP-prompti
 
 figmajam file: https://www.figma.com/file/dwz1cgqwnZ96frLyCjyUx4/PHP-prompting?node-id=0%3A1&t=VlvpwhqB8V4gvjbm-1
 
+Trello Design Board: https://trello.com/b/Mk0EFYDM/design
+
+Trello Development Board: https://trello.com/b/KGqDXzKQ/development
+
 <br/>
 
 ## To contributors
