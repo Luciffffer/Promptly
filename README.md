@@ -18,6 +18,25 @@ Trello Development Board: https://trello.com/b/KGqDXzKQ/development
 
 ## To contributors
 
+### Setup
+
+When first starting to work on this project, create a config.ini file in the config folder. This file will contain your database information.
+
+use the following structure:
+
+```
+  ; Enter your database information
+  [ Database ]
+  db_name = 
+  db_user =
+  db_password =
+  db_host =
+```
+
+</br>
+
+### How to work on this project
+
 Try using branches to work on features. For each feature you work on, create a new branch. Commit changes in this branch. When finished, merge and delete branch. Commands are as follows:
 
 <br/>
