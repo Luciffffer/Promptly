@@ -20,7 +20,7 @@ Trello Development Board: https://trello.com/b/KGqDXzKQ/development
 
 ### Setup
 
-When first starting to work on this project, create a config.ini file in the config folder. This file will contain your database information.
+When first starting to work on this project, create a folder called config. In this folder create a file named config.ini. This file will contain your database information.
 
 use the following structure:
 
