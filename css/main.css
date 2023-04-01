@@ -22,23 +22,40 @@
 /* VARIABLES */
 
 :root {
-    /* colours */
-    --dark-grey: #202124;
-    --purple: #6F04D9;
-    --dark-blue: #1B0273;
-    --medium-blue: #3866F2;
-    --light-medium-blue: #0597F2;
-    --light-blue: #05C7F2;
-    --off-white: #E6E6E6;
+  /* colours */
+  --dark-grey: #202124;
+  --purple: #6F04D9;
+  --dark-blue: #1B0273;
+  --medium-blue: #3866F2;
+  --light-medium-blue: #0597F2;
+  --light-blue: #05C7F2;
+  --off-white: #E6E6E6;
 
-    /* gradients */
-    --blue-purple-gradient: linear-gradient(90.77deg, #05C7F2 0%, #953CEE 100%);
-    --purple-gradient: linear-gradient(105.4deg, #6F04D9 39.2%, #1B0273 97.9%);
+  /* gradients */
+  --blue-purple-gradient: linear-gradient(90.77deg, #05C7F2 0%, #953CEE 100%);
+  --purple-gradient: linear-gradient(105.4deg, #6F04D9 39.2%, #1B0273 97.9%);
 
 
-    /* font sizes */
-    --small-size: 0.75rem;
-    --body-size: 1rem;
+  /* font sizes */
+  --small-size: 0.75rem;
+  --body-size: 1rem;
+  --h3-size: 1.333rem;
+  --h2-size: 1.777rem;
+  --h1-size: 2.369rem;
+  --large-size: 3.157rem;
+  --very-large-size: 4.209rem;
+}
+
+
+/* BASIC SELECTORS */
+
+p, small, figcaption, a, span, label, input {
+  font-family: "Montserrat", sans-serif;
+  font-weight: 400;
+}
+
+h1, h2, h3 {
+  font-family: "Lekton", monospace;
 }
 
 
