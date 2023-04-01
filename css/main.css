@@ -1,6 +1,40 @@
+/* FONTS */
+
+@font-face {
+  font-family: "Montserrat";
+  src: url("../assets/fonts/Montserrat-VariableFont_wght.ttf") format("truetype-variations");
+}
+
+@font-face {
+  font-family: "Lekton";
+  src: url("../assets/fonts/Lekton-Regular.ttf") format("truetype");
+  font-weight: normal;
+}
+
+@font-face {
+  font-family: "Lekton";
+  src: url("../assets/fonts/Lekton-Bold.ttf") format("truetype");
+  font-weight: bold;
+}
+
+
+
+/* VARIABLES */
+
 :root {
     /* colours */
     --dark-grey: #202124;
+    --purple: #6F04D9;
+    --dark-blue: #1B0273;
+    --medium-blue: #3866F2;
+    --light-medium-blue: #0597F2;
+    --light-blue: #05C7F2;
+    --off-white: #E6E6E6;
+
+    /* gradients */
+    --blue-purple-gradient: linear-gradient(90.77deg, #05C7F2 0%, #953CEE 100%);
+    --purple-gradient: linear-gradient(105.4deg, #6F04D9 39.2%, #1B0273 97.9%);
+
 
     /* font sizes */
     --small-size: 0.75rem;
