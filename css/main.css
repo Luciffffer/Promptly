@@ -30,6 +30,7 @@
   --light-medium-blue: #0597F2;
   --light-blue: #05C7F2;
   --off-white: #E6E6E6;
+  --grey-1: #A0A0A0;
 
   /* gradients */
   --blue-purple-gradient: linear-gradient(90.77deg, #05C7F2 0%, #953CEE 100%);
@@ -49,6 +50,14 @@
 
 /* BASIC SELECTORS */
 
+html, body {
+  min-height: 100vh;
+}
+
+body {
+  color: var(--off-white);
+}
+
 p, small, figcaption, a, span, label, input {
   font-family: "Montserrat", sans-serif;
   font-weight: 400;
@@ -56,6 +65,92 @@ p, small, figcaption, a, span, label, input {
 
 h1, h2, h3 {
   font-family: "Lekton", monospace;
+  font-weight: bold;
+}
+
+small, figcaption {
+  font-size: var(--small-size);
+}
+
+input {
+  font-size: var(--body-size);
+}
+
+h3 {
+  font-size: var(--h3-size);
+}
+
+h2 {
+  font-size: var(--h2-size);
+}
+
+h1 {
+  font-size: var(--h1-size);
+}
+
+input[type="text"], input[type="password"] {
+  display: block;
+  font-size: var(--body-size);
+  background-color: white;
+  padding: 0.5rem 1rem;
+  width: 100%;
+
+  border-radius: 5px;
+  border-color: var(--grey-1);
+  border-width: 1px;
+}
+
+input[type="password"] {
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+input[type="checkbox"] {
+  aspect-ratio: 1/1;
+  height: 1rem;
+  background-color: var(--off-white);
+  cursor: pointer;
+}
+
+a {
+  color: var(--medium-blue);
+}
+
+a:hover {
+  color: var(--light-medium-blue);
+}
+
+.logo-container {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.logo-container > img {
+  height: 50px;
+}
+
+.logo-text {
+  font-size: 2.25rem;
+}
+
+.form-part {
+  margin-bottom: 1rem;
+  text-align: left !important;
+}
+
+.form-title {
+  margin-bottom: 0.5rem;
+}
+
+.primary-btn {
+  padding: 0.5rem 2rem;
+  font-weight: bold;
+  cursor: pointer;
+
+  color: var(--off-white);
+  background: var(--purple-gradient);
+
+  border-radius: 10px;
+  border: none;
 }
 
 
@@ -65,45 +160,39 @@ h1, h2, h3 {
   1. Use a more-intuitive box-sizing model.
 */
 *, *::before, *::after {
-    box-sizing: border-box;
-  }
-  /*
-    2. Remove default margin
-  */
-  * {
-    margin: 0;
-  }
-  /*
-    3. Allow percentage-based heights in the application
-  */
-  html, body {
-    height: 100%;
-  }
-  /*
-    Typographic tweaks!
-    4. Add accessible line-height
-    5. Improve text rendering
-  */
-  body {
-    line-height: 1.5;
-    -webkit-font-smoothing: antialiased;
-  }
-  /*
-    6. Improve media defaults
-  */
-  img, picture, video, canvas, svg {
-    display: block;
-    max-width: 100%;
-  }
-  /*
-    8. Avoid text overflows
-  */
-  p, h1, h2, h3, h4, h5, h6 {
-    overflow-wrap: break-word;
-  }
-  /*
-    9. Create a root stacking context
-  */
-  #root, #__next {
-    isolation: isolate;
-  }
+  box-sizing: border-box;
+}
+/*
+  2. Remove default margin
+*/
+* {
+  margin: 0;
+}
+/*
+  Typographic tweaks!
+  4. Add accessible line-height
+  5. Improve text rendering
+*/
+body {
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+/*
+  6. Improve media defaults
+*/
+img, picture, video, canvas, svg {
+  display: block;
+  max-width: 100%;
+}
+/*
+  8. Avoid text overflows
+*/
+p, h1, h2, h3, h4, h5, h6 {
+  overflow-wrap: break-word;
+}
+/*
+  9. Create a root stacking context
+*/
+#root, #__next {
+  isolation: isolate;
+}
