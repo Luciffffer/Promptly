@@ -25,8 +25,8 @@ class User {
 
     public function setUsername(string $username)
     {
-        if (str_contains($username, " ") || strlen($username) === 0) {
-            throw new Exception("Usernames is not valid");
+        if (preg_match('([^a-zA-Z0-9])', $username) === 1 || strlen($username) === 0) {
+            throw new Exception("Usernames is not valid. Only letters and numbers allowed");
         }
 
         $this->username = $username;
@@ -69,7 +69,13 @@ class User {
         $stmt->bindValue(":username", $this->username);
         $stmt->bindValue(":email", $this->email);
         $stmt->bindValue(":password", $this->password);
-        $stmt->execute();
+        $success = $stmt->execute();
+
+        if ($success == true) {
+            return $success;
+        } else {
+            throw new Exception("Something went wrong. Try again later");
+        }
     }
 
 

@@ -3,20 +3,17 @@
     include_once(__DIR__ . "/classes/User.php");
 
     if (isset($_POST['email']) && isset($_POST['password']) && isset($_POST['username'])) {
-        if (empty($_POST['terms-agree'])) {
-            $error = "To create an account you must accept the terms and conditions.";
-            var_dump($error);
-        }
-
         try {
+            if (empty($_POST['terms-agree'])) {
+                throw new Exception("To create an account you must accept the terms and conditions.");
+            }
 
             $user = new User();
             $user->setUsername($_POST['username'])->setEmail($_POST['email'])->setPassword($_POST['password']);
-            $user->insertUser();
+            $success = $user->insertUser();
 
         } catch (Throwable $err) {
             $error = $err->getMessage();
-            var_dump($error);
         }
     }
 
@@ -52,6 +49,20 @@
             </div>
         </header>
         <main>
+            <?php if (isset($error)) : ?>
+                <div id="error-container">
+                    <img src="./assets/images/site/warning-icon.svg" alt="Warning icon">
+                    <p><?php echo $error; ?></p>
+                </div>
+            <?php endif; ?>
+
+            <?php if (isset($success) && $success === true) : ?>
+                <div id="success-container">
+                    <img src="./assets/images/site/success-icon.svg" alt="Success icon">
+                    <p>A verification email has been send to your email address. You can only log in after your email is verified!</p>
+                </div>
+            <?php endif; ?>
+
             <form id="sign-up-form" action="" method="POST" aria-label="Sign up form">
                 <h2 class="form-title">Sign up</h2>
 
@@ -82,19 +93,19 @@
                     </label>   
                 </div>
 
-                <input class="primary-btn" type="submit" value="Sign me up!">
+                <input class="primary-btn button" type="submit" value="Sign me up!">
             </form>
             <section aria-label="Section with buttons to sign in with Google, Github, or Facebook.">
                 <span class="line-both-sides">or</span>
                 <p style="margin-bottom: 1rem">Sign in with:</p>
                 <div id="sign-in-with-container">
-                    <a href="#" aria-label="Sign in with Google" class="sign-in-with-block">
+                    <a href="#" aria-label="Sign in with Google" class="sign-in-with-block button">
                         <img src="assets/images/site/google-logo.png" alt="Google logo">
                     </a>
-                    <a href="#" aria-label="Sign in with Github" class="sign-in-with-block">
+                    <a href="#" aria-label="Sign in with Github" class="sign-in-with-block button">
                         <img src="assets/images/site/github-logo.png" alt="Github logo">
                     </a>
-                    <a href="#" aria-label="Sign in with Facebook" class="sign-in-with-block">
+                    <a href="#" aria-label="Sign in with Facebook" class="sign-in-with-block button">
                         <img src="assets/images/site/facebook-logo.png" alt="Facebook logo">
                     </a>
                 </div>

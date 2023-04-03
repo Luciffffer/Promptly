@@ -153,6 +153,18 @@ a:hover {
   border: none;
 }
 
+.button {
+  transition: transform 100ms;
+}
+
+.button:hover {
+  transform: scale(102%);
+}
+
+.button:active {
+  transform: scale(98%);
+}
+
 
 /* CSS RESET */
 

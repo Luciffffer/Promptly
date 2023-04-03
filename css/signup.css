@@ -26,7 +26,7 @@ body {
 nav {
     display: flex;
     justify-content: space-between;
-    align-items: baseline;
+    align-items: center;
 
     padding: 1rem 0;
 }
@@ -42,14 +42,22 @@ nav {
 }
 
 .white-a {
-    color: white;
+    color: var(--off-white);
     text-decoration: none;
+}
+
+.white-a:hover {
+    color: white;
 }
 
 .white-a:has(img) {
     display: flex;
     align-items: center;
     gap: 0.5rem;
+}
+
+.white-a > img {
+    transform: translateY(-2px);
 }
 
 
@@ -59,6 +67,39 @@ main {
     max-width: 350px;
     margin: 0 auto;
     text-align: center;
+}
+
+#error-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+
+    text-align: left;
+
+    background-color: rgb(201, 29, 29);
+    border-radius: 10px;
+    margin-bottom: 1rem;
+    padding: 1rem;
+}
+
+#error-container:has(img) > img {
+    aspect-ratio: 1/1;
+    height: 30px;
+}
+
+#success-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+
+    padding: 1rem;
+    margin-bottom: 1rem;
+
+    background-color: rgb(29, 124, 29);
+
+    border-radius: 10px;
 }
 
 form {
@@ -122,6 +163,7 @@ form {
 #sign-in-with-container {
     display: flex;
     justify-content: space-between;
+    gap: 0.5rem;
     margin-bottom: 1rem;
 }
 
@@ -131,7 +173,7 @@ form {
     justify-content: center;
 
     aspect-ratio: 1/1;
-    width: 100px;
+    padding: 1.3rem;
 
     background-color: var(--off-white);
 
@@ -146,4 +188,6 @@ footer {
     display: flex;
     justify-content: center;
     align-items: center;
+
+    text-align: center;
 }
