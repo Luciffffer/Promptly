@@ -36,7 +36,7 @@ class User {
 
     public function setEmail(string $email)
     {
-        if (!str_contains($email, "@") || !str_contains($email, ".") || strlen($email) === 0) {
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
             throw new Exception("Email address is not valid.");
         }
         
