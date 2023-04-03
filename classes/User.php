@@ -2,7 +2,8 @@
 
 require_once(__DIR__ . "/Database.php");
 
-class User {
+class User 
+{
     private $username;
     private $password;
     private $email;

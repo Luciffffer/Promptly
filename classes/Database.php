@@ -1,6 +1,7 @@
 <?php
 
-class Database {
+class Database 
+{
     private static $PDO;
 
     public static function getInstance()
