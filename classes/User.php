@@ -81,8 +81,45 @@ class User {
 
     // static functions
 
+    public static function canLogin (string $password, string $email): bool
+    {
+        $PDO = Database::getInstance();
+        $statement = $PDO->prepare("SELECT * FROM `users` WHERE email = :email AND active = 1");
+        $statement->bindValue(":email", $email);
+        $statement->execute();
+
+        $user = $statement->fetch(PDO::FETCH_ASSOC);
+
+        if ($user === false){
+            return false;
+        }
+
+        if (password_verify($password, $user['password'])) {
+
+            if ($user['email_verified'] == false) {
+                throw new Exception("This account has not been activated. Please verify your email address. A link has been send.");
+                return false;
+            } else {
+                return true;
+            }
+
+        } else {
+            return false;
+        }
+    }
+
     public static function getUserById (int $id)
     {
         return "user lol";
+    }
+
+    public static function getUserByEmail (string $email): array
+    {
+        $PDO = Database::getInstance();
+        $stmt = $PDO->prepare("SELECT * FROM `users` WHERE email = :email AND active = 1");
+        $stmt->bindValue(":email", $email);
+        $stmt->execute();
+        
+        return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 }
