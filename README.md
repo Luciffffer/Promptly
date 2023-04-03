@@ -25,7 +25,6 @@ When first starting to work on this project, create a folder called config. In t
 use the following structure:
 
 ```
-  ; Enter your database information
   [ Database ]
   db_name = 
   db_user =
