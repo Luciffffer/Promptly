@@ -34,11 +34,11 @@
     <div>
         <header>
             <nav>
-                <a href="#" class="white-a">
+                <a href="index" class="white-a">
                     <img src="assets/images/site/house-icon.svg" alt="Icon of a house">
                     Home
                 </a>
-                <a href="#" class="white-a">Login</a>
+                <a href="login" class="white-a">Login</a>
             </nav>
             <div id="brand-text">
                 <div class="logo-container">
@@ -80,7 +80,7 @@
                     <label for="password">Password</label>
                     <div id="password-input">
                         <input type="password" name="password" id="password" placeholder="...">
-                        <button style="background-image: url(./assets/images/site/hidden-icon.svg)" id="show-password" aria-label="Show/hide password"></button>
+                        <a style="background-image: url(./assets/images/site/hidden-icon.svg)" id="show-password" aria-label="Show/hide password"></a>
                     </div>
                     <small>Must be more than 8 characters</small>
                 </div>
