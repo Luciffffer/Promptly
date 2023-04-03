@@ -2,19 +2,32 @@
 
     include_once(__DIR__ . "/classes/User.php");
 
-    if (isset($_POST['email']) && isset($_POST['password']) && isset($_POST['username'])) {
-        try {
-            if (empty($_POST['terms-agree'])) {
-                throw new Exception("To create an account you must accept the terms and conditions.");
+    function canLogin($p_password, $p_email){
+        $conn = Database::getInstance();
+        $statement = $conn->prepare("SELECT * FROM `users` WHERE email = :email");
+        $statement->bindValue(":email", $p_email);
+        $statement->execute();
+
+        $user = $statement->fetch(PDO::FETCH_ASSOC);
+
+        if($user){
+            $hash = $user['password'];
+            if(password_verify($p_password, $hash)){
+                return true;
+            } else {
+                return false;
             }
-
-            $user = new User();
-            $user->setUsername($_POST['username'])->setEmail($_POST['email'])->setPassword($_POST['password']);
-            $success = $user->insertUser();
-
-        } catch (Throwable $err) {
-            $error = $err->getMessage();
         }
+    }
+
+    if(!empty($_POST)){
+        $email = $_POST['email'];
+        $password = $_POST['password']; 
+        if(canLogin($password, $email)){
+            header("location: index.php");
+        } else {
+            $error = "You used the wrong email and/or password.";
+        }    
     }
 
 ?><!DOCTYPE html>
@@ -53,13 +66,6 @@
                 <div id="error-container">
                     <img src="./assets/images/site/warning-icon.svg" alt="Warning icon">
                     <p><?php echo $error; ?></p>
-                </div>
-            <?php endif; ?>
-
-            <?php if (isset($success) && $success === true) : ?>
-                <div id="success-container">
-                    <img src="./assets/images/site/success-icon.svg" alt="Success icon">
-                    <p>A verification email has been send to your email address. You can only log in after your email is verified!</p>
                 </div>
             <?php endif; ?>
 
