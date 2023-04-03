@@ -1,4 +1,26 @@
-<!DOCTYPE html>
+<?php
+
+    include_once(__DIR__ . "/classes/User.php");
+
+    if (isset($_POST['email']) && isset($_POST['password']) && isset($_POST['username'])) {
+        if (empty($_POST['terms-agree'])) {
+            $error = "To create an account you must accept the terms and conditions.";
+            var_dump($error);
+        }
+
+        try {
+
+            $user = new User();
+            $user->setUsername($_POST['username'])->setEmail($_POST['email'])->setPassword($_POST['password']);
+            $user->insertUser();
+
+        } catch (Throwable $err) {
+            $error = $err->getMessage();
+            var_dump($error);
+        }
+    }
+
+?><!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -49,6 +71,7 @@
                         <input type="password" name="password" id="password" placeholder="...">
                         <button style="background-image: url(./assets/images/site/hidden-icon.svg)" id="show-password" aria-label="Show/hide password"></button>
                     </div>
+                    <small>Must be more than 8 characters</small>
                 </div>
 
                 <div class="form-part">
