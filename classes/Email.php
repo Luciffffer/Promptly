@@ -31,17 +31,29 @@ class Email
         $client = new PostmarkClient("c1b58c69-6caf-4e5c-8d19-538c5eb8aeda");
         
         $sendResult = $client->sendEmailWithTemplate(
-            "no-reply@lucifarian.be",
+            "contact@lucifarian.be",
             $email,
-            31306538,
+            31306538, // Message template
             [
             "product_url" => "http://localhost/php/promptly",
             "product_name" => "Promptly",
             "name" => $username,
             "action_url" => "http://localhost/php/promptly/tools/verify-email?code=" . $code,
-            "support_url" => "support_url_Value",
+            "support_url" => "http://localhost/php/promptly/support",
             "company_name" => "Promptly",
             "company_address" => "",
-        ]);
+            ],
+            true, // Inline css
+            NULL, // Tag
+            NULL, // Track opens
+            NULL, // Reply To
+            NULL, // CC
+            NULL, // BCC
+            NULL, // Header array
+            NULL, // Attachment array
+            NULL, // Track links
+            NULL, // Metadata array
+            "email-verification" // Message stream
+        );
     }
 }
