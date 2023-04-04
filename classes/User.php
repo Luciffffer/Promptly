@@ -1,6 +1,7 @@
 <?php
 
 require_once(__DIR__ . "/Database.php");
+require_once(__DIR__ . "/Email.php");
 
 class User 
 {
@@ -65,11 +66,13 @@ class User
     public function insertUser() 
     {
         $PDO = Database::getInstance();
+        $code = Email::generateVerificationCode();
 
-        $stmt = $PDO->prepare("Insert into users (username, email, password) values (:username, :email, :password)");
+        $stmt = $PDO->prepare("Insert into users (username, email, password, email_verification_code) values (:username, :email, :password, :code)");
         $stmt->bindValue(":username", $this->username);
         $stmt->bindValue(":email", $this->email);
         $stmt->bindValue(":password", $this->password);
+        $stmt->bindValue(":code", $code);
         $success = $stmt->execute();
 
         if ($success == true) {
