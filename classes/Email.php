@@ -25,4 +25,23 @@ class Email
             }
         }
     }
+
+    public static function sendVerificationEmail (string $email, string $code, string $username): void 
+    {
+        $client = new PostmarkClient("c1b58c69-6caf-4e5c-8d19-538c5eb8aeda");
+        
+        $sendResult = $client->sendEmailWithTemplate(
+            "no-reply@lucifarian.be",
+            $email,
+            31306538,
+            [
+            "product_url" => "http://localhost/php/promptly",
+            "product_name" => "Promptly",
+            "name" => $username,
+            "action_url" => "http://localhost/php/promptly/tools/verify-email?code=" . $code,
+            "support_url" => "support_url_Value",
+            "company_name" => "Promptly",
+            "company_address" => "",
+        ]);
+    }
 }

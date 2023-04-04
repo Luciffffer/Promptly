@@ -76,6 +76,7 @@ class User
         $success = $stmt->execute();
 
         if ($success == true) {
+            Email::sendVerificationEmail($this->email, $code, $this->username);
             return $success;
         } else {
             throw new Exception("Something went wrong. Try again later");
