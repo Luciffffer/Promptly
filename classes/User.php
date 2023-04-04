@@ -123,4 +123,15 @@ class User
         
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
+
+    public static function verifyEmail (string $code): bool
+    {
+        $PDO = Database::getInstance();
+        $stmt = $PDO->prepare("update users set email_verified = 1 where email_verification_code = :code");
+        $stmt->bindValue(":code", $code);
+        $stmt->execute();
+
+        $count = $stmt->rowCount();
+        return $count == 0 ? false : true;
+    }
 }
