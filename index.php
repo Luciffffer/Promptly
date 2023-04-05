@@ -1,6 +1,15 @@
 <?php 
 
-    echo "😘";
+session_start();
+if($_SESSION['loggedin'] === true){
+    //ok
+  } else {
+    header("location: login.php");
+}
+echo "😘";
+// if(!isset($_SESSION['loggedin'])){
+//     echo $_SESSION['username'];
+// }
 
 ?><!DOCTYPE html>
 <html lang="en">
