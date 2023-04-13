@@ -1,6 +1,7 @@
 <?php
 
     include_once(__DIR__ . "/classes/User.php");
+    include_once(__DIR__ . "/classes/Email.php");
 
     if (isset($_POST['email']) && isset($_POST['password']) && isset($_POST['username'])) {
         try {
@@ -9,11 +10,19 @@
             }
 
             $user = new User();
-            $user->setUsername($_POST['username'])->setEmail($_POST['email'])->setPassword($_POST['password']);
+            $user->setUsername($_POST['username']);
+            $user->setEmail($_POST['email']);
+            $user->setPassword($_POST['password']);
+            $user->generateVerificationCode($user->getUsername());
             $success = $user->insertUser();
+
+            //send verification email
+            $email = new Email();
+            $email->sendVerificationEmail($user->getEmail(), $user->getVerificationCode(), $user->getUsername());
 
         } catch (Throwable $err) {
             $error = $err->getMessage();
+            var_dump($err);
         }
     }
 

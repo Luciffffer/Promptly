@@ -76,6 +76,7 @@
                         <input type="password" name="password" id="password" placeholder="...">
                         <a style="background-image: url(./assets/images/site/hidden-icon.svg)" id="show-password" aria-label="Show/hide password"></a>
                     </div>
+                    <a class="grey-a" href="./tools/reset_password"><small>I forgot my password</small></a>
                 </div>
 
                 <input class="primary-btn button" type="submit" value="Login">

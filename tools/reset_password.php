@@ -1,13 +1,36 @@
 <?php 
 
     include_once(__DIR__ . "/../classes/User.php");
+    include_once(__DIR__ . "/../classes/Email.php");
+
+    if (!empty($_POST['email'])) {
+        try {
+            $user = User::getUserByEmail($_POST['email']);
+            $token = Security::generateToken($_POST['email']);
+
+            $PDO = Database::getInstance();
+            $stmt = $PDO->prepare("insert into temp_tokens (user_id, token) values (:user_id, :token)");
+            $stmt->bindValue(":user_id", $user['id']);
+            $stmt->bindValue(":token", $token);
+            $stmt->execute();
+
+            if ($stmt->rowCount() == 0) throw new Exception("Something went wrong. Try again later");
+
+            $email = new Email();
+            $email->sendPasswordReset($user['email'], $token, $user['username']);
+
+        } catch (Throwable $err) {
+            $error = $err->getMessage();
+        }
+        // create a token
+        // Add token to database
+        // send token
+    }
 
     if (!empty($_GET['code'])) {
         
-        $success = User::verifyEmail($_GET['code']);
         
-    } else {
-        header('location: ../index');
+        
     }
 
 ?><!DOCTYPE html>
@@ -22,7 +45,7 @@
     <title>Email Verification - Promptly</title>
 </head>
 <body>
-    <a style="display: none;" href="#success-container">Jump to content.</a>
+    <a style="display: none;" href="#content">Jump to content.</a>
     <figure id="grey-shape-bg"></figure>
     <div>
         <header>
@@ -42,7 +65,7 @@
             </div>
         </header>
 
-        <?php if ($success) : ?>
+        <!-- <?php if ($success === true) : ?>
             <main id="success-container">
                 <img src="../assets/images/site/success-icon.svg" alt="Success icon">
                 <h2>Welcome to the club!</h2>
@@ -54,7 +77,22 @@
                 <h2>Something went wrong!</h2>
                 <p>The verification code you used is most likely wrong.</p>
             </main>
-        <?php endif; ?>
+        <?php endif; ?> -->
+
+        <main>
+            <form id="sign-up-form content" action="" method="POST" aria-label="Reste password form">
+                <h2 class="form-title">Reset password</h2>
+                <p>So you forgot your password? Don't worry it happens to all of us at least once.</p>
+                <p>Fill out the form below and we'll send you an email to reset your password!</p>
+
+                <div style="margin-top: 2rem;" class="form-part">
+                    <label for="email">Your email</label>
+                    <input type="text" name="email" id="email" placeholder="example@gmail.com">
+                </div>
+
+                <input class="primary-btn button" type="submit" value="Reset password">
+            </form>
+        </main>
     </div>
     <footer>
         <p>&copy; 2023 Promptly. All Rights Reserved.</p>
