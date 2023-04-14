@@ -1,14 +1,12 @@
 <?php
 
 require_once(__DIR__ . "/Database.php");
-require_once(__DIR__ . "/Security.php");
 
 class User 
 {
     private $username;
     private $password;
     private $email;
-    private $verificationCode;
 
 
     // getters
@@ -21,11 +19,6 @@ class User
     public function getUsername(): string
     {
         return $this->username;
-    }
-
-    public function getVerificationCode(): string
-    {
-        return $this->verificationCode;
     }
 
 
@@ -84,46 +77,19 @@ class User
         return $result === false ? true : false;
     }
 
-    public function generateVerificationCode ($modifier): string
+    public function insertUser(): void
     {
         $PDO = Database::getInstance();
-        $unique = false;
 
-        while ($unique === false) {
-            $token = Security::generateToken($modifier);
-
-            $stmt = $PDO->prepare("select * from users where email_verification_code = :code");
-            $stmt->bindValue(":code", $token);
-            $stmt->execute();
-
-            if ($stmt->fetch() == false) {
-                $unique = true;
-                $this->verificationCode = $token;
-                
-                return $this;
-            }
-        }
-    }
-
-    public function insertUser(): bool
-    {
-        $PDO = Database::getInstance();
-        $code = $this->verificationCode;
-
-        // insert user
-        $stmt = $PDO->prepare("Insert into users (username, email, password, email_verification_code) values (:username, :email, :password, :code)");
+        $stmt = $PDO->prepare("Insert into users (username, email, password) values (:username, :email, :password)");
         $stmt->bindValue(":username", $this->username);
         $stmt->bindValue(":email", $this->email);
         $stmt->bindValue(":password", $this->password);
-        $stmt->bindValue(":code", $code);
         $success = $stmt->execute();
 
         if (!$success) {
             throw new Exception("Something went wrong. Try again later");
         }
-
-        return $success;
-        
     }
 
 
@@ -175,31 +141,31 @@ class User
         $stmt->bindValue(":email", $email);
         $stmt->execute();
 
-        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        $result = $stmt->fetch();
         
-        if (empty($result)) {
+        if ($result == false) {
             throw new Exception("User with this email does not exist.");
         }
         
         return $result;
     }
 
-    public static function verifyEmail (string $code): bool
+    public static function verifyEmail (string $id): void
     {
         $PDO = Database::getInstance();
 
         // check if there is a user with this code that has already been verified
-        $stmt2 = $PDO->prepare("select * from users where email_verified = 1 and email_verification_code = :code");
-        $stmt2->bindValue(":code", $code);
+        $stmt2 = $PDO->prepare("select * from users where email_verified = 1 and id = :id");
+        $stmt2->bindValue(":id", $id);
         $stmt2->execute();
         $result = $stmt2->fetch();
 
         // update email verified if there is a user with this code that has not been verified yet
-        $stmt = $PDO->prepare("update users set email_verified = 1 where email_verification_code = :code");
-        $stmt->bindValue(":code", $code);
+        $stmt = $PDO->prepare("update users set email_verified = 1 where id = :id and email_verified = 0");
+        $stmt->bindValue(":id", $id);
         $stmt->execute();
         $count = $stmt->rowCount();
 
-        return $count == 0 && $result == false ? false : true;
+        if ($count == 0 && $result == false) throw new Exception("Something went wrong. Please try again later.");
     }
 }
