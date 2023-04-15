@@ -33,6 +33,7 @@ class User
         return $this->biography;
     }
 
+
     // setters
 
     public function setId (int $id)
@@ -104,6 +105,9 @@ class User
         return $result === false ? true : false;
     }
 
+
+    // Basic database methods (insert, update, delete)
+
     public function insertUser(): void
     {
         $PDO = Database::getInstance();
@@ -117,6 +121,43 @@ class User
         if (!$success) {
             throw new Exception("Something went wrong. Try again later");
         }
+    }
+
+    public function updateUser(): void
+    {
+        $PDO = Database::getInstance();
+
+        $sql = "UPDATE users 
+                SET username =  case 
+                                    when :username is not null and length(:username) > 0 then :username
+                                    else username
+                                end,
+                    email =     case
+                                    when :email is not null and length(:email) > 0 then :email
+                                    else email
+                                end,
+                    password =  case
+                                    when :password is not null and length(:password) > 0 then :password
+                                    else password
+                                end,
+                    biography = case
+                                    when :biography is not null and length(:biography) > 0 then :biography
+                                    else biography
+                                end
+                WHERE id = :id
+        ";
+
+        $stmt = $PDO->prepare($sql);
+        $stmt->bindValue(":username", $this->username);
+        $stmt->bindValue(":email", $this->email);
+        $stmt->bindValue(":password", $this->password);
+        $stmt->bindValue(":biography", $this->biography);
+        $stmt->bindValue(":id", $this->id);
+        $stmt->execute();
+
+        $count = $stmt->rowCount();
+
+        if ($count == 0) throw new Exception("Something went wrong. Try again later");
     }
 
 
@@ -156,6 +197,8 @@ class User
         }
     }
 
+    // get user methods
+
     public static function getUserById (int $id): array
     {
         $PDO = Database::getInstance();
@@ -188,6 +231,9 @@ class User
         return $result;
     }
 
+
+    // misc
+
     public static function verifyEmail (string $id): void
     {
         $PDO = Database::getInstance();
@@ -205,42 +251,5 @@ class User
         $count = $stmt->rowCount();
 
         if ($count == 0 && $result == false) throw new Exception("Something went wrong. Please try again later.");
-    }
-
-    public function updateUser(): void
-    {
-        $PDO = Database::getInstance();
-
-        $sql = "UPDATE users 
-                SET username =  case 
-                                    when :username is not null and length(:username) > 0 then :username
-                                    else username
-                                end,
-                    email =     case
-                                    when :email is not null and length(:email) > 0 then :email
-                                    else email
-                                end,
-                    password =  case
-                                    when :password is not null and length(:password) > 0 then :password
-                                    else password
-                                end,
-                    biography = case
-                                    when :biography is not null and length(:biography) > 0 then :biography
-                                    else biography
-                                end
-                WHERE id = :id
-        ";
-
-        $stmt = $PDO->prepare($sql);
-        $stmt->bindValue(":username", $this->username);
-        $stmt->bindValue(":email", $this->email);
-        $stmt->bindValue(":password", $this->password);
-        $stmt->bindValue(":biography", $this->biography);
-        $stmt->bindValue(":id", $this->id);
-        $stmt->execute();
-
-        $count = $stmt->rowCount();
-
-        if ($count == 0) throw new Exception("Something went wrong. Try again later");
     }
 }
