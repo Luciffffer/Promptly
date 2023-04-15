@@ -66,7 +66,7 @@ class Token {
         if (!$success) throw new Exception("Something went wrong with creating an email verification token. Please contact support");
     }
 
-    // get token
+    // get token object
 
     public static function getTokenObject (string $token, string $type): array 
     {
@@ -87,15 +87,12 @@ class Token {
 
     // delete token
 
-    public static function deleteToken (string $token, string $type): void 
+    public static function deleteToken (int $id): void 
     {
         $PDO = Database::getInstance();
 
-        $hashedToken = md5($token);
-
-        $stmt = $PDO->prepare("delete from temp_tokens where token = :token and type = :type");
-        $stmt->bindValue(":token", $hashedToken);
-        $stmt->bindValue(":type", $type);
-        $result = $stmt->execute();
+        $stmt = $PDO->prepare("delete from temp_tokens where id = :id");
+        $stmt->bindValue(":id", $id);
+        $stmt->execute();
     }
 }

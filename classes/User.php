@@ -4,12 +4,19 @@ require_once(__DIR__ . "/Database.php");
 
 class User 
 {
+    private $id;
     private $username;
     private $password;
     private $email;
+    private $biography;
 
 
     // getters
+
+    public function getId(): int
+    {
+        return $this->id;
+    }
 
     public function getEmail(): string
     {
@@ -21,10 +28,20 @@ class User
         return $this->username;
     }
 
+    public function getBiography(): string
+    {
+        return $this->biography;
+    }
 
     // setters
 
-    public function setUsername(string $username)
+    public function setId (int $id)
+    {
+        $this->id = $id;
+        return $this;
+    }
+
+    public function setUsername (string $username)
     {
         if (preg_match('([^a-zA-Z0-9])', $username) === 1 || strlen($username) === 0) {
             throw new Exception("Usernames is not valid. Only letters and numbers allowed");
@@ -37,7 +54,7 @@ class User
         return $this;
     }
 
-    public function setEmail(string $email)
+    public function setEmail (string $email)
     {
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
             throw new Exception("Email address is not valid.");
@@ -50,7 +67,7 @@ class User
         return $this;
     }
 
-    public function setPassword(string $password)
+    public function setPassword (string $password)
     {
         if (strlen($password) <= 8) {
             throw new Exception("Your password does not meet the given criteria.");
@@ -63,9 +80,19 @@ class User
         return $this;
     }
 
+    public function setBiography (string $biography)
+    {
+        if (strlen($biography) > 150) {
+            throw new Exception("The allowed maximum length of a biography is 150 characters");
+        }
+
+        $this->biography = $biography;
+        return $this;
+    }
+
 
     // Check if certain value is unique or already in the database.
-    private function checkUnique($columnName, $value): bool
+    public function checkUnique($columnName, $value): bool
     {
         $PDO = Database::getInstance();
 
@@ -129,9 +156,20 @@ class User
         }
     }
 
-    public static function getUserById (int $id)
+    public static function getUserById (int $id): array
     {
-        return "user lol";
+        $PDO = Database::getInstance();
+        $stmt = $PDO->prepare("SELECT * FROM `users` WHERE id = :id AND active = 1");
+        $stmt->bindValue(":id", $id);
+        $stmt->execute();
+
+        $result = $stmt->fetch();
+
+        if ($result == false) {
+            throw new Exception("User with this email does not exist.");
+        }
+        
+        return $result;
     }
 
     public static function getUserByEmail (string $email): array
@@ -167,5 +205,42 @@ class User
         $count = $stmt->rowCount();
 
         if ($count == 0 && $result == false) throw new Exception("Something went wrong. Please try again later.");
+    }
+
+    public function updateUser(): void
+    {
+        $PDO = Database::getInstance();
+
+        $sql = "UPDATE users 
+                SET username =  case 
+                                    when :username is not null and length(:username) > 0 then :username
+                                    else username
+                                end,
+                    email =     case
+                                    when :email is not null and length(:email) > 0 then :email
+                                    else email
+                                end,
+                    password =  case
+                                    when :password is not null and length(:password) > 0 then :password
+                                    else password
+                                end,
+                    biography = case
+                                    when :biography is not null and length(:biography) > 0 then :biography
+                                    else biography
+                                end
+                WHERE id = :id
+        ";
+
+        $stmt = $PDO->prepare($sql);
+        $stmt->bindValue(":username", $this->username);
+        $stmt->bindValue(":email", $this->email);
+        $stmt->bindValue(":password", $this->password);
+        $stmt->bindValue(":biography", $this->biography);
+        $stmt->bindValue(":id", $this->id);
+        $stmt->execute();
+
+        $count = $stmt->rowCount();
+
+        if ($count == 0) throw new Exception("Something went wrong. Try again later");
     }
 }

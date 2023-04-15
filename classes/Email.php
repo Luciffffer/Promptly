@@ -81,19 +81,19 @@ class Email
         );
     }
 
-    public function sendPasswordReset (string $email, string $token, string $username): void
+    public function sendPasswordReset(): void
     {
         $client = new PostmarkClient($this->server);
 
         $sendResult = $client->sendEmailWithTemplate(
             $this->fromEmail,
-            $email,
+            $this->toEmail,
             31316940, // Message template
             [
             "product_url" => "http://localhost/php/promptly",
             "product_name" => "Promptly",
-            "name" => $username,
-            "action_url" => "http://localhost/php/promptly/tools/reset_password?token=" . $token,
+            "name" => $this->username,
+            "action_url" => "http://localhost/php/promptly/tools/reset-password?token=" . $this->token,
             "support_url" => "http://localhost/php/promptly/support",
             "company_name" => "Promptly",
             "company_address" => "",

@@ -2,41 +2,55 @@
 
     include_once(__DIR__ . "/../classes/User.php");
     include_once(__DIR__ . "/../classes/Email.php");
+    include_once(__DIR__ . "/../classes/Token.php");
     include_once(__DIR__ . "/../classes/Security.php");
 
     Security::onlyNonLoggedIn();
 
-    if (!empty($_POST['email'])) {
-        try {
+    try {
+        if (!empty($_POST['email'])) {
+            
+            // get user
             $user = User::getUserByEmail($_POST['email']);
-            $token = Security::generateToken($_POST['email']);
+            
+            // create token
+            $token = new Token();
+            $token->generateToken($_POST['email']);
+            $token->setType("password");
+            $token->setUserId($user['id']);
+            $token->insertToken();
 
-            $PDO = Database::getInstance();
-            $stmt = $PDO->prepare("insert into temp_tokens (user_id, token) values (:user_id, :token)");
-            $stmt->bindValue(":user_id", $user['id']);
-            $stmt->bindValue(":token", $token);
-            $stmt->execute();
-
-            if ($stmt->rowCount() == 0) throw new Exception("Something went wrong. Try again later");
-
+            // send email
             $email = new Email();
-            $email->sendPasswordReset($user['email'], $token, $user['username']);
+            $email->setToEmail($user['email']);
+            $email->setToken($token->getToken());
+            $email->setUsername($user['username']);
+            $email->sendPasswordReset();
 
-            $success = "A password reset email has been send! Please check your inbox and click on the link.";
+            $success = "A password reset email has been send! Please check your inbox and click on the link. <strong>Token is only valid for 24 hours!</strong>";
 
-        } catch (Throwable $err) {
-            $error = $err->getMessage();
         }
-    }
 
-    if (!empty($_GET['token'])) {
-        try {
-            // check if token is valid
-            $tokenValid = Security::verifyToken();
+        if (!empty($_GET['token'])) {
+            // check if token is valid and get it
+            $token = Token::getTokenObject($_GET['token'], "password");
+            $tokenValid = true;
 
-        } catch (Throwable $err) {
-            $error = $err->getMessage();
+            if (!empty($_POST['new-password'])) {
+                // update password
+                $newUser = new User();
+                $newUser->setPassword($_POST['new-password']);
+                $newUser->setId($token['user_id']);
+                $newUser->updateUser();
+
+                // delete token
+                Token::deleteToken($token['id']);
+
+                $success = "Your password has been updated! Log in with the button in the top right corner.";
+            }
         }
+    } catch (Throwable $err) {
+        $error = $err->getMessage();
     }
 
 ?><!DOCTYPE html>
@@ -85,7 +99,7 @@
                 </div>
             <?php endif; ?>
 
-            <?php if (empty($_GET['token']) || isset($error)) : ?>
+            <?php if (empty($_GET['token'])) : ?>
                 <form id="sign-up-form" action="" method="POST" aria-label="Reste password form">
                     <h2 class="form-title">Reset password</h2>
                     <p>So you forgot your password? Don't worry it happens to all of us at least once.</p>
@@ -108,7 +122,7 @@
                     <div class="form-part">
                         <label for="password">Password</label>
                         <div id="password-input">
-                            <input type="password" name="password" id="password" placeholder="...">
+                            <input type="password" name="new-password" id="password" placeholder="...">
                         </div>
                         <small>Must be more than 8 characters</small>
                     </div>

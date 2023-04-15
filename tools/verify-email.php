@@ -9,8 +9,8 @@
     if (!empty($_GET['code'])) {
         try {
             $token = Token::getTokenObject($_GET['code'], "email");
-            Token::deleteToken($_GET['code'], "email");
             User::verifyEmail($token['user_id']);
+            Token::deleteToken($token['id']);
             $success = true;
         } catch (Throwable $err) {
             $error = $err->getMessage();
