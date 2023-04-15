@@ -1,33 +1,29 @@
 <?php
 
     include_once(__DIR__ . "/classes/User.php");
+    include_once(__DIR__ . "/classes/Security.php");
 
-    function canLogin($p_password, $p_email){
-        $conn = Database::getInstance();
-        $statement = $conn->prepare("SELECT * FROM `users` WHERE email = :email");
-        $statement->bindValue(":email", $p_email);
-        $statement->execute();
+    Security::onlyNonLoggedIn();
 
-        $user = $statement->fetch(PDO::FETCH_ASSOC);
+    if (isset($_POST['email']) && isset($_POST['password'])) {
+        try {
+            if (User::canLogin($_POST['password'], $_POST['email'])) {
 
-        if($user){
-            $hash = $user['password'];
-            if(password_verify($p_password, $hash)){
-                return true;
+                session_start();
+                $user = User::getUserByEmail($_POST['email']);
+
+                $_SESSION['username'] = $user['username'];
+                $_SESSION['userId'] = $user['id'];
+                $_SESSION['loggedIn'] = true;
+
+                header('location: index');
+
             } else {
-                return false;
+                $error = "Email and/or password is incorrect.";
             }
+        } catch (Throwable $err) {
+            $error = $err->getMessage();
         }
-    }
-
-    if(!empty($_POST)){
-        $email = $_POST['email'];
-        $password = $_POST['password']; 
-        if(canLogin($password, $email)){
-            header("location: index.php");
-        } else {
-            $error = "You used the wrong email and/or password.";
-        }    
     }
 
 ?><!DOCTYPE html>
@@ -42,16 +38,16 @@
     <link rel="shortcut icon" href="assets/images/site/promptly-logo.svg" type="image/x-icon">
 </head>
 <body>
-    <a style="display: none;" href="#sign-up-form">Jump to the sign up form.</a>
+    <a style="display: none;" href="#sign-up-form">Jump to the login form.</a>
     <figure id="grey-shape-bg"></figure>
     <div>
         <header>
             <nav>
-                <a href="#" class="white-a">
+                <a href="index" class="white-a">
                     <img src="assets/images/site/house-icon.svg" alt="Icon of a house">
                     Home
                 </a>
-                <a href="#" class="white-a">Login</a>
+                <a href="register" class="white-a">Sign up</a>
             </nav>
             <div id="brand-text">
                 <div class="logo-container">
@@ -69,7 +65,7 @@
                 </div>
             <?php endif; ?>
 
-            <form id="sign-up-form" action="" method="POST" aria-label="Sign up form">
+            <form id="sign-up-form" action="" method="POST" aria-label="Login form">
                 <h2 class="form-title">Login</h2>
 
                 <div class="form-part">
@@ -81,11 +77,10 @@
                     <label for="password">Password</label>
                     <div id="password-input">
                         <input type="password" name="password" id="password" placeholder="...">
-                        <button style="background-image: url(./assets/images/site/hidden-icon.svg)" id="show-password" aria-label="Show/hide password"></button>
+                        <a style="background-image: url(./assets/images/site/hidden-icon.svg)" id="show-password" aria-label="Show/hide password"></a>
                     </div>
-                    <!-- <small>Must be more than 8 characters</small> -->
+                    <a class="grey-a" href="./tools/reset-password"><small>I forgot my password</small></a>
                 </div>
-
 
                 <input class="primary-btn button" type="submit" value="Login">
             </form>
