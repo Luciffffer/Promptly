@@ -1,11 +1,20 @@
 <?php 
 
     include_once(__DIR__ . "/../classes/User.php");
+    include_once(__DIR__ . "/../classes/Security.php");
+    include_once(__DIR__ . "/../classes/Token.php");
+
+    Security::onlyNonLoggedIn();
 
     if (!empty($_GET['code'])) {
-        
-        $success = User::verifyEmail($_GET['code']);     
-        
+        try {
+            $token = Token::getTokenObject($_GET['code'], "email");
+            User::verifyEmail($token['user_id']);
+            Token::deleteToken($token['id']);
+            $success = true;
+        } catch (Throwable $err) {
+            $error = $err->getMessage();
+        }
     } else {
         header('location: ../index');
     }
@@ -42,7 +51,7 @@
             </div>
         </header>
 
-        <?php if ($success === true) : ?>
+        <?php if (isset($success) && $success) : ?>
             <main id="success-container">
                 <img src="../assets/images/site/success-icon.svg" alt="Success icon">
                 <h2>Welcome to the club!</h2>
@@ -52,7 +61,7 @@
             <main id="success-container" style="background-color: rgb(201, 29, 29);">
                 <img src="../assets/images/site/warning-icon.svg" alt="Success icon">
                 <h2>Something went wrong!</h2>
-                <p>The verification code you used is most likely wrong.</p>
+                <p><?php echo $error; ?></p>
             </main>
         <?php endif; ?>
     </div>

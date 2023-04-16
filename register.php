@@ -1,6 +1,11 @@
 <?php
 
     include_once(__DIR__ . "/classes/User.php");
+    include_once(__DIR__ . "/classes/Email.php");
+    include_once(__DIR__ . "/classes/Security.php");
+    require_once(__DIR__ . "/classes/Token.php");
+
+    Security::onlyNonLoggedIn();
 
     if (isset($_POST['email']) && isset($_POST['password']) && isset($_POST['username'])) {
         try {
@@ -8,10 +13,30 @@
                 throw new Exception("To create an account you must accept the terms and conditions.");
             }
 
+            // create user
             $user = new User();
-            $user->setUsername($_POST['username'])->setEmail($_POST['email'])->setPassword($_POST['password']);
-            $success = $user->insertUser();
+            $user->setUsername($_POST['username']);
+            $user->setEmail($_POST['email']);
+            $user->setPassword($_POST['password']);
+            $user->insertUser();
 
+            // create verification token
+            $user = User::getUserByEmail($_POST['email']);
+
+            $token = new Token();
+            $token->generateToken($_POST['email']);
+            $token->setType("email");
+            $token->setUserId($user['id']);
+            $token->insertToken();
+
+            //send verification email
+            $email = new Email();
+            $email->setToEmail($user['email']);
+            $email->setUsername($user['username']);
+            $email->setToken($token->getToken());
+            $email->sendVerificationEmail();
+
+            $success = true;
         } catch (Throwable $err) {
             $error = $err->getMessage();
         }
@@ -59,7 +84,8 @@
             <?php if (isset($success) && $success === true) : ?>
                 <div id="success-container">
                     <img src="./assets/images/site/success-icon.svg" alt="Success icon">
-                    <p>A verification email has been send to your email address. You can only log in after your email is verified!</p>
+                    <p>A verification email has been send to your email address. <strong>The token in this email will be valid for 24 hours. You can only log in after your email is verified!</strong></p>
+                    <p>If you did not receive an email <a class="white-a" href="support">contact support</a> or you can request a new verification email after attempting to log in.</p>
                 </div>
             <?php endif; ?>
 

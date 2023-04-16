@@ -111,6 +111,11 @@ form {
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.25);
 }
 
+form > p {
+    text-align: left;
+    margin: 1rem 0;
+}
+
 #password-input {
     display: flex;
 }
@@ -132,6 +137,14 @@ form {
 
     background-repeat: no-repeat;
     background-position: center;
+}
+
+.grey-a {
+    color: var(--grey-1);
+}
+
+.grey-a:hover {
+    color: var(--grey-1);
 }
 
 .line-both-sides {
