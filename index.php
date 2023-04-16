@@ -11,6 +11,5 @@
     <title>Promptly</title>
 </head>
 <body>
-    
 </body>
 </html>
