@@ -14,6 +14,7 @@
 
                 $_SESSION['username'] = $user['username'];
                 $_SESSION['userId'] = $user['id'];
+                $_SESSION['profile-pic'] = $user['profile_pic'];
                 $_SESSION['loggedIn'] = true;
 
                 header('location: index');

@@ -52,6 +52,7 @@
 
 html, body {
   min-height: 100vh;
+  background-color: var(--dark-grey);
 }
 
 body {
@@ -125,11 +126,16 @@ a:hover {
 
 .logo-container {
   display: flex;
+  align-items: center;
   gap: 0.5rem;
 }
 
 .logo-container > img {
   height: 50px;
+}
+
+nav .logo-container > img {
+  height: 35px;
 }
 
 .logo-text {
@@ -157,6 +163,30 @@ a:hover {
   border: none;
 }
 
+.primary-btn-white {
+  padding: 0.2rem 3rem;
+  cursor: pointer;
+  text-decoration: none;
+
+  color: var(--dark-grey);
+  background-color: var(--off-white);
+
+  border-radius: 10px;
+  border: none;
+}
+
+.primary-btn-white:hover {
+  color: var(--dark-grey);
+}
+
+.secondary-btn-white {
+  padding: 0.2rem 3rem;
+  cursor: pointer;
+  text-decoration: none;
+
+  color: var(--off-white);
+}
+
 .button {
   transition: transform 100ms;
 }
@@ -167,6 +197,84 @@ a:hover {
 
 .button:active {
   transform: scale(98%);
+}
+
+/* nav */
+
+nav {
+  background: linear-gradient(180deg, rgba(32, 33, 36, 0) -561%, rgba(32, 33, 36, 0.35) 100%), linear-gradient(105.4deg, #6F04D9 39.2%, #1B0273 97.9%);
+  height: 50px;
+  padding: 0 2rem;
+
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  align-items: center;
+}
+
+nav ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+nav li {
+  display: inline-block;
+  margin-left: 1.5rem;
+}
+
+.logo-ul-container {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+}
+
+.search-bar {
+  background-color: var(--off-white) !important;
+
+  max-width: 500px;
+  max-height: 30px;
+
+  text-align: center;
+  justify-self: center;
+
+  border-radius: 100px !important;
+}
+
+.white-a {
+  color: var(--off-white);
+  text-decoration: none;
+}
+
+.white-a:hover {
+  color: white;
+}
+
+.account-nav {
+  justify-self: end;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.vertical-line {
+  background-color: var(--grey-1);
+  height: 30px;
+  width: 1px;
+  margin: 0 1rem;
+}
+
+.profile-a {
+  display: flex;
+  align-items: center;
+}
+
+.profile-a > img {
+  display: inline;
+  height: 30px;
+  margin-left: 1rem;
+}
+
+.credits {
+  margin-right: 3rem;
 }
 
 

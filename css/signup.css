@@ -29,6 +29,7 @@ nav {
     align-items: center;
 
     padding: 1rem 0;
+    background: none;
 }
 
 #brand-text {
@@ -39,15 +40,6 @@ nav {
     margin: 1rem 0;
     margin-bottom: 3rem;
     text-align: center;
-}
-
-.white-a {
-    color: var(--off-white);
-    text-decoration: none;
-}
-
-.white-a:hover {
-    color: white;
 }
 
 .white-a:has(img) {
