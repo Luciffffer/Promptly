@@ -5,6 +5,7 @@ body {
     padding: 0 2rem;
     display: grid;
     grid-template-rows: 1fr 50px;
+    z-index: -1000;
 }
 
 #grey-shape-bg {
@@ -16,7 +17,7 @@ body {
     height: 40vh;
 
     position: absolute;
-    z-index: -1000;
+    z-index: -1;
     bottom: 0;
     left: 0;
 }
@@ -59,6 +60,7 @@ main {
     max-width: 350px;
     margin: 0 auto;
     text-align: center;
+    display: block;
 }
 
 #error-container {

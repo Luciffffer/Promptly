@@ -31,6 +31,7 @@
   --light-blue: #05C7F2;
   --off-white: #E6E6E6;
   --grey-1: #A0A0A0;
+  --grey-2: #2E2F34;
 
   /* gradients */
   --blue-purple-gradient: linear-gradient(90.77deg, #05C7F2 0%, #953CEE 100%);
@@ -124,6 +125,17 @@ a:hover {
   color: var(--light-medium-blue);
 }
 
+a > img {
+  display: inline-block;
+}
+
+a:has(img) {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem
+}
+
 .logo-container {
   display: flex;
   align-items: center;
@@ -135,7 +147,7 @@ a:hover {
 }
 
 nav .logo-container > img {
-  height: 35px;
+  height: 30px;
 }
 
 .logo-text {
@@ -164,7 +176,8 @@ nav .logo-container > img {
 }
 
 .primary-btn-white {
-  padding: 0.2rem 3rem;
+  padding: 0.3rem  1rem;
+  text-align: center;
   cursor: pointer;
   text-decoration: none;
 
@@ -187,6 +200,11 @@ nav .logo-container > img {
   color: var(--off-white);
 }
 
+#primary-btn-nav {
+  border-radius: 10px;
+  padding: 0.1rem  3rem;
+}
+
 .button {
   transition: transform 100ms;
 }
@@ -204,7 +222,7 @@ nav .logo-container > img {
 nav {
   background: linear-gradient(180deg, rgba(32, 33, 36, 0) -561%, rgba(32, 33, 36, 0.35) 100%), linear-gradient(105.4deg, #6F04D9 39.2%, #1B0273 97.9%);
   height: 50px;
-  padding: 0 2rem;
+  padding: 0 1.5rem;
 
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -230,7 +248,7 @@ nav li {
 .search-bar {
   background-color: var(--off-white) !important;
 
-  max-width: 500px;
+  max-width: 400px;
   max-height: 30px;
 
   text-align: center;
@@ -270,7 +288,7 @@ nav li {
 .profile-a > img {
   display: inline;
   height: 30px;
-  margin-left: 1rem;
+  margin-left: 0.5rem;
 }
 
 .credits {

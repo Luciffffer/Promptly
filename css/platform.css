@@ -1,0 +1,49 @@
+body {
+    display: grid;
+    grid-template-rows: 50px 1fr;
+}
+
+main {
+    display: grid;
+    grid-template-columns: 250px 1fr;
+}
+
+
+/* ASIDE */
+
+aside {
+    height: 100%;
+    padding: 2rem 1.5rem;
+
+    border-right: 2px solid var(--grey-2);
+}
+
+
+/* PROFILE PAGE */
+
+#profile-header {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+
+    padding: 3rem;
+    background-color: var(--grey-2);
+}
+
+#profile-header > img {
+    height: 200px;
+}
+
+#profile-header-username {
+    font-size: var(--very-large-size);
+    background: var(--blue-purple-gradient);
+    -webkit-text-fill-color: transparent;
+    -webkit-background-clip: text;
+}
+
+#profile-header-information > span {
+    background-color: var(--dark-grey);
+    padding: 0.4rem 0.7rem;
+    border-radius: 5px;
+    margin-right: 0.5rem;
+}

@@ -27,7 +27,7 @@
 
         <?php else : ?>
 
-            <a class="button primary-btn-white" href="login">Log in</a>
+            <a class="button primary-btn-white" id="primary-btn-nav" href="login">Log in</a>
             <a class="secondary-btn-white white-a" href="register">Sign up</a>
 
         <?php endif; ?>
