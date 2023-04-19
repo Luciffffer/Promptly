@@ -4,8 +4,14 @@ include_once(__DIR__ . "/classes/User.php");
 
 session_start();
 
-if (!empty($_GET['id'])) {
-    $user = User::getUserById($_GET['id']);
+try {
+    if (!empty($_GET['id'])) {
+        $user = User::getUserById($_GET['id']);
+    } else {
+        header("location: index");
+    }
+} catch (Throwable $err) {
+    header("location: index");
 }
 
 ?><!DOCTYPE html>
@@ -36,6 +42,21 @@ if (!empty($_GET['id'])) {
                     </div>
                 </div>
             </header>
+            <section id="profile-information" aria-label="Information about the user">
+                <?php if (!empty($user['biography'])) : ?>
+                    <div>
+                        <h3>Biography</h3>
+                        <p><?php echo htmlspecialchars($user['biography']); ?></p>
+                    </div>
+                <?php endif; ?>
+
+                <div class="achievements-container">
+                    <h3>Achievements</h3>
+                </div>
+            </section>
+            <section>
+                <h2><?php echo htmlspecialchars($user['username']); ?>'s Prompts</h2>
+            </section>
         </div>
     </main>
 </body>

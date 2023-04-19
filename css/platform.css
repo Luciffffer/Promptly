@@ -38,6 +38,7 @@ aside {
     font-size: var(--very-large-size);
     background: var(--blue-purple-gradient);
     -webkit-text-fill-color: transparent;
+    background-clip: text;
     -webkit-background-clip: text;
 }
 
@@ -46,4 +47,20 @@ aside {
     padding: 0.4rem 0.7rem;
     border-radius: 5px;
     margin-right: 0.5rem;
+}
+
+section {
+    padding: 2rem 3rem;
+}
+
+#profile-information {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+}
+
+.achievements-container {
+    background-color: var(--grey-2);
+    border-radius: 10px;
+    padding: 1rem;
 }
