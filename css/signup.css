@@ -5,6 +5,7 @@ body {
     padding: 0 2rem;
     display: grid;
     grid-template-rows: 1fr 50px;
+    z-index: -1000;
 }
 
 #grey-shape-bg {
@@ -16,7 +17,7 @@ body {
     height: 40vh;
 
     position: absolute;
-    z-index: -1000;
+    z-index: -1;
     bottom: 0;
     left: 0;
 }
@@ -29,6 +30,7 @@ nav {
     align-items: center;
 
     padding: 1rem 0;
+    background: none;
 }
 
 #brand-text {
@@ -39,15 +41,6 @@ nav {
     margin: 1rem 0;
     margin-bottom: 3rem;
     text-align: center;
-}
-
-.white-a {
-    color: var(--off-white);
-    text-decoration: none;
-}
-
-.white-a:hover {
-    color: white;
 }
 
 .white-a:has(img) {
@@ -67,6 +60,7 @@ main {
     max-width: 350px;
     margin: 0 auto;
     text-align: center;
+    display: block;
 }
 
 #error-container {
