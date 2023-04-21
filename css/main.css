@@ -317,10 +317,95 @@ nav .logo-container > img {
 
 #hamburger-menu {
   display: none;
+  cursor: pointer;
 }
 
 #nav-place-filler {
   display: none;
+}
+
+#account-nav {
+  height: 50px;
+}
+
+#account-nav li {
+  height: 100%;
+  margin: 0;
+  display: inline-flex;
+  align-items: center;
+}
+
+#not-login-profile-pic {
+  display: none;
+  background-image: url(../assets/images/site/default-user-pic.svg);
+  background-size: 30px;
+  background-repeat: no-repeat;
+  background-position: center right;
+  height: 50px;
+  width: 30px;
+}
+
+#account-nav-login {
+  position: relative;
+  height: auto;
+  width: 150px;
+  background-color: var(--off-white);
+  border-radius: 10px;
+}
+
+#account-nav-hitbox-login {
+  position: absolute;
+  width: auto;
+  top: 15px;
+  right: 0;
+  padding-top: 30px;
+  display: none;
+}
+
+#account-nav-login::before {
+  position: absolute;
+  right: 6px;
+  top: -8px;
+
+  content: "";
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+
+  border-bottom: 10px solid var(--off-white);
+}
+
+#account-nav-login > li {
+  margin: 0;
+  display: block;
+}
+
+#account-nav-login li > a {
+  padding: 0.3rem 1rem;
+  display: block;
+  color: var(--dark-grey);
+  text-align: center;
+  border-bottom: 1px solid var(--grey-1);
+}
+
+#account-nav-logout {
+  color: red !important;
+  display: none !important;
+}
+
+#account-nav-login li:nth-child(2) a {
+  border-bottom: none;
+}
+
+.account-nav-login:hover #account-nav-hitbox-login {
+  display: block;
+}
+
+#account-nav-hitbox-login:hover {
+  display: block;
+}
+
+.profile-a:hover ~ #account-nav-hitbox-login {
+  display: block;
 }
 
 @media screen and (max-width: 1300px) {
@@ -404,6 +489,63 @@ nav .logo-container > img {
   .credits {
     display: none;
   }
+
+  #not-login-profile-pic {
+    display: block;
+  }
+
+  #account-nav-hitbox {
+    position: absolute;
+    right: 1.5rem;
+    top: 25px;
+    padding-top: 30px;
+    display: none;
+  }
+
+  #account-nav {
+    position: relative;
+    height: auto;
+    background-color: var(--off-white);
+    border-radius: 10px;
+  }
+
+  #account-nav::before {
+    position: absolute;
+    right: 6px;
+    top: -8px;
+
+    content: "";
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+
+    border-bottom: 10px solid var(--off-white);
+  }
+
+  #account-nav li {
+    display: block;
+    height: auto;
+  }
+
+  #account-nav li > a {
+    display: block;
+    color: var(--dark-grey);
+    padding: 0.3rem 2rem;
+    border-radius: 0;
+    border-bottom: 1px solid var(--grey-2);
+    background-color: transparent;
+  }
+
+  #account-nav li > a:hover {
+    transform: scale(100%);
+  }
+
+  .account-nav:hover #account-nav-hitbox {
+    display: block;
+  }
+
+  #account-nav-hitbox:hover {
+    display: block;
+  }
 }
 
 @media screen and (max-width: 700px) {
@@ -414,6 +556,18 @@ nav .logo-container > img {
   #primary-nav {
     display: flex;
     justify-content: space-between;
+  }
+
+  #account-nav-logout {
+    display: block !important;
+  }
+
+  #account-nav-logout a {
+    border-bottom: none !important;
+  }
+
+  #account-nav-login li:nth-child(2) a {
+    border-bottom: 1px solid var(--grey-1);
   }
 }
 
