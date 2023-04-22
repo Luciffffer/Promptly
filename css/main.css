@@ -231,6 +231,10 @@ nav .logo-container > img {
   display: flex;
   justify-content: space-between;
   align-items: center;
+
+  position: fixed;
+  z-index: 9999;
+  width: 100%;
 }
 
 #primary-nav ul {
@@ -321,7 +325,8 @@ nav .logo-container > img {
 }
 
 #nav-place-filler {
-  display: none;
+  height: 50px;
+  display: block;
 }
 
 #account-nav {
@@ -423,11 +428,7 @@ nav .logo-container > img {
 }
 
 @media screen and (max-width: 1000px) {
-  #primary-nav {
-    position: fixed;
-    z-index: 9999;
-    width: 100%;
-    
+  #primary-nav { 
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
   }
@@ -479,11 +480,6 @@ nav .logo-container > img {
     width: 100%;
     padding: 0.5rem 1.5rem !important;
     border-bottom: 1px solid var(--grey-1);
-  }
-
-  #nav-place-filler {
-    height: 50px;
-    display: block;
   }
 
   .credits {
