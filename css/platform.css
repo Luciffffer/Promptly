@@ -38,7 +38,7 @@ aside {
 }
 
 #profile-header {
-    padding: 3rem;
+    padding: 0 3rem;
     background-color: var(--grey-2);
 }
 
@@ -146,10 +146,10 @@ section {
 }
 
 #deletion-container > a {
-    color: red;
+    color: rgb(196, 2, 2);
     font-weight: bold;
     text-decoration: none;
     padding: 0.5rem 2rem;
-    border: 2px solid red;
+    border: 2px solid rgb(196, 2, 2);
     border-radius: 10px;
 }

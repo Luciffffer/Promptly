@@ -36,48 +36,50 @@ $user = User::getUserById($_SESSION['userId']);
                     </div>
                 </div>
             </header>
-            <div class="center">
-                <h1>Settings</h1>
-                <section class="settings-section">
-                    <h2>General settings</h2>
-                    <p>What other people are able to see about you.</p>
-                    <a href="#" id="settings-profile-img">
-                        <span>Profile image</span>
-                        <span>A custom profile image adds a lot to an account!</span>
-                        <figure class="profile-image" style="background-image: url(<?php echo $user['profile_pic']; ?>);"></figure>
-                    </a>
-                    <a href="#">
-                        <span>Username</span>
-                        <span><?php echo htmlspecialchars($user['username']); ?></span>
-                        <figure class="right-arrow"></figure>
-                    </a>
-                    <a href="#">
-                        <span>Biography</span>
-                        <span><?php echo htmlspecialchars($user['biography']); ?></span>
-                        <figure class="right-arrow"></figure>
-                    </a>
-                </section>
-                <section class="settings-section">
-                    <h2>Sensitive settings</h2>
-                    <a href="#">
-                        <span>Email</span>
-                        <span><?php echo htmlspecialchars($user['email']); ?></span>
-                        <figure class="right-arrow"></figure>
-                    </a>
-                    <a href="#">
-                        <span>Password</span>
-                        <span></span>
-                        <figure class="right-arrow"></figure>
-                    </a>
-                </section>
-                <section class="settings-section">
-                    <h2>Account deletion/deactivation</h2>
-                    <p>We care about you and your privacy. Even if it means letting you go. Here you can fully delete your account and all associated date or simply deactivate your account. <strong>Deactivation is hiding your profile and data from the public until you log in again. Deletion is permanent and complete.</strong></p>
-                    <div id="deletion-container">
-                        <a href="#" class="button">Deactivate my account</a>
-                        <a href="#" class="button">Delete my account</a>
-                    </div>
-                </section>
+            <div style="padding: 0 3rem">
+                <div class="center">
+                    <h1>Settings</h1>
+                    <section class="settings-section">
+                        <h2>General settings</h2>
+                        <p>What other people are able to see about you.</p>
+                        <a href="#" id="settings-profile-img">
+                            <span>Profile image</span>
+                            <span>A custom profile image adds a lot to an account!</span>
+                            <figure class="profile-image" style="background-image: url(<?php echo $user['profile_pic']; ?>);"></figure>
+                        </a>
+                        <a href="#">
+                            <span>Username</span>
+                            <span><?php echo htmlspecialchars($user['username']); ?></span>
+                            <figure class="right-arrow"></figure>
+                        </a>
+                        <a href="#">
+                            <span>Biography</span>
+                            <span><?php echo htmlspecialchars($user['biography']); ?></span>
+                            <figure class="right-arrow"></figure>
+                        </a>
+                    </section>
+                    <section class="settings-section">
+                        <h2>Sensitive settings</h2>
+                        <a href="#">
+                            <span>Email</span>
+                            <span><?php echo htmlspecialchars($user['email']); ?></span>
+                            <figure class="right-arrow"></figure>
+                        </a>
+                        <a href="#">
+                            <span>Password</span>
+                            <span></span>
+                            <figure class="right-arrow"></figure>
+                        </a>
+                    </section>
+                    <section class="settings-section">
+                        <h2>Account deletion/deactivation</h2>
+                        <p>We care about you and your privacy. Even if it means letting you go. Here you can fully delete your account and all associated date or simply deactivate your account. <strong>Deactivation is hiding your profile and data from the public until you log in again. Deletion is permanent and complete.</strong></p>
+                        <div id="deletion-container">
+                            <a href="#" class="button">Deactivate my account</a>
+                            <a href="#" class="button">Delete my account</a>
+                        </div>
+                    </section>
+                </div>
             </div>
         </div>
     </main>
