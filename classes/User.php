@@ -160,7 +160,18 @@ class User
         if ($count == 0) throw new Exception("Something went wrong. Try again later");
     }
 
+    public function deteleUser(){
+        $PDO = Database::getInstance();
 
+        $sql = "DELETE FROM `users` 
+                WHERE id = :id"
+                ;
+
+        $statement = $PDO->prepare($sql);
+        $statement->bindValue(":id", $this->id);
+        $statement->execute();
+
+    }
     // static functions
 
     public static function canLogin (string $password, string $email): bool
