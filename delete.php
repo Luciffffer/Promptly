@@ -9,8 +9,6 @@
         header("Location: login");
     }*/
 
-    $allUsers = User::getAll();
-    var_dump($allUsers);
 ?>
 
 <!DOCTYPE html>
