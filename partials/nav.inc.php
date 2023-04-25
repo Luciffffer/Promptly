@@ -18,17 +18,31 @@
         <?php if (isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] === true) : ?>
 
             <p class="credits hide-media-query">95 credits</p>
-            <a class="white-a profile-a" href="profile?id=<?php echo $_SESSION['userId']; ?>">
-                <span class="hide-media-query"><?php echo htmlspecialchars($_SESSION['username']); ?></span>
-                <img src="<?php echo htmlspecialchars($_SESSION['profile-pic']); ?>" alt="Your profile picture">
-            </a>
+            <div style="position: relative;">
+                <div class="white-a profile-a">
+                    <span class="hide-media-query"><?php echo htmlspecialchars($_SESSION['username']); ?></span>
+                    <img src="<?php echo htmlspecialchars($_SESSION['profile-pic']); ?>" alt="Your profile picture">
+                </div>
+                <div id="account-nav-hitbox-login">
+                    <ul id="account-nav-login" aria-label="Account navigation list">
+                        <li><a class="white-a" href="profile?id=<?php echo $_SESSION['userId']; ?>">Your profile</a></li>
+                        <li><a class="white-a" href="settings">Settings</a></li>
+                        <li id="account-nav-logout"><a class="white-a" href="logout">Log out</a></li>
+                    </ul>
+                </div>
+            </div>
             <figure class="vertical-line hide-media-query"></figure>
             <a class="white-a hide-media-query" href="logout">Log out</a>
 
         <?php else : ?>
 
-            <a class="button primary-btn-white" id="primary-btn-nav" href="login">Log in</a>
-            <a class="secondary-btn-white white-a" href="register">Sign up</a>
+            <figure id="not-login-profile-pic" ></figure>
+            <div id="account-nav-hitbox">  
+                <ul id="account-nav" aria-label="Account navigation list">
+                    <li><a class="button primary-btn-white" id="primary-btn-nav" href="login">Log in</a></li>
+                    <li><a class="secondary-btn-white white-a" href="register">Sign up</a></li>
+                </ul>
+            </div>
 
         <?php endif; ?>
 
