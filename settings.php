@@ -43,7 +43,7 @@ if (!empty($_POST) || !empty($_FILES)) {
                 throw new Exception("Image size is too large.");
             }
 
-            $newName = md5($name) . '-' . date('Y.m.d.H.i.s') . '.' . $extension;
+            $newName = md5($name) . '-' . date('Y.m.d') . '-' . date('H.i.s') . '.' . $extension;
             $newUser->setProfileImg($newName);
             move_uploaded_file($tmpName, __DIR__ . '/assets/images/user-submit/' . $newName);
         }
