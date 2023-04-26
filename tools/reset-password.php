@@ -121,8 +121,10 @@
 
                     <div class="form-part">
                         <label for="password">Password</label>
-                        <div id="password-input">
+                        <div class="password-input">
                             <input type="password" name="new-password" id="password" placeholder="...">
+                            <a data-button="show-hide-password" style="background-image: url(../assets/images/site/hidden-icon.svg)" class="show-password" aria-label="Show password"></a>
+                            <a data-button="show-hide-password" style="background-image: url(../assets/images/site/show-icon.svg)" class="show-password hidden" aria-label="Hide password"></a>
                         </div>
                         <small>Must be more than 8 characters</small>
                     </div>
@@ -135,5 +137,6 @@
     <footer>
         <p>&copy; 2023 Promptly. All Rights Reserved.</p>
     </footer>
+    <script src="../assets/js/show-password.js"></script>
 </body>
 </html>

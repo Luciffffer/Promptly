@@ -145,6 +145,7 @@ class User
                                     else biography
                                 end
                 WHERE id = :id
+                AND active = 1
         ";
 
         $stmt = $PDO->prepare($sql);
@@ -166,7 +167,7 @@ class User
     public static function canLogin (string $password, string $email): bool
     {
         $PDO = Database::getInstance();
-        $statement = $PDO->prepare("SELECT * FROM `users` WHERE email = :email AND active = 1");
+        $statement = $PDO->prepare("SELECT * FROM `users` WHERE email = :email");
         $statement->bindValue(":email", $email);
         $statement->execute();
 

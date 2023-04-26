@@ -37,22 +37,22 @@ $user = User::getUserById($_SESSION['userId']);
                 </div>
             </header>
             <div style="padding: 0 3rem">
-                <div class="center">
+                <div class="center" data-div="settingsDiv">
                     <h1>Settings</h1>
                     <section class="settings-section">
                         <h2>General settings</h2>
                         <p>What other people are able to see about you.</p>
-                        <a href="#" id="settings-profile-img">
+                        <a href="#" id="settings-profile-img" data-button="profileImg">
                             <span>Profile image</span>
                             <span>A custom profile image adds a lot to an account!</span>
                             <figure class="profile-image" style="background-image: url(<?php echo $user['profile_pic']; ?>);"></figure>
                         </a>
-                        <a href="#">
+                        <a href="#" data-button="username">
                             <span>Username</span>
                             <span><?php echo htmlspecialchars($user['username']); ?></span>
                             <figure class="right-arrow"></figure>
                         </a>
-                        <a href="#">
+                        <a href="#" data-button="biography">
                             <span>Biography</span>
                             <span><?php echo htmlspecialchars($user['biography']); ?></span>
                             <figure class="right-arrow"></figure>
@@ -65,7 +65,7 @@ $user = User::getUserById($_SESSION['userId']);
                             <span><?php echo htmlspecialchars($user['email']); ?></span>
                             <figure class="right-arrow"></figure>
                         </a>
-                        <a href="#">
+                        <a href="#" data-button="password">
                             <span>Password</span>
                             <span></span>
                             <figure class="right-arrow"></figure>
@@ -81,8 +81,80 @@ $user = User::getUserById($_SESSION['userId']);
                     </section>
                 </div>
             </div>
+
+            <form action="" method="POST" data-div="form">
+
+                <div data-form="username" class="absolute-form-div hidden">
+                    <div class="absolute-form">
+                        <div class="title-container">
+                            <img src="./assets/images/site/arrow-left.svg" alt="Back button" data-button="backButton">
+                            <h2>Change Username</h2>
+                        </div>
+                        <p>A username is a big part of your Promptly identity. Find something cool that represents you!</p>
+                        <hr>
+                        <div class="form-part">
+                            <label for="username">Username</label>
+                            <input type="text" name="username" id="username" value="<?php echo htmlspecialchars($user['username']); ?>">
+                        </div>
+                        <div class="form-submit">
+                            <input type="submit" value="Submit" class="primary-btn button">
+                        </div>
+                    </div>
+                </div>
+
+                <div data-form="biography" class="absolute-form-div hidden">
+                    <div class="absolute-form">
+                        <div class="title-container">
+                            <img src="./assets/images/site/arrow-left.svg" alt="Back button" data-button="backButton">
+                            <h2>Change Biography</h2>
+                        </div>
+                        <p>Tell people in short about yourself! <strong>Max 150 characters.</strong></p>
+                        <hr>
+                        <div class="form-part">
+                            <label for="biography">Biography</label>
+                            <textarea name="biography" id="biography" cols="30" rows="7"><?php echo htmlspecialchars($user['biography']); ?></textarea>
+                        </div>
+                        <div class="form-submit">
+                            <input type="submit" value="Submit" class="primary-btn button">
+                        </div>
+                    </div>
+                </div>
+
+                <div data-form="password" class="absolute-form-div hidden">
+                    <div class="absolute-form">
+                        <div class="title-container">
+                            <img src="./assets/images/site/arrow-left.svg" alt="Back button" data-button="backButton">
+                            <h2>Change Password</h2>
+                        </div>
+                        <p>Changing your password requires you to enter your current password first.</p>
+                        <hr>
+                        <div class="form-part">
+                            <label for="old-password">Current password</label>
+                            <div class="password-input">
+                                <input type="password" name="old-password" id="old-password" placeholder="...">
+                                <a data-button="show-hide-password" style="background-image: url(./assets/images/site/hidden-icon.svg)" class="show-password" aria-label="Show password"></a>
+                                <a data-button="show-hide-password" style="background-image: url(./assets/images/site/show-icon.svg)" class="show-password hidden" aria-label="Hide password"></a>
+                            </div>
+                        </div>
+                        <div class="form-part">
+                            <label for="new-password">New password</label>
+                            <div class="password-input">
+                                <input type="password" name="new-password" id="new-password" placeholder="...">
+                                <a data-button="show-hide-password" style="background-image: url(./assets/images/site/hidden-icon.svg)" class="show-password" aria-label="Show password"></a>
+                                <a data-button="show-hide-password" style="background-image: url(./assets/images/site/show-icon.svg)" class="show-password hidden" aria-label="Hide password"></a>
+                            </div>
+                        </div>
+                        <div class="form-submit">
+                            <input type="submit" value="Submit" class="primary-btn button">
+                        </div>
+                    </div>
+                </div>
+
+            </form>
         </div>
     </main>
+    <script src="./assets/js/settings-page.js" defer></script>
+    <script src="./assets/js/show-password.js" defer></script>
 </body>
 </html>
 <!-- Look at you sneaking a peak behind the scenes. Well, have fun! If you find any bugs please contact us :) -->

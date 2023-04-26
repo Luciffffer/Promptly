@@ -110,29 +110,6 @@ form > p {
     margin: 1rem 0;
 }
 
-#password-input {
-    display: flex;
-}
-
-#password-input > input {
-    border-top-right-radius: 0;
-    border-bottom-right-radius: 0;
-    border-right-width: 0;
-}
-
-#show-password {
-    cursor: pointer;
-    background-color: white;
-    padding: 0.5rem 1rem;
-
-    border: 1px solid var(--grey-1);
-    border-top-right-radius: 5px;
-    border-bottom-right-radius: 5px;
-
-    background-repeat: no-repeat;
-    background-position: center;
-}
-
 .grey-a {
     color: var(--grey-1);
 }
