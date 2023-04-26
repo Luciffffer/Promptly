@@ -21,7 +21,7 @@
             <div style="position: relative;">
                 <div class="white-a profile-a">
                     <span class="hide-media-query"><?php echo htmlspecialchars($_SESSION['username']); ?></span>
-                    <img src="<?php echo htmlspecialchars($_SESSION['profile-pic']); ?>" alt="Your profile picture">
+                    <figure style="background-image: url(<?php echo htmlspecialchars($_SESSION['profile-pic']); ?>);"></figure>
                 </div>
                 <div id="account-nav-hitbox-login">
                     <ul id="account-nav-login" aria-label="Account navigation list">

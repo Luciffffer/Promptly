@@ -9,6 +9,7 @@ class User
     private $password;
     private $email;
     private $biography;
+    private $profileImg;
 
 
     // getters
@@ -91,6 +92,13 @@ class User
         return $this;
     }
 
+    public function setProfileImg (string $profileImg)
+    {
+        $profileImg = "assets/images/user-submit/" . $profileImg;
+        $this->profileImg = $profileImg;
+        return $this;
+    }
+
 
     // Check if certain value is unique or already in the database.
     public function checkUnique($columnName, $value): bool
@@ -143,6 +151,10 @@ class User
                     biography = case
                                     when :biography is not null and length(:biography) > 0 then :biography
                                     else biography
+                                end,
+                    profile_pic = case
+                                    when :profileImg is not null and length(:profileImg) > 0 then :profileImg
+                                    else profile_pic
                                 end
                 WHERE id = :id
         ";
@@ -152,6 +164,7 @@ class User
         $stmt->bindValue(":email", $this->email);
         $stmt->bindValue(":password", $this->password);
         $stmt->bindValue(":biography", $this->biography);
+        $stmt->bindValue(":profileImg", $this->profileImg);
         $stmt->bindValue(":id", $this->id);
         $stmt->execute();
 

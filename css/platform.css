@@ -42,8 +42,15 @@ aside {
     background-color: var(--grey-2);
 }
 
-#profile-header > img {
-    height: 200px;
+#profile-header-div > figure {
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+
+    aspect-ratio: 1/1;
+    max-width: 200px;
+    width: 100%;
+    border-radius: 100%;
 }
 
 #profile-header-username {
@@ -88,6 +95,14 @@ section {
     border: 1px solid rgb(196, 2, 2);
     background-color: rgb(196, 2, 2);
     padding: 1rem;
+}
+
+#settings-success-section {
+    display: flex;
+    justify-content: center;
+
+    background-color: green;
+    border: 1px solid green;
 }
 
 #settings-error-section > h2 {
@@ -146,11 +161,20 @@ section {
 }
 
 .profile-image {
-    background-repeat: no-repeat;
-    background-size: contain;
-    background-position: top right;
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-end;
+}
 
-    height: 75px;
+.profile-image > figure {
+    aspect-ratio: 1/1;
+    height: 100px;
+
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    
+    border-radius: 100%;
 }
 
 #deletion-container {
@@ -221,12 +245,64 @@ section {
     justify-content: center;
 }
 
-.absolute-form > .title-container {
+.absolute-form .title-container {
     position: relative;
 }
 
 .title-container > img {
     position: absolute;
     top: 0.5rem;
+    cursor: pointer;
+}
+
+#profilePic-form {
+    padding: 0;
+}
+
+#profilePic-image-div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    padding: 2rem 1rem;
+
+    background-color: var(--grey-2);
+
+    border-bottom-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+}
+
+
+#profilePic-image {
+    position: relative;
+}
+
+#profilePic-image > label {
+    cursor: pointer;
+}
+
+#profilePic-image > label > figure {
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+
+    aspect-ratio: 1/1;
+    height: 250px;
+
+    border-radius: 100%;
+}
+
+#profilePic-image > label > i {
+    position: absolute;
+    right: 15px;
+    bottom: 15px;
+
+    aspect-ratio: 1/1;
+    width: 35px;
+
+    background-image: url(../assets/images/site/camera-icon.svg);
+    background-repeat: no-repeat;
+    background-size: contain;
+
     cursor: pointer;
 }

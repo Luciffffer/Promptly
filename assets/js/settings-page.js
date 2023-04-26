@@ -9,18 +9,22 @@ document.querySelector('div[data-div="settingsDiv"]').addEventListener("click", 
     }
 })
 
-document.querySelector('form[data-div="form"]').addEventListener("click", e => {
+const forms = document.querySelectorAll('form[data-div="form"]')
 
-    if (e.target.classList.contains("absolute-form-div")) {
+forms.forEach(form => {
+    form.addEventListener("click", e => {
 
-        e.target.classList.add("hidden");
-        document.body.style.overflow = "auto";
-
-    } else if (e.target.dataset.button === "backButton") {
-
-        e.target.parentNode.parentNode.parentNode.classList.add("hidden");
-        document.body.style.overflow = "auto";
-
-    }
-
-})
+        if (e.target.classList.contains("absolute-form-div")) {
+    
+            e.target.classList.add("hidden");
+            document.body.style.overflow = "auto";
+    
+        } else if (e.target.dataset.button === "backButton") {
+    
+            e.target.parentNode.parentNode.parentNode.classList.add("hidden");
+            document.body.style.overflow = "auto";
+    
+        }
+    
+    })    
+});

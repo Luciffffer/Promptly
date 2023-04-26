@@ -6,7 +6,7 @@ include_once(__DIR__ . "/classes/User.php");
 Security::onlyLoggedIn();
 $user = User::getUserById($_SESSION['userId']);
 
-if (!empty($_POST)) {
+if (!empty($_POST) || !empty($_FILES)) {
     try {
         $newUser = new User();
         $newUser->setId($_SESSION['userId']);
@@ -25,9 +25,34 @@ if (!empty($_POST)) {
             
         }
 
+        if (!empty($_FILES['profilePic'])) {
+            $name = $_FILES['profilePic']['name'];
+            $size = $_FILES['profilePic']['size'];
+            $tmpName = $_FILES['profilePic']['tmp_name'];
+
+            // validate image
+            $validExtensions = ['jpg', 'jpeg', 'png', 'webp'];
+            $extension = explode('.', $name);
+            $extension = strtolower(end($extension));
+
+            if (!in_array($extension, $validExtensions)) {
+                throw new Exception("Invalid image extention.");
+            }
+
+            if ($size > 2000000) {
+                throw new Exception("Image size is too large.");
+            }
+
+            $newName = md5($name) . '-' . date('Y.m.d.H.i.s') . '.' . $extension;
+            $newUser->setProfileImg($newName);
+            move_uploaded_file($tmpName, __DIR__ . '/assets/images/user-submit/' . $newName);
+        }
+
         $newUser->updateUser();
         $user = User::getUserById($_SESSION['userId']);
         $_SESSION['username'] = $user['username'];
+        $_SESSION['profile-pic'] = $user['profile_pic'];
+        $success = true;
     
     } catch (Throwable $err) {
         $error = $err->getMessage();
@@ -52,7 +77,7 @@ if (!empty($_POST)) {
         <div>
             <header id="profile-header">
                 <div id="profile-header-div" class="center">
-                    <img src="<?php echo $user['profile_pic'] ?>" alt="Profile pic">
+                    <figure style="background-image: url(<?php echo $user['profile_pic'] ?>);"></figure>
                     <div>
                         <p style="margin-bottom: -1rem;">Account</p>
                         <h1 id="profile-header-username"><?php echo htmlspecialchars($user['username']); ?></h1>
@@ -68,6 +93,12 @@ if (!empty($_POST)) {
                 <div class="center" data-div="settingsDiv">
                     <h1>Settings</h1>
 
+                    <?php if (isset($success) && $success === true) : ?>
+                        <section class="settings-section" id="settings-success-section">
+                            <h2>Your profile has been updated!</h2>
+                        </section>
+                    <?php endif; ?>
+
                     <?php if (isset($error)) : ?>
                         <section class="settings-section" id="settings-error-section">
                             <img src="./assets/images/site/warning-icon.svg" alt="Warning icon">
@@ -79,10 +110,12 @@ if (!empty($_POST)) {
                     <section class="settings-section">
                         <h2>General settings</h2>
                         <p>What other people are able to see about you.</p>
-                        <a href="#" id="settings-profile-img" data-button="profileImg">
+                        <a href="#" id="settings-profile-img" data-button="profileImage">
                             <span>Profile image</span>
                             <span>A custom profile image adds a lot to an account!</span>
-                            <figure class="profile-image" style="background-image: url(<?php echo $user['profile_pic']; ?>);"></figure>
+                            <div class="profile-image">
+                                <figure style="background-image: url(<?php echo $user['profile_pic']; ?>);"></figure>
+                            </div>
                         </a>
                         <a href="#" data-button="username">
                             <span>Username</span>
@@ -131,7 +164,7 @@ if (!empty($_POST)) {
                         <hr>
                         <div class="form-part">
                             <label for="username">Username</label>
-                            <input type="text" name="username" id="username" placeholder="<?php echo htmlspecialchars($user['username']); ?>">
+                            <input type="text" name="username" id="username" value="<?php echo htmlspecialchars($user['username']); ?>">
                             <small>Only numbers and letters allowed.</small>
                         </div>
                         <div class="form-submit">
@@ -139,6 +172,10 @@ if (!empty($_POST)) {
                         </div>
                     </div>
                 </div>
+            
+            </form>
+
+            <form action="" method="POST" data-div="form">
 
                 <div data-form="biography" class="absolute-form-div hidden">
                     <div class="absolute-form">
@@ -157,6 +194,10 @@ if (!empty($_POST)) {
                         </div>
                     </div>
                 </div>
+
+            </form>
+
+            <form action="" method="POST" data-div="form">
 
                 <div data-form="password" class="absolute-form-div hidden">
                     <div class="absolute-form">
@@ -186,6 +227,35 @@ if (!empty($_POST)) {
                         <div class="form-submit">
                             <input type="submit" value="Submit" class="primary-btn button">
                         </div>
+                    </div>
+                </div>
+
+            </form>
+
+            <form id="image-form" action="" method="POST" data-div="form" enctype="multipart/form-data">
+
+                <div data-form="profileImage" class="absolute-form-div hidden">
+                    <div class="absolute-form" id="profilePic-form">
+                        <div class="title-container" style="margin: 0 1rem; margin-top: 1rem">
+                            <img src="./assets/images/site/arrow-left.svg" alt="Back button" data-button="backButton">
+                            <h2>Profile Picture</h2>
+                        </div>
+                        <p style="margin: 0 1rem; margin-bottom: 1rem">This is your profile picture. Click on the button to change it. <strong>Max size of 2MB</strong></p>
+                        <hr>
+                        <div id="profilePic-image-div">
+                            <div id="profilePic-image">
+                                <label for="profilePic">
+                                    <figure style="background-image: url(<?php echo $user['profile_pic']; ?>);"></figure>
+                                    <i></i>
+                                </label>
+                                <input class="hidden" type="file" name="profilePic" id="profilePic" accept=".jpg, .jpeg, .png, .webp">
+                            </div>
+                        </div>
+                        <script type="application/javascript">
+                            document.querySelector("#profilePic").onchange = () => {
+                                document.querySelector("#image-form").submit();
+                            }
+                        </script>
                     </div>
                 </div>
 
