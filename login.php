@@ -19,8 +19,6 @@
 
                 header('location: index');
 
-            } else {
-                $error = "Email and/or password is incorrect.";
             }
         } catch (Throwable $err) {
             $error = $err->getMessage();

@@ -6,6 +6,34 @@ include_once(__DIR__ . "/classes/User.php");
 Security::onlyLoggedIn();
 $user = User::getUserById($_SESSION['userId']);
 
+if (!empty($_POST)) {
+    try {
+        $newUser = new User();
+        $newUser->setId($_SESSION['userId']);
+
+        if (!empty($_POST['username'])) {
+            $newUser->setUsername($_POST['username']);
+        }
+
+        if (!empty($_POST['old-password']) && !empty($_POST['new-password'])) {
+            
+            if (User::verifyPassword($_POST['old-password'], $user['email'])) {
+                $newUser->setPassword($_POST['new-password']);
+            } else {
+                throw new Exception("Current password is wrong.");
+            }
+            
+        }
+
+        $newUser->updateUser();
+        $user = User::getUserById($_SESSION['userId']);
+        $_SESSION['username'] = $user['username'];
+    
+    } catch (Throwable $err) {
+        $error = $err->getMessage();
+    }
+}
+
 ?><!DOCTYPE html>
 <html lang="en">
 <head>
@@ -39,6 +67,15 @@ $user = User::getUserById($_SESSION['userId']);
             <div style="padding: 0 3rem">
                 <div class="center" data-div="settingsDiv">
                     <h1>Settings</h1>
+
+                    <?php if (isset($error)) : ?>
+                        <section class="settings-section" id="settings-error-section">
+                            <img src="./assets/images/site/warning-icon.svg" alt="Warning icon">
+                            <h2><?php echo $error; ?></h2>
+                            <img src="./assets/images/site/warning-icon.svg" alt="Warning icon">
+                        </section>
+                    <?php endif; ?>
+
                     <section class="settings-section">
                         <h2>General settings</h2>
                         <p>What other people are able to see about you.</p>
@@ -94,7 +131,8 @@ $user = User::getUserById($_SESSION['userId']);
                         <hr>
                         <div class="form-part">
                             <label for="username">Username</label>
-                            <input type="text" name="username" id="username" value="<?php echo htmlspecialchars($user['username']); ?>">
+                            <input type="text" name="username" id="username" placeholder="<?php echo htmlspecialchars($user['username']); ?>">
+                            <small>Only numbers and letters allowed.</small>
                         </div>
                         <div class="form-submit">
                             <input type="submit" value="Submit" class="primary-btn button">
@@ -143,6 +181,7 @@ $user = User::getUserById($_SESSION['userId']);
                                 <a data-button="show-hide-password" style="background-image: url(./assets/images/site/hidden-icon.svg)" class="show-password" aria-label="Show password"></a>
                                 <a data-button="show-hide-password" style="background-image: url(./assets/images/site/show-icon.svg)" class="show-password hidden" aria-label="Hide password"></a>
                             </div>
+                            <small>Has to be more than 8 characters</small>
                         </div>
                         <div class="form-submit">
                             <input type="submit" value="Submit" class="primary-btn button">

@@ -80,6 +80,20 @@ section {
 
 /* SETTINGS */
 
+#settings-error-section {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    border: 1px solid rgb(196, 2, 2);
+    background-color: rgb(196, 2, 2);
+    padding: 1rem;
+}
+
+#settings-error-section > h2 {
+    margin: 0;
+}
+
 .settings-section {
     padding: 1rem;
     padding-bottom: 0;

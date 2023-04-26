@@ -145,7 +145,6 @@ class User
                                     else biography
                                 end
                 WHERE id = :id
-                AND active = 1
         ";
 
         $stmt = $PDO->prepare($sql);
@@ -164,7 +163,7 @@ class User
 
     // static functions
 
-    public static function canLogin (string $password, string $email): bool
+    public static function verifyPassword (string $password, string $email): bool 
     {
         $PDO = Database::getInstance();
         $statement = $PDO->prepare("SELECT * FROM `users` WHERE email = :email");
@@ -173,28 +172,29 @@ class User
 
         $user = $statement->fetch(PDO::FETCH_ASSOC);
 
-        if ($user === false){
+        if ($user === false) {
             return false;
         }
 
-        if (password_verify($password, $user['password'])) {
+        return password_verify($password, $user['password']);
+    }
 
-            if ($user['email_verified'] == false) {
+    public static function canLogin (string $password, string $email): bool
+    {
+        
+        if (User::verifyPassword($password, $email)) {
 
-                throw new Exception("This account has not been activated. Please verify your email address. A link has been send.");
-                return false;
+            User::checkEmailVerified($email);
 
-            } else {
+            $PDO = Database::getInstance();
+            $stmt = $PDO->prepare("UPDATE users SET last_login = NOW() WHERE email = :email");
+            $stmt->bindValue(":email", $email);
+            $stmt->execute();
 
-                $stmt = $PDO->prepare("UPDATE users SET last_login = NOW() WHERE email = :email");
-                $stmt->bindValue(":email", $email);
-                $stmt->execute();
-
-                return true;
-            }
+            return true;
 
         } else {
-            return false;
+            throw new Exception("Email and/or password are incorrect.");
         }
     }
 
@@ -252,5 +252,19 @@ class User
         $count = $stmt->rowCount();
 
         if ($count == 0 && $result == false) throw new Exception("Something went wrong. Please try again later.");
+    }
+
+    public static function checkEmailVerified (string $email)
+    {
+        $PDO = Database::getInstance();
+        $stmt = $PDO->prepare("select email_verified from users where email = :email");
+        $stmt->bindValue(":email", $email);
+        $stmt->execute();
+
+        $result = $stmt->fetch();
+
+        if ($result['email_verified'] === 0) {
+            throw new Exception("This account has not been verified yet. An email with a verification link has been send.");
+        }
     }
 }
