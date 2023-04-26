@@ -25,7 +25,7 @@ if (!empty($_POST) || !empty($_FILES)) {
             
         }
 
-        if (!empty($_FILES['profilePic'])) {
+        if (!empty($_FILES['profilePic'])) { // messy code should probably be in a class.
             $name = $_FILES['profilePic']['name'];
             $size = $_FILES['profilePic']['size'];
             $tmpName = $_FILES['profilePic']['tmp_name'];
