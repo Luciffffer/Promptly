@@ -1,3 +1,6 @@
 RewriteEngine On
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteRule ^([^\.]+)$ $1.php [NC,L]
+
+## always load config.php file
+php_value auto_prepend_file C:/xampp/htdocs/php/promptly/config/config.php
