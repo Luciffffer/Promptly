@@ -6,6 +6,15 @@ include_once(__DIR__ . "/classes/User.php");
 Security::onlyLoggedIn();
 $user = User::getUserById($_SESSION['userId']);
 
+/* Verwijder user met post knop */
+if(isset($_POST['verzend'])){
+    var_dump("ok");
+    $rmv = new User(); 
+    $rmv->setId($_SESSION['userId']);
+    $rmv->deleteUser();
+    header('location: login');
+}
+
 ?><!DOCTYPE html>
 <html lang="en">
 <head>
@@ -76,7 +85,13 @@ $user = User::getUserById($_SESSION['userId']);
                         <p>We care about you and your privacy. Even if it means letting you go. Here you can fully delete your account and all associated date or simply deactivate your account. <strong>Deactivation is hiding your profile and data from the public until you log in again. Deletion is permanent and complete.</strong></p>
                         <div id="deletion-container">
                             <a href="#" class="button">Deactivate my account</a>
-                            <a href="#" class="button">Delete my account</a>
+                            <a href="#" name="verzend" id="delete" class="button">Delete my account</a>
+                            <p>------------</p>
+                            <!-- ok so the form is under here, you can put the name also up in the a but then it's not a form anymore so idk sorry-->
+                            <form action="" method="POST" class="form">
+                                <input id="delete" class="button" type="submit" value="Delete my account" name="verzend">
+                            </form>
+                        </form>
                         </div>
                     </section>
                 </div>
