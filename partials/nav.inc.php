@@ -6,7 +6,7 @@
             <h3>Promptly</h3>
         </div>
         <ul aria-label="Primary navigation" id="nav-ul" class="hamburg-transform">
-            <li><a class="white-a" href="<?php echo __ROOT__; ?> index">Home</a></li>
+            <li><a class="white-a" href="<?php echo __ROOT__; ?>index">Home</a></li>
             <li><a class="white-a" href="<?php echo __ROOT__; ?>about">About</a></li>
             <li><a class="white-a" href="<?php echo __ROOT__; ?>plans">Plans</a></li>
             <li id="search-bar-li"><input aria-label="Search bar" class="search-bar" type="text" placeholder="Search"></li>
