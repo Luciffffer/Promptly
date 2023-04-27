@@ -5,7 +5,7 @@ class Security {
     {
         session_start();
         if (isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] === true) {
-            header("location: http://". $_SERVER['HTTP_HOST']. "/php/promptly/index");
+            header("location: http://". $_SERVER['HTTP_HOST'] . __ROOT__ . "index");
         }
     }
 
@@ -13,7 +13,7 @@ class Security {
     {
         session_start();
         if (!isset($_SESSION['loggedIn']) || $_SESSION['loggedIn'] === false) {
-            header("location: http://". $_SERVER['HTTP_HOST']. "/php/promptly/index");
+            header("location: http://". $_SERVER['HTTP_HOST'] . __ROOT__ . "index");
         }
     }
 }
