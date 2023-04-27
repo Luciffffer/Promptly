@@ -5,3 +5,4 @@
     </a>
     <h3>Your library</h3>
 </aside>
+<div id="aside-placeholder"></div>

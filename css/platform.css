@@ -12,10 +12,16 @@ main {
 /* ASIDE */
 
 aside {
+    position: fixed;
     height: 100%;
+    width: 250px;
     padding: 2rem 1.5rem;
 
     border-right: 2px solid var(--grey-2);
+}
+
+#aside-placeholder {
+    height: 100%;
 }
 
 

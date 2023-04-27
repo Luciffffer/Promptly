@@ -7,7 +7,7 @@
         </div>
         <ul aria-label="Primary navigation" id="nav-ul" class="hamburg-transform">
             <li><a class="white-a" href="index">Home</a></li>
-            <li><a class="white-a" href="browse">Browse</a></li>
+            <li><a class="white-a" href="about">About</a></li>
             <li><a class="white-a" href="plans">Plans</a></li>
             <li id="search-bar-li"><input aria-label="Search bar" class="search-bar" type="text" placeholder="Search"></li>
         </ul>
