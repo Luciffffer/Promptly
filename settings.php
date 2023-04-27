@@ -48,6 +48,13 @@ if (!empty($_POST) || !empty($_FILES)) {
             move_uploaded_file($tmpName, __DIR__ . '/assets/images/user-submit/' . $newName);
         }
 
+        if(!empty($_POST['biography'])) { // check if the input button was pressed
+            $biography = $_POST['biography'];
+            $newUser->setBiography($biography);
+            $newUser->updateUser();
+            //console.log("$biography");
+        }
+
         $newUser->updateUser();
         $user = User::getUserById($_SESSION['userId']);
         $_SESSION['username'] = $user['username'];
