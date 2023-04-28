@@ -39,7 +39,7 @@ if (!empty($_POST) || !empty($_FILES)) {
                 throw new Exception("Invalid image extention.");
             }
 
-            if ($size > 2000000) {
+            if ($size > 1000000) {
                 throw new Exception("Image size is too large.");
             }
 
@@ -240,7 +240,7 @@ if (!empty($_POST) || !empty($_FILES)) {
                             <img src="./assets/images/site/arrow-left.svg" alt="Back button" data-button="backButton">
                             <h2>Profile Picture</h2>
                         </div>
-                        <p style="margin: 0 1rem; margin-bottom: 1rem">This is your profile picture. Click on the button to change it. <strong>Max size of 2MB</strong></p>
+                        <p style="margin: 0 1rem; margin-bottom: 1rem">This is your profile picture. Click on the button to change it. <strong>Max size of 1MB</strong></p>
                         <hr>
                         <div id="profilePic-image-div">
                             <div id="profilePic-image">
