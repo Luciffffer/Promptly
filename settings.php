@@ -51,14 +51,12 @@ if (!empty($_POST) || !empty($_FILES)) {
         if(!empty($_POST['biography'])) { // check if the input button was pressed
             $biography = $_POST['biography'];
             $newUser->setBiography($biography);
-            //console.log("$biography");
         }
 
         $newUser->updateUser();
         $user = User::getUserById($_SESSION['userId']);
         $_SESSION['username'] = $user['username'];
         $_SESSION['profile-pic'] = $user['profile_pic'];
-        $_SESSION['biography'] = $user['biography'];
         $success = true;
     
     } catch (Throwable $err) {
