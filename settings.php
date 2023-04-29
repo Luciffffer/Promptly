@@ -48,7 +48,7 @@ if (!empty($_POST) || !empty($_FILES)) {
             move_uploaded_file($tmpName, __DIR__ . '/assets/images/user-submit/' . $newName);
         }
 
-        if(!empty($_POST['biography'])) { // check if the input button was pressed
+        if(isset($_POST['biography'])) { // check if the input button was pressed
             $biography = $_POST['biography'];
             $newUser->setBiography($biography);
         }

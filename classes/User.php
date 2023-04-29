@@ -150,6 +150,7 @@ class User
                                 end,
                     biography = case
                                     when :biography is not null and length(:biography) > 0 then :biography
+                                    when :biography is not null then null
                                     else biography
                                 end,
                     profile_pic = case
