@@ -19,8 +19,6 @@
 
                 header('location: index');
 
-            } else {
-                $error = "Email and/or password is incorrect.";
             }
         } catch (Throwable $err) {
             $error = $err->getMessage();
@@ -76,9 +74,10 @@
 
                 <div class="form-part">
                     <label for="password">Password</label>
-                    <div id="password-input">
+                    <div class="password-input">
                         <input type="password" name="password" id="password" placeholder="...">
-                        <a style="background-image: url(./assets/images/site/hidden-icon.svg)" id="show-password" aria-label="Show/hide password"></a>
+                        <a data-button="show-hide-password" style="background-image: url(./assets/images/site/hidden-icon.svg)" class="show-password" aria-label="Show password"></a>
+                        <a data-button="show-hide-password" style="background-image: url(./assets/images/site/show-icon.svg)" class="show-password hidden" aria-label="Hide password"></a>
                     </div>
                     <a class="grey-a" href="./tools/reset-password"><small>I forgot my password</small></a>
                 </div>

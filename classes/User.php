@@ -9,6 +9,7 @@ class User
     private $password;
     private $email;
     private $biography;
+    private $profileImg;
 
 
     // getters
@@ -91,6 +92,13 @@ class User
         return $this;
     }
 
+    public function setProfileImg (string $profileImg)
+    {
+        $profileImg = "assets/images/user-submit/" . $profileImg;
+        $this->profileImg = $profileImg;
+        return $this;
+    }
+
 
     // Check if certain value is unique or already in the database.
     public function checkUnique($columnName, $value): bool
@@ -143,6 +151,10 @@ class User
                     biography = case
                                     when :biography is not null and length(:biography) > 0 then :biography
                                     else biography
+                                end,
+                    profile_pic = case
+                                    when :profileImg is not null and length(:profileImg) > 0 then :profileImg
+                                    else profile_pic
                                 end
                 WHERE id = :id
         ";
@@ -152,6 +164,7 @@ class User
         $stmt->bindValue(":email", $this->email);
         $stmt->bindValue(":password", $this->password);
         $stmt->bindValue(":biography", $this->biography);
+        $stmt->bindValue(":profileImg", $this->profileImg);
         $stmt->bindValue(":id", $this->id);
         $stmt->execute();
 
@@ -172,37 +185,38 @@ class User
     }
     // static functions
 
-    public static function canLogin (string $password, string $email): bool
+    public static function verifyPassword (string $password, string $email): bool 
     {
         $PDO = Database::getInstance();
-        $statement = $PDO->prepare("SELECT * FROM `users` WHERE email = :email AND active = 1");
+        $statement = $PDO->prepare("SELECT * FROM `users` WHERE email = :email");
         $statement->bindValue(":email", $email);
         $statement->execute();
 
         $user = $statement->fetch(PDO::FETCH_ASSOC);
 
-        if ($user === false){
+        if ($user === false) {
             return false;
         }
 
-        if (password_verify($password, $user['password'])) {
+        return password_verify($password, $user['password']);
+    }
 
-            if ($user['email_verified'] == false) {
+    public static function canLogin (string $password, string $email): bool
+    {
+        
+        if (User::verifyPassword($password, $email)) {
 
-                throw new Exception("This account has not been activated. Please verify your email address. A link has been send.");
-                return false;
+            User::checkEmailVerified($email);
 
-            } else {
+            $PDO = Database::getInstance();
+            $stmt = $PDO->prepare("UPDATE users SET last_login = NOW() WHERE email = :email");
+            $stmt->bindValue(":email", $email);
+            $stmt->execute();
 
-                $stmt = $PDO->prepare("UPDATE users SET last_login = NOW() WHERE email = :email");
-                $stmt->bindValue(":email", $email);
-                $stmt->execute();
-
-                return true;
-            }
+            return true;
 
         } else {
-            return false;
+            throw new Exception("Email and/or password are incorrect.");
         }
     }
 
@@ -260,5 +274,19 @@ class User
         $count = $stmt->rowCount();
 
         if ($count == 0 && $result == false) throw new Exception("Something went wrong. Please try again later.");
+    }
+
+    public static function checkEmailVerified (string $email)
+    {
+        $PDO = Database::getInstance();
+        $stmt = $PDO->prepare("select email_verified from users where email = :email");
+        $stmt->bindValue(":email", $email);
+        $stmt->execute();
+
+        $result = $stmt->fetch();
+
+        if ($result['email_verified'] === 0) {
+            throw new Exception("This account has not been verified yet. An email with a verification link has been send.");
+        }
     }
 }

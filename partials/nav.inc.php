@@ -7,7 +7,7 @@
         </div>
         <ul aria-label="Primary navigation" id="nav-ul" class="hamburg-transform">
             <li><a class="white-a" href="index">Home</a></li>
-            <li><a class="white-a" href="browse">Browse</a></li>
+            <li><a class="white-a" href="about">About</a></li>
             <li><a class="white-a" href="plans">Plans</a></li>
             <li id="search-bar-li"><input aria-label="Search bar" class="search-bar" type="text" placeholder="Search"></li>
         </ul>
@@ -21,7 +21,7 @@
             <div style="position: relative;">
                 <div class="white-a profile-a">
                     <span class="hide-media-query"><?php echo htmlspecialchars($_SESSION['username']); ?></span>
-                    <img src="<?php echo htmlspecialchars($_SESSION['profile-pic']); ?>" alt="Your profile picture">
+                    <figure style="background-image: url(<?php echo htmlspecialchars($_SESSION['profile-pic']); ?>);"></figure>
                 </div>
                 <div id="account-nav-hitbox-login">
                     <ul id="account-nav-login" aria-label="Account navigation list">

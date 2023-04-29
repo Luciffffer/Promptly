@@ -60,7 +60,7 @@ body {
   color: var(--off-white);
 }
 
-p, small, figcaption, a, span, label, input {
+p, small, figcaption, a, span, label, input, textarea {
   font-family: "Montserrat", sans-serif;
   font-weight: 400;
 }
@@ -117,6 +117,11 @@ input[type="submit"] {
   margin-top: 0.5rem;
 }
 
+textarea {
+  width: 100%;
+  font-size: 1rem;
+}
+
 a {
   color: var(--medium-blue);
 }
@@ -137,7 +142,30 @@ a:has(img) {
 }
 
 .hidden {
-  display: none;
+  display: none !important;
+}
+
+.password-input {
+  display: flex;
+}
+
+.password-input > input {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+  border-right-width: 0;
+}
+
+.show-password {
+  cursor: pointer;
+  background-color: white;
+  padding: 0.5rem 1rem;
+
+  border: 1px solid var(--grey-1);
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+
+  background-repeat: no-repeat;
+  background-position: center;
 }
 
 .logo-container {
@@ -309,10 +337,17 @@ nav .logo-container > img {
   align-items: center;
 }
 
-.profile-a > img {
+.profile-a > figure {
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+
   display: inline;
+  aspect-ratio: 1/1;
   height: 30px;
   margin-left: 0.5rem;
+
+  border-radius: 100%;
 }
 
 .credits {

@@ -1,18 +1,29 @@
-const button = document.querySelector("#show-password");
-const input = document.querySelector("#password-input > input");
+// messy code a lot of if statements but it works
 
-let show = false;
+const passwordDivs = document.querySelectorAll(".password-input");
 
-button.addEventListener("click", e => {
-    e.preventDefault();
-    
-    if (show === false) {
-        input.type = "text";
-        button.style.backgroundImage = "url(./assets/images/site/show-icon.svg)";
-        show = true;
+function changeTypeAttribute (node) {
+    if (node.getAttribute("type") === "password") {
+        node.setAttribute("type", "text");
     } else {
-        input.type = "password";
-        button.style.backgroundImage = "url(./assets/images/site/hidden-icon.svg)";
-        show = false;
+        node.setAttribute("type", "password");
     }
-})
+}
+
+passwordDivs.forEach(passwordDiv => {
+    passwordDiv.addEventListener("click", e => {
+        e.preventDefault();
+
+        if (e.target.dataset.button === "show-hide-password") {
+            e.target.classList.toggle("hidden");
+
+            if (e.target.nextElementSibling === null) {
+                e.target.previousElementSibling.classList.toggle("hidden");
+                changeTypeAttribute(e.target.previousElementSibling.previousElementSibling);
+            } else {
+                e.target.nextElementSibling.classList.toggle("hidden");
+                changeTypeAttribute(e.target.previousElementSibling);
+            }
+        }
+    })
+});

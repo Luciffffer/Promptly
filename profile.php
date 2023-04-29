@@ -32,7 +32,7 @@ try {
         <div>
             <header id="profile-header">
                 <div id="profile-header-div" class="center">
-                    <img src="<?php echo $user['profile_pic'] ?>" alt="Profile pic">
+                    <figure style="background-image: url(<?php echo $user['profile_pic'] ?>);"></figure>
                     <div>
                         <p style="margin-bottom: -1rem;">Account</p>
                         <h1 id="profile-header-username"><?php echo htmlspecialchars($user['username']); ?></h1>

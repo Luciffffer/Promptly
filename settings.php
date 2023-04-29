@@ -7,12 +7,70 @@ Security::onlyLoggedIn();
 $user = User::getUserById($_SESSION['userId']);
 
 /* Verwijder user met post knop */
-if(isset($_POST['verzend'])){
+if(isset($_POST['verzend'])) {
     var_dump("ok");
-    $rmv = new User(); 
+    $rmv = new User();
     $rmv->setId($_SESSION['userId']);
     $rmv->deleteUser();
     header('location: login');
+}
+
+if (!empty($_POST) || !empty($_FILES)) {
+    try {
+        $newUser = new User();
+        $newUser->setId($_SESSION['userId']);
+
+        if (!empty($_POST['username'])) {
+            $newUser->setUsername($_POST['username']);
+        }
+
+        if (!empty($_POST['old-password']) && !empty($_POST['new-password'])) {
+            
+            if (User::verifyPassword($_POST['old-password'], $user['email'])) {
+                $newUser->setPassword($_POST['new-password']);
+            } else {
+                throw new Exception("Current password is wrong.");
+            }
+            
+        }
+
+        if (!empty($_FILES['profilePic'])) { // messy code should probably be in a class.
+            $name = $_FILES['profilePic']['name'];
+            $size = $_FILES['profilePic']['size'];
+            $tmpName = $_FILES['profilePic']['tmp_name'];
+
+            // validate image
+            $validExtensions = ['jpg', 'jpeg', 'png', 'webp'];
+            $extension = explode('.', $name);
+            $extension = strtolower(end($extension));
+
+            if (!in_array($extension, $validExtensions)) {
+                throw new Exception("Invalid image extention.");
+            }
+
+            if ($size > 2000000) {
+                throw new Exception("Image size is too large.");
+            }
+
+            $newName = md5($name) . '-' . date('Y.m.d') . '-' . date('H.i.s') . '.' . $extension;
+            $newUser->setProfileImg($newName);
+            move_uploaded_file($tmpName, __DIR__ . '/assets/images/user-submit/' . $newName);
+        }
+
+        if(!empty($_POST['biography'])) { // check if the input button was pressed
+            $biography = $_POST['biography'];
+            $newUser->setBiography($biography);
+        }
+
+        $newUser->updateUser();
+        $user = User::getUserById($_SESSION['userId']);
+        $_SESSION['username'] = $user['username'];
+        $_SESSION['profile-pic'] = $user['profile_pic'];
+        $success = true;
+    
+    } catch (Throwable $err) {
+        $error = $err->getMessage();
+    }
 }
 
 ?><!DOCTYPE html>
@@ -33,7 +91,7 @@ if(isset($_POST['verzend'])){
         <div>
             <header id="profile-header">
                 <div id="profile-header-div" class="center">
-                    <img src="<?php echo $user['profile_pic'] ?>" alt="Profile pic">
+                    <figure style="background-image: url(<?php echo $user['profile_pic'] ?>);"></figure>
                     <div>
                         <p style="margin-bottom: -1rem;">Account</p>
                         <h1 id="profile-header-username"><?php echo htmlspecialchars($user['username']); ?></h1>
@@ -46,22 +104,39 @@ if(isset($_POST['verzend'])){
                 </div>
             </header>
             <div style="padding: 0 3rem">
-                <div class="center">
+                <div class="center" data-div="settingsDiv">
                     <h1>Settings</h1>
+
+                    <?php if (isset($success) && $success === true) : ?>
+                        <section class="settings-section" id="settings-success-section">
+                            <h2>Your profile has been updated!</h2>
+                        </section>
+                    <?php endif; ?>
+
+                    <?php if (isset($error)) : ?>
+                        <section class="settings-section" id="settings-error-section">
+                            <img src="./assets/images/site/warning-icon.svg" alt="Warning icon">
+                            <h2><?php echo $error; ?></h2>
+                            <img src="./assets/images/site/warning-icon.svg" alt="Warning icon">
+                        </section>
+                    <?php endif; ?>
+
                     <section class="settings-section">
                         <h2>General settings</h2>
                         <p>What other people are able to see about you.</p>
-                        <a href="#" id="settings-profile-img">
+                        <a href="#" id="settings-profile-img" data-button="profileImage">
                             <span>Profile image</span>
                             <span>A custom profile image adds a lot to an account!</span>
-                            <figure class="profile-image" style="background-image: url(<?php echo $user['profile_pic']; ?>);"></figure>
+                            <div class="profile-image">
+                                <figure style="background-image: url(<?php echo $user['profile_pic']; ?>);"></figure>
+                            </div>
                         </a>
-                        <a href="#">
+                        <a href="#" data-button="username">
                             <span>Username</span>
                             <span><?php echo htmlspecialchars($user['username']); ?></span>
                             <figure class="right-arrow"></figure>
                         </a>
-                        <a href="#">
+                        <a href="#" data-button="biography">
                             <span>Biography</span>
                             <span><?php echo htmlspecialchars($user['biography']); ?></span>
                             <figure class="right-arrow"></figure>
@@ -74,7 +149,7 @@ if(isset($_POST['verzend'])){
                             <span><?php echo htmlspecialchars($user['email']); ?></span>
                             <figure class="right-arrow"></figure>
                         </a>
-                        <a href="#">
+                        <a href="#" data-button="password">
                             <span>Password</span>
                             <span></span>
                             <figure class="right-arrow"></figure>
@@ -96,8 +171,119 @@ if(isset($_POST['verzend'])){
                     </section>
                 </div>
             </div>
+
+            <form action="" method="POST" data-div="form">
+
+                <div data-form="username" class="absolute-form-div hidden">
+                    <div class="absolute-form">
+                        <div class="title-container">
+                            <img src="./assets/images/site/arrow-left.svg" alt="Back button" data-button="backButton">
+                            <h2>Change Username</h2>
+                        </div>
+                        <p>A username is a big part of your Promptly identity. Find something cool that represents you!</p>
+                        <hr>
+                        <div class="form-part">
+                            <label for="username">Username</label>
+                            <input type="text" name="username" id="username" value="<?php echo htmlspecialchars($user['username']); ?>">
+                            <small>Only numbers and letters allowed.</small>
+                        </div>
+                        <div class="form-submit">
+                            <input type="submit" value="Submit" class="primary-btn button">
+                        </div>
+                    </div>
+                </div>
+            
+            </form>
+
+            <form action="" method="POST" data-div="form">
+
+                <div data-form="biography" class="absolute-form-div hidden">
+                    <div class="absolute-form">
+                        <div class="title-container">
+                            <img src="./assets/images/site/arrow-left.svg" alt="Back button" data-button="backButton">
+                            <h2>Change Biography</h2>
+                        </div>
+                        <p>Tell people in short about yourself! <strong>Max 150 characters.</strong></p>
+                        <hr>
+                        <div class="form-part">
+                            <label for="biography">Biography</label>
+                            <textarea name="biography" id="biography" cols="30" rows="7"><?php echo htmlspecialchars($user['biography']); ?></textarea>
+                        </div>
+                        <div class="form-submit">
+                            <input type="submit" value="Submit" class="primary-btn button">
+                        </div>
+                    </div>
+                </div>
+
+            </form>
+
+            <form action="" method="POST" data-div="form">
+
+                <div data-form="password" class="absolute-form-div hidden">
+                    <div class="absolute-form">
+                        <div class="title-container">
+                            <img src="./assets/images/site/arrow-left.svg" alt="Back button" data-button="backButton">
+                            <h2>Change Password</h2>
+                        </div>
+                        <p>Changing your password requires you to enter your current password first.</p>
+                        <hr>
+                        <div class="form-part">
+                            <label for="old-password">Current password</label>
+                            <div class="password-input">
+                                <input type="password" name="old-password" id="old-password" placeholder="...">
+                                <a data-button="show-hide-password" style="background-image: url(./assets/images/site/hidden-icon.svg)" class="show-password" aria-label="Show password"></a>
+                                <a data-button="show-hide-password" style="background-image: url(./assets/images/site/show-icon.svg)" class="show-password hidden" aria-label="Hide password"></a>
+                            </div>
+                        </div>
+                        <div class="form-part">
+                            <label for="new-password">New password</label>
+                            <div class="password-input">
+                                <input type="password" name="new-password" id="new-password" placeholder="...">
+                                <a data-button="show-hide-password" style="background-image: url(./assets/images/site/hidden-icon.svg)" class="show-password" aria-label="Show password"></a>
+                                <a data-button="show-hide-password" style="background-image: url(./assets/images/site/show-icon.svg)" class="show-password hidden" aria-label="Hide password"></a>
+                            </div>
+                            <small>Has to be more than 8 characters</small>
+                        </div>
+                        <div class="form-submit">
+                            <input type="submit" value="Submit" class="primary-btn button">
+                        </div>
+                    </div>
+                </div>
+
+            </form>
+
+            <form id="image-form" action="" method="POST" data-div="form" enctype="multipart/form-data">
+
+                <div data-form="profileImage" class="absolute-form-div hidden">
+                    <div class="absolute-form" id="profilePic-form">
+                        <div class="title-container" style="margin: 0 1rem; margin-top: 1rem">
+                            <img src="./assets/images/site/arrow-left.svg" alt="Back button" data-button="backButton">
+                            <h2>Profile Picture</h2>
+                        </div>
+                        <p style="margin: 0 1rem; margin-bottom: 1rem">This is your profile picture. Click on the button to change it. <strong>Max size of 2MB</strong></p>
+                        <hr>
+                        <div id="profilePic-image-div">
+                            <div id="profilePic-image">
+                                <label for="profilePic">
+                                    <figure style="background-image: url(<?php echo $user['profile_pic']; ?>);"></figure>
+                                    <i></i>
+                                </label>
+                                <input class="hidden" type="file" name="profilePic" id="profilePic" accept=".jpg, .jpeg, .png, .webp">
+                            </div>
+                        </div>
+                        <script type="application/javascript">
+                            document.querySelector("#profilePic").onchange = () => {
+                                document.querySelector("#image-form").submit();
+                            }
+                        </script>
+                    </div>
+                </div>
+
+            </form>
         </div>
     </main>
+    <script src="./assets/js/settings-page.js" defer></script>
+    <script src="./assets/js/show-password.js" defer></script>
 </body>
 </html>
 <!-- Look at you sneaking a peak behind the scenes. Well, have fun! If you find any bugs please contact us :) -->
