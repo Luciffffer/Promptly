@@ -303,7 +303,7 @@ if (!empty($_POST) || !empty($_FILES)) {
                         </div>
                         <div class="form-part">
                             <input type="checkbox" name="del-agree" id="del-agree">
-                            <label for="del-agree">I agree to have my account and all associated date deleted</label>
+                            <label for="del-agree">I agree to have my account and all associated data deleted</label>
                         </div>
                         <div class="form-submit">
                             <input type="submit" value="Submit" name="delete-account" class="primary-btn button">
