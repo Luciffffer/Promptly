@@ -6,15 +6,6 @@ include_once(__DIR__ . "/classes/User.php");
 Security::onlyLoggedIn();
 $user = User::getUserById($_SESSION['userId']);
 
-/* Verwijder user met post knop */
-if(isset($_POST['verzend'])) {
-    var_dump("ok");
-    $rmv = new User();
-    $rmv->setId($_SESSION['userId']);
-    $rmv->deleteUser();
-    header('location: login');
-}
-
 if (!empty($_POST) || !empty($_FILES)) {
     try {
         $newUser = new User();
