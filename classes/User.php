@@ -173,15 +173,19 @@ class User
         if ($count == 0) throw new Exception("Something went wrong. Try again later");
     }
 
-    public static function deleteUser(int $id): void
+    public function deleteUser(): void
     {
         $PDO = Database::getInstance();
 
         $sql = "DELETE FROM users WHERE id = :id";
 
         $statement = $PDO->prepare($sql);
-        $statement->bindValue(":id", $id);
+        $statement->bindValue(":id", $this->id);
         $statement->execute();
+
+        $count = $statement->rowCount();
+
+        if ($count == 0) throw new Exception("Something went wrong. Try again later");
     }
 
 

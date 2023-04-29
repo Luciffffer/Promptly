@@ -62,6 +62,21 @@ if (!empty($_POST) || !empty($_FILES)) {
             $newUser->setBiography($biography);
         }
 
+        if(!empty($_POST['delete-account']) && isset($_POST['password'])) { // delete user
+            if (!isset($_POST['del-agree'])) {
+                throw new Exception("You need to agree to having your account deleted.");
+            }
+
+            if (User::verifyPassword($_POST['password'], $user['email'])) {
+
+                $newUser->deleteUser();
+                header("location: logout");
+
+            } else {
+                throw new Exception("Password is wrong.");
+            }
+        }
+
         $newUser->updateUser();
         $user = User::getUserById($_SESSION['userId']);
         $_SESSION['username'] = $user['username'];
@@ -160,12 +175,7 @@ if (!empty($_POST) || !empty($_FILES)) {
                         <p>We care about you and your privacy. Even if it means letting you go. Here you can fully delete your account and all associated date or simply deactivate your account. <strong>Deactivation is hiding your profile and data from the public until you log in again. Deletion is permanent and complete.</strong></p>
                         <div id="deletion-container">
                             <a href="#" class="button">Deactivate my account</a>
-                            <a href="#" name="verzend" id="delete" class="button">Delete my account</a>
-                            <p>------------</p>
-                            <!-- ok so the form is under here, you can put the name also up in the a but then it's not a form anymore so idk sorry-->
-                            <form action="" method="POST" class="form">
-                                <input id="delete" class="button" type="submit" value="Delete my account" name="verzend">
-                            </form>
+                            <a href="#" class="button" data-button="deletion">Delete my account</a>
                         </form>
                         </div>
                     </section>
@@ -279,6 +289,37 @@ if (!empty($_POST) || !empty($_FILES)) {
                     </div>
                 </div>
 
+            </form>
+
+            <form action="" method="POST" data-div="form">
+
+                <div data-form="deletion" class="absolute-form-div hidden">
+                    <div class="absolute-form deletion-form">
+                        <div class="title-container">
+                            <img src="./assets/images/site/arrow-left.svg" alt="Back button" data-button="backButton">
+                            <h2>Delete Account</h2>
+                        </div>
+                        <p>We're sad to see you go, but don't worry we still care about you. Fill in your password below and we will delete your entire account and all related data.</p>
+                        <p><strong>All associated data also includes all your likes, comments, prompts ...</strong></p>
+                        <hr>
+                        <div class="form-part">
+                            <label for="del-password">Password</label>
+                            <div class="password-input">
+                                <input type="password" name="password" id="del-password" placeholder="...">
+                                <a data-button="show-hide-password" style="background-image: url(./assets/images/site/hidden-icon.svg)" class="show-password" aria-label="Show password"></a>
+                                <a data-button="show-hide-password" style="background-image: url(./assets/images/site/show-icon.svg)" class="show-password hidden" aria-label="Hide password"></a>
+                            </div>
+                        </div>
+                        <div class="form-part">
+                            <input type="checkbox" name="del-agree" id="del-agree">
+                            <label for="del-agree">I agree to have my account and all associated date deleted</label>
+                        </div>
+                        <div class="form-submit">
+                            <input type="submit" value="Submit" name="delete-account" class="primary-btn button">
+                        </div>
+                    </div>
+                </div>
+            
             </form>
         </div>
     </main>
