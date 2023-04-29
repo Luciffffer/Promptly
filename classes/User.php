@@ -181,8 +181,9 @@ class User
         $statement = $PDO->prepare($sql);
         $statement->bindValue(":id", $this->id);
         $statement->execute();
-        // console.log("delete user");
     }
+
+    
     // static functions
 
     public static function verifyPassword (string $password, string $email): bool 
