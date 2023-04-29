@@ -173,17 +173,18 @@ class User
         if ($count == 0) throw new Exception("Something went wrong. Try again later");
     }
 
-    public function deleteUser(){
+    public static function deleteUser(int $id): void
+    {
         $PDO = Database::getInstance();
 
         $sql = "DELETE FROM users WHERE id = :id";
 
         $statement = $PDO->prepare($sql);
-        $statement->bindValue(":id", $this->id);
+        $statement->bindValue(":id", $id);
         $statement->execute();
     }
 
-    
+
     // static functions
 
     public static function verifyPassword (string $password, string $email): bool 
