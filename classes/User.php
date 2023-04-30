@@ -150,6 +150,7 @@ class User
                                 end,
                     biography = case
                                     when :biography is not null and length(:biography) > 0 then :biography
+                                    when :biography is not null then null
                                     else biography
                                 end,
                     profile_pic = case
@@ -165,6 +166,34 @@ class User
         $stmt->bindValue(":password", $this->password);
         $stmt->bindValue(":biography", $this->biography);
         $stmt->bindValue(":profileImg", $this->profileImg);
+        $stmt->bindValue(":id", $this->id);
+        $stmt->execute();
+
+        $count = $stmt->rowCount();
+
+        if ($count == 0) throw new Exception("Something went wrong. Try again later");
+    }
+
+    public function deleteUser(): void
+    {
+        $PDO = Database::getInstance();
+
+        $sql = "DELETE FROM users WHERE id = :id";
+
+        $statement = $PDO->prepare($sql);
+        $statement->bindValue(":id", $this->id);
+        $statement->execute();
+
+        $count = $statement->rowCount();
+
+        if ($count == 0) throw new Exception("Something went wrong. Try again later");
+    }
+
+    public function deactivateUser(): void
+    {
+        $PDO = Database::getInstance();
+
+        $stmt = $PDO->prepare("UPDATE users SET active = 0 WHERE id = :id");
         $stmt->bindValue(":id", $this->id);
         $stmt->execute();
 
@@ -200,7 +229,7 @@ class User
             User::checkEmailVerified($email);
 
             $PDO = Database::getInstance();
-            $stmt = $PDO->prepare("UPDATE users SET last_login = NOW() WHERE email = :email");
+            $stmt = $PDO->prepare("UPDATE users SET last_login = NOW(), active = 1 WHERE email = :email");
             $stmt->bindValue(":email", $email);
             $stmt->execute();
 

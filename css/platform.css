@@ -194,11 +194,11 @@ section {
 }
 
 #deletion-container > a {
-    color: rgb(196, 2, 2);
+    color: var(--red);
     font-weight: bold;
     text-decoration: none;
     padding: 0.5rem 2rem;
-    border: 2px solid rgb(196, 2, 2);
+    border: 2px solid var(--red);
     border-radius: 10px;
 }
 
@@ -311,4 +311,8 @@ section {
     background-size: contain;
 
     cursor: pointer;
+}
+
+.deletion-form {
+    border: 5px solid rgb(141, 11, 11);
 }

@@ -32,6 +32,8 @@
   --off-white: #E6E6E6;
   --grey-1: #A0A0A0;
   --grey-2: #2E2F34;
+  --red: rgb(196, 2, 2);
+  
 
   /* gradients */
   --blue-purple-gradient: linear-gradient(90.77deg, #05C7F2 0%, #953CEE 100%);
