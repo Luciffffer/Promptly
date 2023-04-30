@@ -189,6 +189,19 @@ class User
         if ($count == 0) throw new Exception("Something went wrong. Try again later");
     }
 
+    public function deactivateUser(): void
+    {
+        $PDO = Database::getInstance();
+
+        $stmt = $PDO->prepare("UPDATE users SET active = 0 WHERE id = :id");
+        $stmt->bindValue(":id", $this->id);
+        $stmt->execute();
+
+        $count = $stmt->rowCount();
+
+        if ($count == 0) throw new Exception("Something went wrong. Try again later");
+    }
+
 
     // static functions
 
@@ -216,7 +229,7 @@ class User
             User::checkEmailVerified($email);
 
             $PDO = Database::getInstance();
-            $stmt = $PDO->prepare("UPDATE users SET last_login = NOW() WHERE email = :email");
+            $stmt = $PDO->prepare("UPDATE users SET last_login = NOW(), active = 1 WHERE email = :email");
             $stmt->bindValue(":email", $email);
             $stmt->execute();
 

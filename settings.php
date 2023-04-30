@@ -68,6 +68,17 @@ if (!empty($_POST) || !empty($_FILES)) {
             }
         }
 
+        if (!empty($_POST['deactivate-account']) && isset($_POST['password'])) {
+            if (User::verifyPassword($_POST['password'], $user['email'])) {
+
+                $newUser->deactivateUser();
+                header("location: logout");
+
+            } else {
+                throw new Exception("Password is wrong.");
+            }
+        }
+
         $newUser->updateUser();
         $user = User::getUserById($_SESSION['userId']);
         $_SESSION['username'] = $user['username'];
@@ -165,7 +176,7 @@ if (!empty($_POST) || !empty($_FILES)) {
                         <h2>Account deletion/deactivation</h2>
                         <p>We care about you and your privacy. Even if it means letting you go. Here you can fully delete your account and all associated date or simply deactivate your account. <strong>Deactivation is hiding your profile and data from the public until you log in again. Deletion is permanent and complete.</strong></p>
                         <div id="deletion-container">
-                            <a href="#" class="button">Deactivate my account</a>
+                            <a href="#" class="button" data-button="deactivation">Deactivate my account</a>
                             <a href="#" class="button" data-button="deletion">Delete my account</a>
                         </form>
                         </div>
@@ -307,6 +318,33 @@ if (!empty($_POST) || !empty($_FILES)) {
                         </div>
                         <div class="form-submit">
                             <input type="submit" value="Submit" name="delete-account" class="primary-btn button">
+                        </div>
+                    </div>
+                </div>
+            
+            </form>
+
+            <form action="" method="POST" data-div="form">
+
+                <div data-form="deactivation" class="absolute-form-div hidden">
+                    <div class="absolute-form deletion-form">
+                        <div class="title-container">
+                            <img src="./assets/images/site/arrow-left.svg" alt="Back button" data-button="backButton">
+                            <h2>Deactivate Account</h2>
+                        </div>
+                        <p>Deactivation means hiding your account and all associated data from the public until you log in again. We will thus hold onto your data but will not display it anywhere publically. If you log in again after deactivation your account will be activated again.</p>
+                        <p><strong>All associated data also includes all your likes, comments, prompts ...</strong></p>
+                        <hr>
+                        <div class="form-part">
+                            <label for="deact-password">Password</label>
+                            <div class="password-input">
+                                <input type="password" name="password" id="deact-password" placeholder="...">
+                                <a data-button="show-hide-password" style="background-image: url(./assets/images/site/hidden-icon.svg)" class="show-password" aria-label="Show password"></a>
+                                <a data-button="show-hide-password" style="background-image: url(./assets/images/site/show-icon.svg)" class="show-password hidden" aria-label="Hide password"></a>
+                            </div>
+                        </div>
+                        <div class="form-submit">
+                            <input type="submit" value="Submit" name="deactivate-account" class="primary-btn button">
                         </div>
                     </div>
                 </div>
