@@ -55,7 +55,7 @@ if (!empty($_POST) || !empty($_FILES)) {
 
         if(!empty($_POST['delete-account']) && isset($_POST['password'])) { // delete user
             if (!isset($_POST['del-agree'])) {
-                throw new Exception("You need to agree to having your account deleted.");
+                throw new Exception("You must agree to having your account deleted.");
             }
 
             if (User::verifyPassword($_POST['password'], $user['email'])) {
