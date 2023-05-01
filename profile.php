@@ -49,7 +49,7 @@ try {
                     <?php if (!empty($user['biography'])) : ?>
                         <div>
                             <h3>Biography</h3>
-                            <p><?php echo htmlspecialchars($user['biography']); ?></p>
+                            <p><?php echo nl2br(htmlspecialchars($user['biography'])); ?></p>
                         </div>
                     <?php endif; ?>
 

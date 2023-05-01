@@ -147,7 +147,7 @@ if (!empty($_POST) || !empty($_FILES)) {
                         </a>
                         <a href="#" data-button="biography">
                             <span>Biography</span>
-                            <span><?php echo htmlspecialchars($user['biography']); ?></span>
+                            <span><?php echo nl2br(htmlspecialchars($user['biography'])); ?></span>
                             <figure class="right-arrow"></figure>
                         </a>
                     </section>
