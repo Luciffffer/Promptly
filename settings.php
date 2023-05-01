@@ -2,6 +2,7 @@
 
 include_once(__DIR__ . "/classes/Security.php");
 include_once(__DIR__ . "/classes/User.php");
+include_once(__DIR__ . "/classes/File.php");
 
 Security::onlyLoggedIn();
 $user = User::getUserById($_SESSION['userId']);
@@ -30,20 +31,11 @@ if (!empty($_POST) || !empty($_FILES)) {
             $size = $_FILES['profilePic']['size'];
             $tmpName = $_FILES['profilePic']['tmp_name'];
 
-            // validate image
-            $validExtensions = ['jpg', 'jpeg', 'png', 'webp'];
-            $extension = explode('.', $name);
-            $extension = strtolower(end($extension));
+            $image = new File();
+            $image->setImageName($name);
+            $image->validateImageSize($size);
 
-            if (!in_array($extension, $validExtensions)) {
-                throw new Exception("Invalid image extention.");
-            }
-
-            if ($size > 1000000) {
-                throw new Exception("Image size is too large.");
-            }
-
-            $newName = md5($name) . '-' . date('Y.m.d') . '-' . date('H.i.s') . '.' . $extension;
+            $newName = $image->getName();
             $newUser->setProfileImg($newName);
             move_uploaded_file($tmpName, __DIR__ . '/assets/images/user-submit/' . $newName);
         }
