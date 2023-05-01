@@ -3,7 +3,7 @@
 class File
 {
     private $validImageExtensions = ['jpg', 'jpeg', 'png', 'webp'];
-    private $maxImageSize = 1000000;
+    private $maxImageSize = 2000000;
 
     private string $name;
 
