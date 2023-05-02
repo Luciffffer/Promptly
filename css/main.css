@@ -285,19 +285,6 @@ nav .logo-container > img {
   gap: 2rem;
 }
 
-ul {
-  list-style-type: none;
-}
-
-.nav-ul {
-  margin-left: -30px;
-}
-
-.nav-ul li a{
-  font-family: var(--small-size);
-  margin-top: 5px;
-}
-
 .search-bar {
   background-color: var(--off-white) !important;
 

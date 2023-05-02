@@ -24,7 +24,17 @@ aside {
     height: 100%;
 }
 
-
+aside ul {
+    list-style-type: none;
+  }
+  
+.nav-ul {
+    margin-left: -30px;
+  }
+  
+.nav-ul li a{
+    font-size: var(--body-size);
+}
 /* PROFILE PAGE */
 
 .center {

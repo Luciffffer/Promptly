@@ -3,13 +3,13 @@
         <img src="<?php echo __ROOT__; ?>/assets/images/site/plus-icon.svg" alt="Icon of a plus">
         Add a prompt
     </a>
-    <h3>Browse</h3>
+    <h2>Browse</h2>
     <ul class="nav-ul">
         <li><a href="#">Hot</a></li>
         <li><a href="#">New</a></li>
         <li><a href="#">Top</a></li>
     </ul>
-    <h3>Models</h3>
+    <h2>Models</h2>
     <ul class="nav-ul">
         <li><a href="#">ChatGPT</a></li>
         <li><a href="#">MidJourney</a></li>
@@ -17,7 +17,7 @@
         <li><a href="#">Open Diffusion</a></li>
         <li><a href="#">DALL-E</a></li>
     </ul>
-    <h3>Your Library</h3>
+    <h2>Your Library</h2>
     <ul class="nav-ul">
         <li><a href="#">Liked</a></li>
         <li><a href="#">Bought</a></li>
@@ -26,7 +26,6 @@
     </ul>
 </aside>
 <div id="aside-placeholder"></div>
-
 
 <!-- BROWSE
 
