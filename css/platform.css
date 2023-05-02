@@ -74,10 +74,6 @@ aside {
     margin-right: 0.5rem;
 }
 
-section {
-    padding: 2rem 0;
-}
-
 #profile-information {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -116,7 +112,7 @@ section {
 }
 
 .settings-section {
-    padding: 1rem;
+    padding: 2rem 1rem;
     padding-bottom: 0;
     margin: 0 2rem;
     margin-bottom: 2rem;
@@ -355,4 +351,9 @@ label > #prompt-header {
     background-image: url(../assets/images/site/camera-icon.svg);
     background-size: cover;
     background-repeat: no-repeat;
+}
+
+#single-prompt-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
 }
