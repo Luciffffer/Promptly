@@ -92,6 +92,7 @@ if (!empty($_POST) || !empty($_FILES)) {
     <link rel="stylesheet" href="css/main.css">
     <link rel="shortcut icon" href="assets/images/site/promptly-logo.svg" type="image/x-icon">
     <link rel="stylesheet" href="css/platform.css">
+    <script src="./assets/js/ajax-username-available.js" defer></script>
 </head>
 <body>
     <?php include_once(__DIR__ . "/partials/nav.inc.php"); ?>
@@ -188,8 +189,12 @@ if (!empty($_POST) || !empty($_FILES)) {
                         <hr>
                         <div class="form-part">
                             <label for="username">Username</label>
-                            <input type="text" name="username" id="username" value="<?php echo htmlspecialchars($user['username']); ?>">
-                            <small>Only numbers and letters allowed.</small>
+                            <div style="position: relative;">
+                                <input type="text" name="username" id="username" value="<?php echo htmlspecialchars($user['username']); ?>">
+                                <i data-username="warning" class="valid-icon hidden" style="background-image: url(./assets/images/site/cross-symbol.svg);"></i>
+                                <i data-username="success" class="valid-icon hidden" style="background-image: url(./assets/images/site/success-icon-green.svg);"></i>
+                            </div>
+                            <small id="username-warning">Only numbers and letters allowed.</small>
                         </div>
                         <div class="form-submit">
                             <input type="submit" value="Submit" class="primary-btn button">
