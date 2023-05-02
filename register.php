@@ -52,6 +52,7 @@
     <link rel="stylesheet" href="css/main.css">
     <link rel="stylesheet" href="css/signup.css">
     <link rel="shortcut icon" href="assets/images/site/promptly-logo.svg" type="image/x-icon">
+    <script src="./assets/js/ajax-username-available.js" defer></script>
 </head>
 <body>
     <a style="display: none;" href="#sign-up-form">Jump to the sign up form.</a>
@@ -94,7 +95,12 @@
 
                 <div class="form-part">
                     <label for="username">Username</label>
-                    <input type="text" name="username" id="username" placeholder="PromptKing20">
+                    <div style="position: relative;">
+                        <input type="text" name="username" id="username" placeholder="PromptKing20">
+                        <i data-username="warning" class="valid-icon hidden" style="background-image: url(./assets/images/site/cross-symbol.svg);"></i>
+                        <i data-username="success" class="valid-icon hidden" style="background-image: url(./assets/images/site/success-icon-green.svg);"></i>
+                    </div>
+                    <small id="username-warning" class="hidden"></small>
                 </div>
 
                 <div class="form-part">

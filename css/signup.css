@@ -71,7 +71,7 @@ main {
 
     text-align: left;
 
-    background-color: rgb(201, 29, 29);
+    background-color: var(--red);
     border-radius: 10px;
     margin-bottom: 1rem;
     padding: 1rem;
@@ -91,7 +91,7 @@ main {
     padding: 1rem;
     margin-bottom: 1rem;
 
-    background-color: rgb(29, 124, 29);
+    background-color: var(--green);
 
     border-radius: 10px;
 }

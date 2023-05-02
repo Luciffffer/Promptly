@@ -47,7 +47,7 @@ class User
     {
         if (preg_match('([^a-zA-Z0-9])', $username) === 1 || strlen($username) === 0) {
             throw new Exception("Usernames is not valid. Only letters and numbers allowed");
-        } elseif (!$this->checkUnique("username", $username)) {
+        } elseif (!User::checkUnique("username", $username)) {
             throw new Exception("This username is already taken.");
         }
 
@@ -60,7 +60,7 @@ class User
     {
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
             throw new Exception("Email address is not valid.");
-        } elseif (!$this->checkUnique("email", $email)) {
+        } elseif (!User::checkUnique("email", $email)) {
             throw new Exception("An account with this email address already exists.");
         }
         
@@ -101,9 +101,16 @@ class User
 
 
     // Check if certain value is unique or already in the database.
-    public function checkUnique($columnName, $value): bool
+    public static function checkUnique($columnName, $value): bool
     {
         $PDO = Database::getInstance();
+
+        //binding column names not possible so manual sql injection protection
+        $acceptedColumnNames = ['username', 'email'];
+
+        if (!in_array($columnName, $acceptedColumnNames)) {
+            throw new Exception("Name of column must be one of the following:" . implode(", ", $acceptedColumnNames));
+        }
 
         $stmt = $PDO->prepare("select * from users where $columnName = :columnValue");
         $stmt->bindValue(":columnValue", $value);
