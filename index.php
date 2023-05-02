@@ -14,5 +14,8 @@
 </head>
 <body>
     <?php include_once(__DIR__ . "/partials/nav.inc.php"); ?>
+    <div>
+        
+    </div>
 </body>
 </html>
