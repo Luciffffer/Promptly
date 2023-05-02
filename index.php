@@ -1,11 +1,6 @@
 <?php 
 
     session_start();
-    include_once(__DIR__ . "/classes/User.php");
-    include_once(__DIR__ . "/classes/Prompt.php");
-    
-    usort($sorting, ['Prompt', 'compareByTitle']);
-    var_dump($sorting);
 
 ?><!DOCTYPE html>
 <html lang="en">
@@ -20,7 +15,7 @@
 <body>
     <?php include_once(__DIR__ . "/partials/nav.inc.php"); ?>
     <div>
-
+        
     </div>
 </body>
 </html>
