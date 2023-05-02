@@ -239,10 +239,12 @@ nav .logo-container > img {
 #primary-btn-nav {
   border-radius: 10px;
   padding: 0.1rem  3rem;
+  
 }
 
 .button {
   transition: transform 100ms;
+
 }
 
 .button:hover {

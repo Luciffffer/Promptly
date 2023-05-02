@@ -35,6 +35,11 @@ aside ul {
 .nav-ul li a{
     font-size: var(--body-size);
 }
+
+.titles{
+    margin-top: 1rem;
+}
+
 /* PROFILE PAGE */
 
 .center {
