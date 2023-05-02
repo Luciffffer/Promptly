@@ -11,8 +11,12 @@
     <title>Welcome to Promptly</title>
     <link rel="stylesheet" href="css/main.css">
     <link rel="shortcut icon" href="assets/images/site/promptly-logo.svg" type="image/x-icon">
+    <link rel="stylesheet" href="css/platform.css">
 </head>
 <body>
     <?php include_once(__DIR__ . "/partials/nav.inc.php"); ?>
+    <main>
+        <?php include_once(__DIR__ . "/partials/aside.inc.php"); ?>
+    </main>
 </body>
 </html>

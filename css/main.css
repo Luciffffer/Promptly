@@ -126,7 +126,8 @@ textarea {
 }
 
 a {
-  color: var(--medium-blue);
+  color: var(--off-white);
+  text-decoration: none;
 }
 
 a:hover {
@@ -282,6 +283,19 @@ nav .logo-container > img {
   display: flex;
   align-items: center;
   gap: 2rem;
+}
+
+ul {
+  list-style-type: none;
+}
+
+.nav-ul {
+  margin-left: -30px;
+}
+
+.nav-ul li a{
+  font-family: var(--small-size);
+  margin-top: 5px;
 }
 
 .search-bar {
