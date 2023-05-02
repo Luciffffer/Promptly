@@ -32,13 +32,14 @@ $models = Prompt::getAllModels();
                 </header>
             </label>
             <input type="file" name="prompt-header-image" id="prompt-header-image" accept=".jpg, .jpeg, .png, .webp" class="hidden">
+            <script src="../assets/js/prompt-header-parallax.js" defer></script>
             <div style="padding: 0 3rem">
                 <div class="center" id="single-prompt-grid">
                     <div>
                         <form action="" method="POST">
                             <section id="single-prompt-top">
                                 <p id="single-prompt-top-left">
-                                    <span>0 words</span>
+                                    <span><span id="word-count">0</span> words</span>
                                 </p>
                                 <div>
                                     <select name="model" id="model">
@@ -114,6 +115,13 @@ $models = Prompt::getAllModels();
                             <section id="prompt-section">
                                 <h2>The prompt:</h2>
                                 <textarea class="grey-textarea" name="prompt" id="prompt" cols="30" rows="5"></textarea>
+                                <script>
+                                    document.querySelector("#prompt").addEventListener('keyup', e => {
+                                        const wordCount = document.querySelector("#prompt").value.match(/\S+/g) === null ? 0 : document.querySelector("#prompt").value.match(/\S+/g).length
+                                        
+                                        document.querySelector("#word-count").innerHTML = wordCount
+                                    })
+                                </script>
                             </section>
                         </form>
                     </div>

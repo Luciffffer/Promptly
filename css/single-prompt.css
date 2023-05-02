@@ -203,4 +203,5 @@ legend {
 #prompt-section > textarea {
     background-color: var(--grey-3);
     border-radius: 10px;
+    padding: 1rem;
 }
