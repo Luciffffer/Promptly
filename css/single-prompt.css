@@ -1,5 +1,6 @@
 #prompt-header {
     position: relative;
+    display: block;
 
     aspect-ratio: 6/1;
     width: 100%;
@@ -19,7 +20,7 @@ label > #prompt-header {
     width: 100%;
     height: 100%;
     z-index: 500;
-    background-color: rgba(0, 0, 0, 0.1);
+    background-color: rgba(0, 0, 0, 0.2);
 }
 
 #prompt-header > i {
@@ -173,9 +174,12 @@ legend {
     background-repeat: no-repeat;
 }
 
-.add-prompt-another-image {
+.add-prompt-example-image:last-child {
     background: none;
     background-image: url(../assets/images/site/prompt-add-another-image.svg);
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
 }
 
 #prompt-author-info {
