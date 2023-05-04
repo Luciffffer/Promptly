@@ -219,3 +219,117 @@ legend {
     border-radius: 10px;
     padding: 1rem;
 }
+
+#categories-select {
+    background-color: var(--grey-2);
+    position: absolute;
+    height: 200px;
+    width: 100%;
+    bottom: 25px;
+    left: 0;
+    transform: translateY(105%) scale(100%);
+    box-shadow: 0 5px 5px 5px rgba(0, 0, 0, 0.2);
+    transition: all 300ms;
+}
+
+#categories-select > option {
+    padding: 0.4rem 0;
+    padding-left: 2.5rem;
+}
+
+#categories-select > option:checked {
+    background-color: #3b6f7b linear-gradient(0deg, #3b6f7b 0%, #3b6f7b 100%);
+    border-radius: 5px;
+}
+
+#categories-select > option:hover {
+    background-color: #3b6f7b;
+    border-radius: 5px;
+}
+
+#categories-select:focus {
+    outline: none;
+}
+
+#categories-select::-webkit-scrollbar {
+    width: 8px;
+}
+
+#categories-select::-webkit-scrollbar-thumb {
+    background-color: var(--off-white);
+    border-radius: 10px;
+}
+
+/* #categories-select:hover::-webkit-scrollbar-thumb {
+    background-color: var(--off-white);
+} */
+
+#categories-label {
+    display: block;
+    background-color: var(--grey-2);
+    padding: 0.5rem 0;
+    cursor: pointer;
+
+    border-radius: 10px;
+
+    background-image: url(../assets/images/site/arrow-down.svg);
+    background-repeat: no-repeat;
+    background-position: right center;
+    background-size: 1.5rem;
+    padding-right: 2rem;
+}
+
+#categories-label > input {
+    cursor: pointer;
+    pointer-events: none;
+    background: none;
+    border: none;
+    padding: 0;
+    color: white;
+}
+
+#categories-label > input:focus {
+    outline: none;
+}
+
+.hidden-size {
+    transform: translateY(105%) scale(80%) !important;
+    opacity: 0;
+    pointer-events: none;
+}
+
+input::placeholder, textarea::placeholder {
+    color: #757575;
+}
+
+#categories-span {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.selected-category-span {
+    display: inline-flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.5rem;
+    background-color: var(--grey-3);
+    padding: 0.3rem 0.5rem;
+    border-radius: 10px;
+}
+
+.selected-category-delete {
+    background-image: url(../assets/images/site/cross-symbol-white.svg);
+    background-size: cover;
+    background-position: center;
+    aspect-ratio: 1/1;
+    height: 1.1em;
+}
+
+.category-checked {
+    color: var(--light-blue);
+    background-image: url(../assets/images/site/blue-checkmark.svg);
+    background-position: 0.8rem center;
+    background-repeat: no-repeat;
+    background-size: 1rem;
+}

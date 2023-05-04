@@ -26,4 +26,15 @@ class Prompt
 
         return $result;
     }
+
+    // Category methods
+
+    public static function getAllCategories() 
+    {
+        $PDO = Database::getInstance();
+        $stmt = $PDO->query("select * from categories");
+        $stmt->execute();
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 }

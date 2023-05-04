@@ -6,6 +6,7 @@ include_once(__DIR__ . "/../classes/Prompt.php");
 Security::onlyLoggedIn();
 
 $models = Prompt::getAllModels();
+$categories = Prompt::getAllCategories();
 
 ?><!DOCTYPE html>
 <html lang="en">
@@ -86,6 +87,25 @@ $models = Prompt::getAllModels();
                                 <input id="title-input" type="text" name="title" placeholder="Add a Title...">
                                 <hr id="title-input-front-hr">
                                 <hr id="title-input-bg-hr">
+                            </div>
+                            <div class="form-part" style="position: relative;">
+                                <fieldset>
+                                    <legend>Categories</legend>
+                                    <label id="categories-label">
+                                        <input type="text" name="categories" placeholder="Please select..." class="hidden">
+                                        <span id="categories-span">
+                                        </span>
+                                    </label>
+                                </fieldset>
+                                <small>You can select multiple categories but try to keep the category count as low as possible.</small>
+                                <select id="categories-select" class="hidden-size" multiple>
+                                    <?php foreach($categories as $category) : ?>
+                                        <option value="<?php echo $category['id']; ?>">
+                                            <?php echo $category['title']; ?>
+                                        </option>
+                                    <?php endforeach; ?>
+                                </select>
+                                <script src="../assets/js/category-select.js" type="application/javascript"></script>
                             </div>
                             <div class="form-part">
                                 <fieldset>
