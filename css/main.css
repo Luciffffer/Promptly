@@ -69,7 +69,7 @@ p, small, figcaption, a, span, label, input, textarea, select, option, legend {
   font-weight: 400;
 }
 
-h1, h2, h3 {
+h1, h2, h3, h1 > span, h2 > span, h3 > span {
   font-family: "Lekton", monospace;
   font-weight: bold;
 }
@@ -313,6 +313,10 @@ nav .logo-container > img {
   pointer-events: none;
 }
 
+.blue-text {
+  color: var(--light-blue);
+}
+
 .white-a {
   color: var(--off-white);
   text-decoration: none;
@@ -339,6 +343,7 @@ nav .logo-container > img {
 .profile-a {
   display: flex;
   align-items: center;
+  gap: 0.5rem;
 }
 
 .profile-a > figure {
@@ -349,7 +354,6 @@ nav .logo-container > img {
   display: inline;
   aspect-ratio: 1/1;
   height: 30px;
-  margin-left: 0.5rem;
 
   border-radius: 100%;
 }

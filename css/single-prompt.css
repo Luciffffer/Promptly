@@ -2,6 +2,7 @@
     position: relative;
     display: block;
 
+    cursor: pointer;
     aspect-ratio: 6/1;
     width: 100%;
 
@@ -185,6 +186,7 @@ legend {
 #prompt-author-info {
     display: flex;
     justify-content: space-between;
+    align-items: center;
 
     margin-top: 3rem;
     margin-bottom: 2rem;
@@ -200,12 +202,20 @@ legend {
     border-radius: 10px;
 }
 
-#prompt-section > h2 {
+#prompt-section > h2, #prompt-section > h3 {
     margin-bottom: 1rem;
 }
 
+#prompt-section > h3 {
+    margin-top: 1.5rem;
+}
+
+#prompt-section > p {
+    margin: 1rem 0;
+}
+
 #prompt-section > textarea {
-    background-color: var(--grey-3);
+    background-color: var(--dark-grey);
     border-radius: 10px;
     padding: 1rem;
 }

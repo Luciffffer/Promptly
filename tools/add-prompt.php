@@ -82,7 +82,7 @@ $models = Prompt::getAllModels();
                             </div>
                         </section>
                         <section>
-                            <div style="position: relative; margin-bottom: 1rem">
+                            <div style="position: relative; margin-top: 1rem; margin-bottom: 2rem">
                                 <input id="title-input" type="text" name="title" placeholder="Add a Title...">
                                 <hr id="title-input-front-hr">
                                 <hr id="title-input-bg-hr">
@@ -102,7 +102,7 @@ $models = Prompt::getAllModels();
                             </div>   
                         </section>
                         <section id="prompt-author-info">
-                            <p class="grey">Created: now :P</p>
+                            <p class="grey">Created: <?php echo date("F jS, o"); ?></p>
                             <a class="white-a profile-a" href="../profile?id=<?php echo $_SESSION['userId']; ?>">
                                 <span class="grey">By:</span>
                                 <figure style="background-image: url(../<?php echo $_SESSION['profile-pic'] ?>);"></figure>
@@ -110,8 +110,8 @@ $models = Prompt::getAllModels();
                             </a>
                         </section>
                         <section id="prompt-section">
-                            <h2>The prompt:</h2>
-                            <textarea class="grey-textarea" name="prompt" id="prompt" cols="30" rows="5"></textarea>
+                            <h2>The <span class="blue-text">Prompt:</span></h2>
+                            <textarea class="grey-textarea" name="prompt" id="prompt" cols="30" rows="5" placeholder="Place your prompt here..."></textarea>
                             <script>
                                 document.querySelector("#prompt").addEventListener('keyup', e => {
                                     const wordCount = document.querySelector("#prompt").value.match(/\S+/g) === null ? 0 : document.querySelector("#prompt").value.match(/\S+/g).length
@@ -119,6 +119,9 @@ $models = Prompt::getAllModels();
                                     document.querySelector("#word-count").innerHTML = wordCount
                                 })
                             </script>
+                            <h3>Instructions:</h3>
+                            <p>Write some comprehensive and easy to understand instructions on how to use the prompt. The goal is to make it as easy as possible for the user.</p>
+                            <textarea class="grey-textarea" name="instructions" id="instructions" cols="30" rows="10" placeholder="To use this prompt..."></textarea>
                         </section>
                     </div>
                     <section id="example-image-container">
