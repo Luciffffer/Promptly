@@ -14,7 +14,6 @@
         <li><a href="#">ChatGPT</a></li>
         <li><a href="#">MidJourney</a></li>
         <li><a href="#">Stable Diffusion</a></li>
-        <li><a href="#">Open Diffusion</a></li>
         <li><a href="#">DALL-E</a></li>
     </ul>
     <h2 class="titles">Your Library</h2>
