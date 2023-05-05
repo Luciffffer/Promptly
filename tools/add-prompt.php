@@ -120,6 +120,11 @@ $categories = Prompt::getAllCategories();
                                     <textarea class="grey-textarea" name="description" id="description" placeholder="Add a comprehensive description" cols="30" rows="10"></textarea>
                                 </fieldset>
                             </div>   
+                            <div class="form-part" id="free-form-part">
+                                <p>When you post your prompt it will cost 1 credit for other users to get. If someone gets your prompt you will receive that credit and you can use it on other prompts for yourself. Check the box below if you want to make this prompt free and thus not receive credits for it.</p>
+                                <input type="checkbox" name="free" id="free">
+                                <label for="free">Make my prompt free</label>
+                            </div>
                         </section>
                         <section id="prompt-author-info">
                             <p class="grey">Created: <?php echo date("F jS, o"); ?></p>
@@ -143,6 +148,10 @@ $categories = Prompt::getAllCategories();
                             <p>Write some comprehensive and easy to understand instructions on how to use the prompt. The goal is to make it as easy as possible for the user.</p>
                             <textarea class="grey-textarea" name="instructions" id="instructions" cols="30" rows="10" placeholder="To use this prompt..."></textarea>
                         </section>
+                        <div class="form-part" id="submit-form-part">
+                            <p>When you post your prompt it will be send to a moderator for approval. Once approved, you will get a notification and it will be made public.</p>
+                            <input class="primary-btn button" type="submit" value="Post">
+                        </div>
                     </div>
                     <section id="example-image-container">
                         <input data-type="image" type="file" name="prompt-example-image1" id="prompt-example-image1" accept=".jpg, .jpeg, .png, .webp" class="hidden"> 

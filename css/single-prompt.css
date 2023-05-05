@@ -238,9 +238,13 @@ legend {
 }
 
 #categories-select > option:checked {
-    background-color: #3b6f7b linear-gradient(0deg, #3b6f7b 0%, #3b6f7b 100%);
+    background-color: #3b6f7b;
     border-radius: 5px;
 }
+
+/* #categories-select > option:focus-visible { no way to change highlight color of select multiple option without removing bg image
+    background-color: pink;
+} */
 
 #categories-select > option:hover {
     background-color: #3b6f7b;
@@ -332,4 +336,20 @@ input::placeholder, textarea::placeholder {
     background-position: 0.8rem center;
     background-repeat: no-repeat;
     background-size: 1rem;
+}
+
+#free-form-part {
+    margin: 2rem 0;
+}
+
+#free-form-part p {
+    margin-bottom: 2rem;
+}
+
+#submit-form-part {
+    margin: 2rem 0;
+}
+
+#submit-form-part > p {
+    margin-bottom: 1rem;
 }
