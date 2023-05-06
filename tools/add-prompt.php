@@ -2,11 +2,78 @@
 
 include_once(__DIR__ . "/../classes/Security.php");
 include_once(__DIR__ . "/../classes/Prompt.php");
+include_once(__DIR__ . "/../classes/File.php");
 
 Security::onlyLoggedIn();
 
 $models = Prompt::getAllModels();
 $categories = Prompt::getAllCategories();
+
+if (!empty($_POST) && !empty($_FILES)) {
+    try {
+
+        if (sizeof($_FILES) > 5) {
+            throw new Exception("Max 5 images allowed to upload. Structure: header-image, example-image-1, example-image-2, example-image-3, example-image-4");
+        }
+
+        $prompt = new Prompt();
+
+        // set model information
+        $prompt->setModelId($_POST['model']);
+        $prompt->setModelVersion($_POST['model-version']);
+
+        // set basic information
+        $prompt->setTitle($_POST['title']);
+        $prompt->setAuthorId($_SESSION['userId']);
+        $prompt->setDescription($_POST['description']);
+
+        $prompt->setTags($_POST['tags']);
+        $prompt->setCategories($_POST['categories']);
+
+        // set prompt information
+        $prompt->setPrompt($_POST['prompt']);
+        $prompt->setPromptInstructions($_POST['instructions']);
+
+        // set is prompt free?
+        if (isset($_POST['free'])) $prompt->setIsFree(true);
+
+        // set images
+        foreach ($_FILES as $key => $file) {
+            $img = new File();
+            $img->setImageName($file['name']);
+            $img->validateImageSize($file['size']);
+            
+            $path = $img->getPath();
+
+            switch ($key) {
+                case "header-image":
+                    $prompt->setHeaderImage($path);
+                    break;
+                case "prompt-example-image1":
+                    $prompt->setExampleImage1($path);
+                    break;
+                case "prompt-example-image2":
+                    $prompt->setExampleImage2($path);
+                    break;
+                case "prompt-example-image3":
+                    $prompt->setExampleImage3($path);
+                    break;
+                case "prompt-example-image4":
+                    $prompt->setExampleImage4($path);
+                    break;
+                default:
+                    throw new Exception("Use following structure for the images: header-image, example-image-1, example-image-2, example-image-3, example-image-4");
+            }
+
+            $img->moveImage($file['tmp_name']);
+        }
+
+        $prompt->insertPrompt();
+
+    } catch (Throwable $err) {
+        $error = $err->getMessage();
+    }
+}
 
 ?><!DOCTYPE html>
 <html lang="en">
@@ -25,7 +92,7 @@ $categories = Prompt::getAllCategories();
     <?php include_once(__DIR__ . "/../partials/nav.inc.php"); ?>
     <main>
         <?php include_once(__DIR__ . "/../partials/aside.inc.php"); ?>
-        <form action="" method="POST">
+        <form action="" method="POST" enctype="multipart/form-data">
             <label id="prompt-header" for="prompt-header-image">
                 <div class="hidden"></div>
                 <i></i>
@@ -35,6 +102,14 @@ $categories = Prompt::getAllCategories();
             <div style="padding: 0 3rem">
                 <div class="center" id="single-prompt-grid">
                     <div>
+                        
+                        <?php if (isset($error)) : ?>
+                            <section id="error-section">
+                                <h3>Error: <?php echo $error ?></h3>
+                                <img src="../assets/images/site/warning-icon.svg" alt="Warning icon">
+                            </section>
+                        <?php endif; ?>
+
                         <section id="single-prompt-top">
                             <p id="single-prompt-top-left">
                                 <span><span id="word-count">0</span> words</span>
@@ -84,7 +159,7 @@ $categories = Prompt::getAllCategories();
                         </section>
                         <section>
                             <div style="position: relative; margin-top: 1rem; margin-bottom: 2rem">
-                                <input id="title-input" type="text" name="title" placeholder="Add a Title...">
+                                <input id="title-input" type="text" name="title" placeholder="Add a Title..." value="<?php if (isset($error)) echo $_POST['title']; ?>">
                                 <hr id="title-input-front-hr">
                                 <hr id="title-input-bg-hr">
                             </div>
@@ -110,14 +185,14 @@ $categories = Prompt::getAllCategories();
                             <div class="form-part">
                                 <fieldset>
                                     <legend>Tags</legend>
-                                    <textarea class="grey-textarea" name="tags" id="tags" cols="30" rows="1" placeholder="Add keywords that describe your prompt"></textarea>
+                                    <textarea class="grey-textarea" name="tags" id="tags" cols="30" rows="1" placeholder="Add keywords that describe your prompt"><?php if (isset($error)) echo $_POST['tags']; ?></textarea>
                                 </fieldset>
-                                <small>Separate by a comma or space.</small> 
+                                <small>Separate by a comma.</small> 
                             </div>
                             <div class="form-part">
                                 <fieldset>
                                     <legend>Description</legend>
-                                    <textarea class="grey-textarea" name="description" id="description" placeholder="Add a comprehensive description" cols="30" rows="10"></textarea>
+                                    <textarea class="grey-textarea" name="description" id="description" placeholder="Add a comprehensive description" cols="30" rows="10"><?php if (isset($error)) echo $_POST['description']; ?></textarea>
                                 </fieldset>
                             </div>   
                             <div class="form-part" id="free-form-part">
@@ -136,7 +211,7 @@ $categories = Prompt::getAllCategories();
                         </section>
                         <section id="prompt-section">
                             <h2>The <span class="blue-text">Prompt:</span></h2>
-                            <textarea class="grey-textarea" name="prompt" id="prompt" cols="30" rows="5" placeholder="Place your prompt here..."></textarea>
+                            <textarea class="grey-textarea" name="prompt" id="prompt" cols="30" rows="5" placeholder="Place your prompt here..."><?php if (isset($error)) echo $_POST['prompt']; ?></textarea>
                             <script>
                                 document.querySelector("#prompt").addEventListener('keyup', e => {
                                     const wordCount = document.querySelector("#prompt").value.match(/\S+/g) === null ? 0 : document.querySelector("#prompt").value.match(/\S+/g).length
@@ -146,18 +221,19 @@ $categories = Prompt::getAllCategories();
                             </script>
                             <h3>Instructions:</h3>
                             <p>Write some comprehensive and easy to understand instructions on how to use the prompt. The goal is to make it as easy as possible for the user.</p>
-                            <textarea class="grey-textarea" name="instructions" id="instructions" cols="30" rows="10" placeholder="To use this prompt..."></textarea>
+                            <textarea class="grey-textarea" name="instructions" id="instructions" cols="30" rows="10" placeholder="To use this prompt..."><?php if (isset($error)) echo $_POST['instructions']; ?></textarea>
                         </section>
                         <div class="form-part" id="submit-form-part">
                             <p>When you post your prompt it will be send to a moderator for approval. Once approved, you will get a notification and it will be made public.</p>
-                            <input class="primary-btn button" type="submit" value="Post">
+                            <input class="primary-btn button" type="submit" value="Post my Prompt">
                         </div>
                     </div>
-                    <section id="example-image-container">
-                        <input data-type="image" type="file" name="prompt-example-image1" id="prompt-example-image1" accept=".jpg, .jpeg, .png, .webp" class="hidden"> 
-                        <label for="prompt-example-image1" class="add-prompt-example-image"></label>
-                        <input data-type="image" type="file" name="prompt-example-image2" id="prompt-example-image2" accept=".jpg, .jpeg, .png, .webp" class="hidden">
-                        <label for="prompt-example-image2" class="add-prompt-example-image"></label>
+                    <section>
+                        <div id="example-image-container">
+                            <input data-type="image" type="file" name="prompt-example-image1" id="prompt-example-image1" accept=".jpg, .jpeg, .png, .webp" class="hidden"> 
+                            <label for="prompt-example-image1" class="add-prompt-example-image"></label>
+                        </div>
+                        <a href="#" id="add-example-image"></a>
                     </section>
                 </div>
             </div>

@@ -3,6 +3,7 @@ const select = document.querySelector("#categories-select");
 const categoriesSpan = document.querySelector("#categories-span");
 
 let categories = [];
+let categoryIds = [];
 
 label.addEventListener("click", e => {
     e.preventDefault();
@@ -41,17 +42,19 @@ function createCategory(name, id) {
     innerSpan.classList.add("selected-category-delete");
     span.append(innerSpan);
     categories.push(span);
+    categoryIds.push(id);
 }
 
 function removeCategory(id) {
     const index = categories.findIndex(el => el.dataset.id === id);
     categories.splice(index, 1);
+    categoryIds.splice(index, 1);
 }
 
 function addCategories() {
 
     categoriesSpan.innerHTML = "";
-    document.querySelector("#categories-label > input").value = categoriesSpan.toString();
+    document.querySelector("#categories-label > input").value = JSON.stringify(categoryIds);
 
     if (categories.length !== 0) {
         categories.forEach(category => {

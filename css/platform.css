@@ -102,12 +102,13 @@ aside {
 #settings-success-section {
     display: flex;
     justify-content: center;
+    padding: 1rem;
 
     background-color: green;
     border: 1px solid green;
 }
 
-#settings-error-section > h2 {
+#settings-error-section > h2, #settings-success-section > h2 {
     margin: 0;
 }
 

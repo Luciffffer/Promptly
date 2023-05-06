@@ -175,14 +175,6 @@ legend {
     background-repeat: no-repeat;
 }
 
-.add-prompt-example-image:last-child {
-    background: none;
-    background-image: url(../assets/images/site/prompt-add-another-image.svg);
-    background-position: center;
-    background-size: cover;
-    background-repeat: no-repeat;
-}
-
 #prompt-author-info {
     display: flex;
     justify-content: space-between;
@@ -352,4 +344,30 @@ input::placeholder, textarea::placeholder {
 
 #submit-form-part > p {
     margin-bottom: 1rem;
+}
+
+#error-section {
+    background-color: var(--red);
+    padding: 1rem;
+    margin-bottom: 2rem;
+    border-radius: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#error-section > img {
+    aspect-ratio: 1/1;
+    width: 40px;
+}
+
+#add-example-image {
+    display: block;
+    aspect-ratio: 1/1;
+    width: 100%;
+
+    background-image: url(../assets/images/site/prompt-add-another-image.svg);
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
 }
