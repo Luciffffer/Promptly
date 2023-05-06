@@ -1,21 +1,61 @@
-const promptHeaderInput = document.querySelector("#prompt-header-image")
+const imageInputs = document.querySelectorAll('input[data-type="image"]');
+const reader = new FileReader();
+let imageCount = 1;
 
-promptHeaderInput.onchange = e => {
-    // get form data
-    const formData = new FormData();
-    formData.append("image", promptHeaderInput.files[0]);
+imageInputs.forEach(imageInput => {
 
-    // send form data to ajax page
-    fetch("../ajax/upload-image.ajax.php", {
-        method: "POST",
-        body: formData
-    })
-        .then(response => response.json())
-        .then(json => {
-            document.querySelector("#prompt-header").style.backgroundImage = `url(../${json['body']})`;
-            document.querySelector("#prompt-header > div").classList.remove("hidden");
-        })
-        .catch($err => {
-            console.warn($err);
-        })
+    imageInput.onchange = handleImageChange;
+
+})
+
+document.querySelector("#add-example-image").addEventListener("click", e => {
+    e.preventDefault();
+
+    if (imageCount < 4) {
+        //create new image input
+        const input = document.createElement("input");
+        input.setAttribute("type", "file");
+        input.setAttribute("accept", ".jpg, .jpeg, .png, .webp");
+        input.setAttribute("name", "prompt-example-image" + (imageCount+1));
+        input.setAttribute("id", "prompt-example-image" + (imageCount+1));
+        input.dataset.type = "image";
+        input.classList.add("hidden");
+        input.onchange = handleImageChange;
+
+        //create new image label
+        const label = document.createElement("label");
+        label.setAttribute("for", "prompt-example-image" + (imageCount+1));
+        label.classList.add("add-prompt-example-image");
+
+        //append
+        const container = document.querySelector("#example-image-container");
+        container.append(input);
+        container.append(label);
+
+        if (imageCount === 3) {
+            document.querySelector("#add-example-image").remove();
+        }
+
+        imageCount++;
+    }
+})
+
+function handleImageChange (e) {
+    if (e.target.files && e.target.files[0]) {
+
+        reader.readAsDataURL(e.target.files[0]);
+
+        reader.onload = () => {
+
+            if (e.target === document.querySelector("#prompt-header-image")) {
+                document.querySelector("#prompt-header > div").classList.remove("hidden");
+            }
+
+            document.querySelector(`label[for="${e.target.id}"]`).style.backgroundImage = `url(${reader.result})`;
+
+        }
+
+    } else {
+        document.querySelector(`label[for="${e.target.id}"]`).style.backgroundImage = '';
+    }
 }

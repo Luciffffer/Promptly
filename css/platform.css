@@ -89,10 +89,6 @@ aside ul {
     margin-right: 0.5rem;
 }
 
-section {
-    padding: 2rem 0;
-}
-
 #profile-information {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -121,17 +117,18 @@ section {
 #settings-success-section {
     display: flex;
     justify-content: center;
+    padding: 1rem;
 
     background-color: green;
     border: 1px solid green;
 }
 
-#settings-error-section > h2 {
+#settings-error-section > h2, #settings-success-section > h2 {
     margin: 0;
 }
 
 .settings-section {
-    padding: 1rem;
+    padding: 2rem 1rem;
     padding-bottom: 0;
     margin: 0 2rem;
     margin-bottom: 2rem;
@@ -330,44 +327,4 @@ section {
 
 .deletion-form {
     border: 5px solid rgb(141, 11, 11);
-}
-
-
-/* ADD PROMPT */
-
-#prompt-header {
-    position: relative;
-
-    aspect-ratio: 6/1;
-    width: 100%;
-
-    background-image: url(../assets/images/site/prompt-example-header.svg);
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-}
-
-label > #prompt-header {
-    cursor: pointer;
-}
-
-#prompt-header > div {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    z-index: 500;
-    background-color: rgba(0, 0, 0, 0.1);
-}
-
-#prompt-header > i {
-    position: absolute;
-    right: 1.5rem;
-    bottom: 1.5rem;
-    z-index: 1000;
-
-    aspect-ratio: 1/1;
-    width: 35px;
-    background-image: url(../assets/images/site/camera-icon.svg);
-    background-size: cover;
-    background-repeat: no-repeat;
 }

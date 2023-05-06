@@ -94,7 +94,6 @@ class User
 
     public function setProfileImg (string $profileImg)
     {
-        $profileImg = "assets/images/user-submit/" . $profileImg;
         $this->profileImg = $profileImg;
         return $this;
     }

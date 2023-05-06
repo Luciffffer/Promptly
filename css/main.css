@@ -32,6 +32,7 @@
   --off-white: #E6E6E6;
   --grey-1: #A0A0A0;
   --grey-2: #2E2F34;
+  --grey-3: #4E4E4E;
   --red: rgb(196, 2, 2);
   --green: rgb(29, 124, 29);
   
@@ -63,12 +64,12 @@ body {
   color: var(--off-white);
 }
 
-p, small, figcaption, a, span, label, input, textarea {
+p, small, figcaption, a, span, label, input, textarea, select, option, legend {
   font-family: "Montserrat", sans-serif;
   font-weight: 400;
 }
 
-h1, h2, h3 {
+h1, h2, h3, h1 > span, h2 > span, h3 > span {
   font-family: "Lekton", monospace;
   font-weight: bold;
 }
@@ -77,7 +78,7 @@ small, figcaption {
   font-size: var(--small-size);
 }
 
-input {
+input, select, option {
   font-size: var(--body-size);
 }
 
@@ -315,6 +316,10 @@ nav .logo-container > img {
   pointer-events: none;
 }
 
+.blue-text {
+  color: var(--light-blue);
+}
+
 .white-a {
   color: var(--off-white);
   text-decoration: none;
@@ -341,6 +346,7 @@ nav .logo-container > img {
 .profile-a {
   display: flex;
   align-items: center;
+  gap: 0.5rem;
 }
 
 .profile-a > figure {
@@ -351,7 +357,6 @@ nav .logo-container > img {
   display: inline;
   aspect-ratio: 1/1;
   height: 30px;
-  margin-left: 0.5rem;
 
   border-radius: 100%;
 }

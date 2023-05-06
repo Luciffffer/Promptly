@@ -35,9 +35,9 @@ if (!empty($_POST) || !empty($_FILES)) {
             $image->setImageName($name);
             $image->validateImageSize($size);
 
-            $newName = $image->getName();
-            $newUser->setProfileImg($newName);
-            move_uploaded_file($tmpName, __DIR__ . '/assets/images/user-submit/' . $newName);
+            $path = $image->getPath();
+            $newUser->setProfileImg($path);
+            $image->moveImage($tmpName);
         }
 
         if(isset($_POST['biography'])) { // check if the input button was pressed
