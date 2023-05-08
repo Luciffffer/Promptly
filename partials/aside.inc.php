@@ -17,8 +17,8 @@ $models = Prompt::getAllModels();
             </a>
             <ul class="aside-ul">
                 <li><a href="<?php echo __ROOT__; ?>discover">Discover</a></li>
-                <li><a href="#">Popular</a></li>
-                <li><a href="#">New</a></li>
+                <li><a href="<?php echo __ROOT__; ?>all-prompts?order=popular">Popular</a></li>
+                <li><a href="<?php echo __ROOT__; ?>all-prompts?order=new">New</a></li>
             </ul>
         </div>
         <div id="aside-models">
@@ -28,7 +28,7 @@ $models = Prompt::getAllModels();
             </div>
             <ul class="aside-ul">
                 <?php foreach ($models as $model) : ?>
-                    <li><a href="#"><?php echo $model['name']; ?></a></li>
+                    <li><a href="<?php echo __ROOT__; ?>all-prompts?models=<?php echo $model['id']; ?>"><?php echo $model['name']; ?></a></li>
                 <?php endforeach; ?>
             </ul>
         </div>

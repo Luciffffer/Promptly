@@ -245,6 +245,45 @@ class Prompt
     }
 
 
+    public static function getPrompts (string $order = "new", string $categoryIds = null, string $modelIds = null, int $page = 1): array
+    {
+        $limit = 20;
+        $offset = ($page - 1) * $limit;
+
+        switch ($order) {
+            case "new":
+                $sqlOrder = " ORDER BY prompts.date_created DESC";
+                break;
+            case "a-z":
+                $sqlOrder = " ORDER BY prompts.title ASC";
+                break;
+            default:
+                $sqlOrder = " ORDER BY prompts.date_created DESC";
+                break;
+        }
+
+        $sql = "SELECT prompts.*
+                FROM prompts 
+                JOIN category_prompt ON prompts.id = category_prompt.prompt_id 
+                WHERE prompts.approved = 1
+                AND prompts.model_id IN (CASE WHEN :model_ids IS NOT NULL THEN :model_ids ELSE prompts.model_id END)
+                AND category_prompt.category_id IN (CASE WHEN :category_ids IS NOT NULL THEN :category_ids ELSE category_prompt.category_id END)
+                GROUP BY prompts.id" 
+                . $sqlOrder .
+                " LIMIT :limit OFFSET :offset";
+
+        $PDO = Database::getInstance();
+        $stmt = $PDO->prepare($sql);
+        $stmt->bindValue(":model_ids", $modelIds);
+        $stmt->bindValue(":category_ids", $categoryIds);
+        $stmt->bindValue(":limit", $limit, PDO::PARAM_INT);
+        $stmt->bindValue(":offset", $offset, PDO::PARAM_INT);
+        $stmt->execute();
+        
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+
     // AI model methods
 
     public static function getAllModels()
