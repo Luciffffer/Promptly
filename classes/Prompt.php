@@ -279,6 +279,9 @@ class Prompt
             case "new":
                 $sqlOrder = " ORDER BY prompts.date_created DESC";
                 break;
+            case "popular":
+                $sqlOrder = " ORDER BY prompts.views DESC";
+                break;
             case "a-z":
                 $sqlOrder = " ORDER BY prompts.title ASC";
                 break;
@@ -316,6 +319,26 @@ class Prompt
         $stmt->execute();
         
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public static function getPromptById (int $id): array
+    {
+        $PDO = Database::getInstance();
+        $stmt = $PDO->prepare("SELECT * FROM prompts WHERE id = :id AND approved = 1");
+        $stmt->bindValue(":id", $id);
+        $stmt->execute();
+
+        if ($stmt->rowCount() == 0) throw new Exception("Prompt not found.");
+
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
+    public static function addView (int $id): void
+    {
+        $PDO = Database::getInstance();
+        $stmt = $PDO->prepare("UPDATE prompts SET views = views + 1 WHERE id = :id");
+        $stmt->bindValue(":id", $id);
+        $stmt->execute();
     }
 
 

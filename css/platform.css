@@ -177,6 +177,10 @@ aside {
 
 /* PROFILE PAGE */
 
+.center-parent {
+    padding: 0 3rem;
+}
+
 .center {
     max-width: 1200px;
     margin: 0 auto;

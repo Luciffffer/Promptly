@@ -62,6 +62,7 @@ $models = Prompt::getAllModels();
                             <select name="order" id="order" onchange="this.form.submit()">
                                 <option value="new" <?php if (isset($_GET['order']) && $_GET['order'] == 'new') echo 'selected'; ?>>New</option>
                                 <option value="popular" <?php if (isset($_GET['order']) && $_GET['order'] == 'popular') echo 'selected'; ?>>Popular</option>
+                                <option value="a-z" <?php if (isset($_GET['order']) && $_GET['order'] == 'a-z') echo 'selected'; ?>>A-Z</option>
                             </select>
                         <?php endif; ?>
                     </div>
@@ -85,7 +86,7 @@ $models = Prompt::getAllModels();
                         </div>
                         <input class="primary-btn-white button" type="submit" value="Apply filters">
                     </div>
-                    <?php if (isset($_GET['categories']) && !empty($_GET['categories'] || isset($_GET['models']) && !empty($_GET['models']))) : ?>
+                    <?php if ((isset($_GET['categories']) && !empty($_GET['categories']) || (isset($_GET['models']) && !empty($_GET['models'])))) : ?>
                         <small>Active filters:</small>
                         <div style="gap: 1rem">
                             <div id="active-filters-container">
@@ -115,8 +116,9 @@ $models = Prompt::getAllModels();
                                 <?php endif; ?>
                             </div>
                             <select name="order" id="order" onchange="this.form.submit()">
-                                <option value="popular" <?php if ($_GET['order'] == 'popular') echo 'selected'; ?>>Popular</option>
-                                <option value="new" <?php if ($_GET['order'] == 'new') echo 'selected'; ?>>New</option>
+                                <option value="new" <?php if (isset($_GET['order']) && $_GET['order'] == 'new') echo 'selected'; ?>>New</option>
+                                <option value="popular" <?php if (isset($_GET['order']) && $_GET['order'] == 'popular') echo 'selected'; ?>>Popular</option>
+                                <option value="a-z" <?php if (isset($_GET['order']) && $_GET['order'] == 'a-z') echo 'selected'; ?>>A-Z</option>
                             </select>
                         </div>
                     <?php endif; ?>

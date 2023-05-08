@@ -99,7 +99,7 @@ if (!empty($_POST) && !empty($_FILES)) {
             </label>
             <input data-type="image" type="file" name="header-image" id="prompt-header-image" accept=".jpg, .jpeg, .png, .webp" class="hidden">
             <script src="../assets/js/prompt-header-parallax.js" defer></script>
-            <div style="padding: 0 3rem">
+            <div class="center-parent">
                 <div class="center" id="single-prompt-grid">
                     <div>
                         
