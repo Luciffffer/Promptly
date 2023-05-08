@@ -33,7 +33,7 @@ congratulations you should now have pulled the repository.
 
 #### Config.ini
 
-When first starting to work on this project, create a folder called config. In this folder create a file named config.ini. This file will contain your database information.
+When first starting to work on this project, create a folder called config. In this folder create a file named config.ini. This file will contain your database information. And also path information to the right folder.
 
 use the following structure:
 
@@ -43,7 +43,20 @@ db_name =
 db_user =
 db_password =
 db_host =
+
+[ Application ]
+root_dir = #path from localhost to the promptly folder. E.g. /php/promptly/
 ```
+
+### .htaccess
+
+In your .htaccess file there is 1 line you have to change. This line is as follows:
+
+```
+php_value auto_prepend_file C:/xampp/htdocs/php/promptly/config/config.php
+```
+
+Change the path to the exact path to the config.php file on your PC. This will cause the config.php file to load on each page.
 
 </br>
 
