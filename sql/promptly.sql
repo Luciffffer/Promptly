@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 06, 2023 at 08:20 AM
+-- Generation Time: May 08, 2023 at 09:57 AM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.2.0
 
@@ -73,7 +73,8 @@ CREATE TABLE `ai_models` (
 
 INSERT INTO `ai_models` (`id`, `name`, `description`, `versions`, `icon`) VALUES
 (1, 'Midjourney', 'Midjourney is a generative artificial intelligence program and service created and hosted by a San Francisco-based independent research lab Midjourney, Inc. Midjourney generates images from natural language descriptions, called \"prompts\", similar to OpenAI\'s DALL-E and Stable Diffusion.', '[\"V5\", \"V4\", \"V3\", \"V2\", \"V1\"]', 'assets/images/site/midjourney-icon.svg'),
-(2, 'DALL·E', 'DALL-E and DALL-E 2 are deep learning models developed by OpenAI to generate digital images from natural language descriptions, called \"prompts\".', '[\"V2\", \"V1\"]', 'assets/images/site/dalle-icon.svg');
+(2, 'DALL·E', 'DALL-E and DALL-E 2 are deep learning models developed by OpenAI to generate digital images from natural language descriptions, called \"prompts\".', '[\"V2\", \"V1\"]', 'assets/images/site/dalle-icon.svg'),
+(4, 'Stable Diffusion', 'Stable Diffusion is a deep learning, text-to-image model released in 2022. It is primarily used to generate detailed images conditioned on text descriptions, though it can also be applied to other tasks such as inpainting, outpainting, and generating image-to-image translations guided by a text prom', '[\"V2\", \"V1\"]', 'nothing yet lol');
 
 -- --------------------------------------------------------
 
@@ -122,7 +123,30 @@ CREATE TABLE `category_prompt` (
 INSERT INTO `category_prompt` (`id`, `prompt_id`, `category_id`) VALUES
 (7, 3, 1),
 (8, 3, 3),
-(9, 3, 2);
+(9, 3, 2),
+(10, 4, 3),
+(11, 4, 1),
+(12, 4, 8),
+(13, 4, 2),
+(14, 5, 2),
+(15, 5, 5),
+(16, 5, 3),
+(17, 6, 2),
+(18, 6, 11),
+(19, 7, 2),
+(20, 7, 11),
+(21, 7, 9),
+(22, 8, 8),
+(23, 8, 11),
+(24, 8, 2),
+(25, 9, 1),
+(26, 9, 3),
+(27, 9, 7),
+(28, 9, 8),
+(29, 10, 2),
+(30, 10, 3),
+(31, 10, 8),
+(32, 10, 11);
 
 -- --------------------------------------------------------
 
@@ -156,7 +180,14 @@ CREATE TABLE `prompts` (
 --
 
 INSERT INTO `prompts` (`id`, `title`, `description`, `tags`, `prompt`, `prompt_instructions`, `word_count`, `author_id`, `model_id`, `model_version`, `header_image`, `example_image1`, `example_image2`, `example_image3`, `example_image4`, `date_created`, `free`, `approved`) VALUES
-(3, 'Food Advertising Photography', 'This curated prompt generates high-quality impactful food images, ready to be used in your advertising assets.\r\nYou will be able to display any ingredient or dish in a spectacular way as the prompt is fully customizable.\r\n\r\nCustomization instructions will be provided at purchase, including the shown examples.\r\nDon\'t hesitate to contact us for support.\r\nTheRightPrompt', '[\"food\",\"marketing\",\"advertisement\",\"photography\",\"real\"]', 'hihi you don\'t get anything :PPPPPP', 'I need sleep', 6, 32, 1, 'V5', 'assets/images/user-submit/b04a69ac403b1768ea105ad81326e303-2023.05.06-08.03.58.jpg', 'assets/images/user-submit/96c9163f4c84f08419a6c4c51660d333-2023.05.06-08.03.58.jpg', 'assets/images/user-submit/0c1aaab44196b5a453d8f4b4c67e0f6c-2023.05.06-08.03.58.jpg', 'assets/images/user-submit/77c0a9646c5ed6e086eb8ee0ea6a03b7-2023.05.06-08.03.58.jpg', 'assets/images/user-submit/9eb4397f6936bd5d32cd0ac03c846f15-2023.05.06-08.03.58.jpg', '2023-05-06 08:03:58', 0, 0);
+(3, 'Food Advertising Photography', 'This curated prompt generates high-quality impactful food images, ready to be used in your advertising assets.\r\nYou will be able to display any ingredient or dish in a spectacular way as the prompt is fully customizable.\r\n\r\nCustomization instructions will be provided at purchase, including the shown examples.\r\nDon\'t hesitate to contact us for support.\r\nTheRightPrompt', '[\"food\",\"marketing\",\"advertisement\",\"photography\",\"real\"]', 'hihi you don\'t get anything :PPPPPP', 'I need sleep', 6, 32, 1, 'V5', 'assets/images/user-submit/b04a69ac403b1768ea105ad81326e303-2023.05.06-08.03.58.jpg', 'assets/images/user-submit/96c9163f4c84f08419a6c4c51660d333-2023.05.06-08.03.58.jpg', 'assets/images/user-submit/0c1aaab44196b5a453d8f4b4c67e0f6c-2023.05.06-08.03.58.jpg', 'assets/images/user-submit/77c0a9646c5ed6e086eb8ee0ea6a03b7-2023.05.06-08.03.58.jpg', 'assets/images/user-submit/9eb4397f6936bd5d32cd0ac03c846f15-2023.05.06-08.03.58.jpg', '2023-05-06 08:03:58', 0, 1),
+(4, 'Emma Watson being cool', 'It\'s just emma watson you know\r\ni actually don\'t know\r\nyeah i dont', '[\"cool\",\"Emma\",\"Watson\",\"warrior\",\"witch\",\"sorceress\"]', 'this is a cool prompt', 'This is a not so cool instruction', 5, 32, 4, 'V2', 'assets/images/user-submit/00fef3d38a7f7e69073e1eccdcce7b8b-2023.05.07-04.21.11.png', 'assets/images/user-submit/a28683bedfc0f04869bdbf2960f7fca3-2023.05.07-04.21.11.webp', 'assets/images/user-submit/1ed73cea66028aa2b4c49ae6765ebdb5-2023.05.07-04.21.11.webp', 'assets/images/user-submit/7f4d115aa928685bc475349865ada5be-2023.05.07-04.21.11.webp', 'assets/images/user-submit/ad2387d3346e6a5d29e65d92f9e55a9b-2023.05.07-04.21.11.webp', '2023-05-07 04:21:11', 0, 1),
+(5, 'Huge Steampunk Cities', 'A cool steampunk city generation prompt!\r\nVery cool\r\npls buy', '[\"steampunk\",\"cities\",\"landscape\",\"huge\",\"punk\"]', 'hello AI 👋\r\nPlease make steampunk city thx', 'To use the prompt just put it into stable diffusion ez', 7, 32, 4, 'V2', 'assets/images/user-submit/177a6446199f3a1edf91fc579a9a2830-2023.05.08-09.22.47.jpeg', 'assets/images/user-submit/eea739f2eb638ea84719bfb0428bbe70-2023.05.08-09.22.47.webp', 'assets/images/user-submit/039ef800fa89bfd9b6b50f0c66690de5-2023.05.08-09.22.47.webp', 'assets/images/user-submit/2e639edbe0e409b8eb8270b98d491cd3-2023.05.08-09.22.47.webp', NULL, '2023-05-08 09:22:47', 0, 0),
+(6, 'Colorful Trippy Landscapes', 'DRUG TRIP WOOP WOOP\r\n🥳🥳🥳🥳🥳🥳🥳🥳🥳🥳🥳🥳🥳🥳👯👯‍♂️👯‍♀️🎉🎉🎉🎉🎊🎊🪅🪅🪅', '[\"drugs\",\"trippy\",\"trip\",\"landscapes\",\"bright\"]', 'Draw me some cool druggy trippy landscapes with waaaayy too much colour also do a dance for me because why not? I love dances. They\'re pretty cool B)', 'These aren\'t really instructions but still yeah', 28, 32, 2, 'V2', 'assets/images/user-submit/36f40e7900e444a23ca3b5cc567464aa-2023.05.08-09.27.59.jpg', 'assets/images/user-submit/a9d73699d05b3724a8bc5fe03cc22284-2023.05.08-09.27.59.webp', 'assets/images/user-submit/7c4c6bd76b4ef5f7eb19e5cc3cb28c6c-2023.05.08-09.27.59.webp', NULL, NULL, '2023-05-08 09:27:59', 0, 1),
+(7, 'Animal Oil Paintings', '🥺🥺🥺🥺🥺🥺🥺🥺🥺🥺🥺🥺\r\nme when the\r\nwhen the\r\nthe when\r\nwhen me the\r\nthe me when me the when\r\nwhen me when the me when\r\n🥺🥺🥺🥺🥺🥺🥺🥺🥺🥺🥺🥺🥺🥺🥺🥺🥺🥺🥺🥺🥺🥺', '[\"oil painting\",\"painting\",\"animals\"]', 'Animal oil paintings awooga', 'Try it! It won\'t do anything!!!!!', 4, 32, 1, 'V5', 'assets/images/user-submit/ef3116fea6706c18769781d804ccce23-2023.05.08-09.32.34.jpg', 'assets/images/user-submit/940cbd7f8c32a4fb499c51c27221f3ca-2023.05.08-09.32.34.jpg', 'assets/images/user-submit/b29922ac5ca653aec13c3a59555fa949-2023.05.08-09.32.34.webp', NULL, NULL, '2023-05-08 09:32:34', 0, 0),
+(8, 'Sky Space People', 'OMG BLADEEEEE\r\n😋😋😋😋😋😋😋😋😋😋😋😋😋😋\r\n💃💃🕺🕺🕺🕺💃💃💃💃\r\nMARIA MARIA MA RIA MARIA MAIRA AMIARMA IAM AIRA\r\n', '[\"space\",\"village\",\"sky\",\"heaven\",\"god\",\"religion\"]', 'CARESS THAT FEELING THAT FEELING IN YOU', 'head of the fountain, head on the arrowhead', 7, 32, 2, 'V2', 'assets/images/user-submit/4644eb2bd9e8e600ff76032356535c6e-2023.05.08-09.36.44.webp', 'assets/images/user-submit/64d9ce0465570fccc58d7ea2abd7e68c-2023.05.08-09.36.44.png', 'assets/images/user-submit/1dd8a10b84fb4b675d27c5dbbff3d52d-2023.05.08-09.36.44.png', 'assets/images/user-submit/6ecbc36ed1df7ce1481dcbc4a2ae6060-2023.05.08-09.36.44.webp', NULL, '2023-05-08 09:36:44', 0, 1),
+(9, 'BLADEEEEEEE', 'Head of the fountain, head of the arrowhead\r\n(Don\'t touch me, don\'t let them bait you)\r\nHead of the fountain, head to the arrowhead\r\n(Good looking, yeah, but pay attention)\r\nHead of the fountain, head to the arrowhead\r\n(Unconscious, I-I had to awaken)\r\nHead of the fountain, head of the arrowhead\r\n(La-la-la-la-la-la-la-la-la)\r\nShe shines her light on me\r\nMaria, Maria\r\nShe shines her light on me\r\nMaria, Maria', '[\"bladee\",\"bladee\",\"bladee\",\"bladee\",\"\"]', 'OMG IS BLADEE GUYS ITS BLADEE OMG WHAT THE FUCK\r\nITS HIM ONG FRRRR NO CAP', 'join the bay blade gang\r\nDRAIN GANGGGG 🟪🟪🟪🟪🟪🟪🟪💜💜💜💜💜💜💜🟣🟣🟣🟣', 16, 32, 1, 'V1', 'assets/images/user-submit/c99873d3415da2c098cf61a4d005147a-2023.05.08-09.40.28.webp', 'assets/images/user-submit/35ab597604cd076ecd901fcc2020ac71-2023.05.08-09.40.28.webp', 'assets/images/user-submit/01d333cd15906924e0b4b1e71c4e573b-2023.05.08-09.40.28.jpg', 'assets/images/user-submit/886a2b5dac99fa2d5a728a9185d5ba03-2023.05.08-09.40.28.webp', 'assets/images/user-submit/86de4f49502667f4a3209470848ded53-2023.05.08-09.40.28.jpg', '2023-05-08 09:40:28', 1, 1),
+(10, 'Random Midjourney Art', 'midjourney is so strange guys!!! onggggg fr\r\nBut always remember Lorem ipsum dolor sit amet\r\nor something like that i forgor honestly\r\n\r\n👀👀👀👀👀👀 me when i see you or sumtin whatever', '[\"god\",\"cool\",\"mid\",\"journey\",\"strange\"]', 'idk you imagine something', 'Cool instructionssssssssssss', 4, 32, 1, 'V5', 'assets/images/user-submit/5cde2cad33fb2bc58a5055bad301563d-2023.05.08-09.44.24.webp', 'assets/images/user-submit/cd6e493ed026c3e419e6200ad21fffb0-2023.05.08-09.44.24.jpg', 'assets/images/user-submit/849f513a452f02661bc87b6233941b4b-2023.05.08-09.44.24.jpg', 'assets/images/user-submit/7ed0c82ca8f493fa786570a7d6c4be2e-2023.05.08-09.44.24.jpg', NULL, '2023-05-08 09:44:24', 0, 1);
 
 -- --------------------------------------------------------
 
@@ -206,7 +237,7 @@ CREATE TABLE `users` (
 INSERT INTO `users` (`id`, `username`, `email`, `password`, `biography`, `profile_pic`, `date_created`, `email_verified`, `last_login`, `credits`, `active`) VALUES
 (26, 'tim', 'tim.noelmans@outlook.com', '$2y$12$VLY2b484ejbrhR4QNBf4RuJUOP0zC.0A18l..WuqCDAlwIQyL/byK', NULL, 'assets/images/site/default-user-pic.svg', '2023-04-14 07:00:59', 1, '2023-04-30 16:38:57', 0, 1),
 (27, 'Saskia', 'saskia.sturbois1@telenet.be', '$2y$12$FWt7./hdY1wYj25jWCL5GOGdjhpXXnGg3rxoDxh565ghwqUJHGI42', NULL, 'assets/images/site/default-user-pic.svg', '2023-04-14 22:40:47', 1, '2023-04-14 22:44:57', 0, 1),
-(32, 'Lucifer', 'contact@lucifarian.be', '$2y$12$a7SLfCKldHWcE0KcJm531efCvYsSpnkLEUKb7BZaZa631J20LnX3W', 'meow meow meow\r\n\r\nwoof woof', 'assets/images/user-submit/df96ab0e1a28a26529c7f55732c0d14d-2023.05.06-07.55.36.png', '2023-04-29 22:00:50', 1, '2023-05-04 09:02:12', 0, 1);
+(32, 'Lucifer', 'contact@lucifarian.be', '$2y$12$a7SLfCKldHWcE0KcJm531efCvYsSpnkLEUKb7BZaZa631J20LnX3W', 'meow meow meow\r\n\r\nwoof woof', 'assets/images/user-submit/df96ab0e1a28a26529c7f55732c0d14d-2023.05.06-07.55.36.png', '2023-04-29 22:00:50', 1, '2023-05-08 02:10:08', 0, 1);
 
 --
 -- Indexes for dumped tables
@@ -287,7 +318,7 @@ ALTER TABLE `achievement_user`
 -- AUTO_INCREMENT for table `ai_models`
 --
 ALTER TABLE `ai_models`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `categories`
@@ -299,13 +330,13 @@ ALTER TABLE `categories`
 -- AUTO_INCREMENT for table `category_prompt`
 --
 ALTER TABLE `category_prompt`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
 
 --
 -- AUTO_INCREMENT for table `prompts`
 --
 ALTER TABLE `prompts`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `temp_tokens`
