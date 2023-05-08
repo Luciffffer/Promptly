@@ -4,7 +4,25 @@ include_once(__DIR__ . "/classes/Prompt.php");
 
 session_start();
 
-$prompts = Prompt::getPrompts($_GET['order']);
+$prompt = new Prompt();
+
+if (!empty($_GET['order'])) {
+    $order = $_GET['order'];
+} else {
+    $order = '';
+}
+
+if (!empty($_GET['categories'])) {
+    $categories = '[' . $_GET['categories'] . ']';
+    $prompt->setCategories($categories);
+}
+
+if (!empty($_GET['models'])) {
+    $models = '[' . $_GET['models'] . ']';
+    $prompt->setModels($models);
+}
+
+$prompts = $prompt->getPrompts($order);
 $categories = Prompt::getAllCategories();
 $models = Prompt::getAllModels();
 
@@ -42,8 +60,8 @@ $models = Prompt::getAllModels();
                         </div>
                         <?php if (empty($_GET['categories']) && empty($_GET['models'])) : ?>
                             <select name="order" id="order" onchange="this.form.submit()">
-                                <option value="popular" <?php if ($_GET['order'] == 'popular') echo 'selected'; ?>>Popular</option>
-                                <option value="new" <?php if ($_GET['order'] == 'new') echo 'selected'; ?>>New</option>
+                                <option value="new" <?php if (isset($_GET['order']) && $_GET['order'] == 'new') echo 'selected'; ?>>New</option>
+                                <option value="popular" <?php if (isset($_GET['order']) && $_GET['order'] == 'popular') echo 'selected'; ?>>Popular</option>
                             </select>
                         <?php endif; ?>
                     </div>
@@ -194,21 +212,26 @@ $models = Prompt::getAllModels();
                 <?php //var_dump($prompts); ?>
                 <?php foreach ($prompts as $prompt) : ?>
 
+                    <?php 
+                        $promptTags = json_decode($prompt['tags'], true);  
+                    ?>
                     <div>
-                        <div class="prompt-card-header" style="background-image: url(<?php echo $prompt['header_image']; ?>)">
+                        <a href="prompt?id=<?php echo $prompt['id']; ?>" class="prompt-card-header" style="background-image: url(<?php echo $prompt['header_image']; ?>)">
                             <div class="prompt-card-header-model">
 
                             </div>
-                        </div>
+                        </a>
                         <div class="prompt-card-body">
                             <div class="prompt-card-body-left">
-                                <h3><?php echo $prompt['title']; ?></h3>
-                                <div>
-
-                                </div>
+                                <a class="white-a" href="prompt?id=<?php echo $prompt['id']; ?>"><?php echo $prompt['title']; ?></a>
+                                <small class="prompt-card-tags">
+                                    <?php for ($i = 0; $i < 4 && isset($promptTags[$i]); ++$i) : ?>
+                                        <span><?php echo $promptTags[$i]; ?></span>
+                                    <?php endfor; ?>
+                                </small>
                             </div>
-                            <a href="#">
-                                <img src="assets/images/site/plus-circle-icon.svg" alt="">
+                            <a href="#" class="button prompt-card-get-btn">
+                                <img src="assets/images/site/plus-circle-icon.svg" alt="Get Prompt">
                             </a>
                         </div>
                     </div>

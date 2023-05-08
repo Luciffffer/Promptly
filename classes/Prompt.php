@@ -11,11 +11,12 @@ class Prompt
 
     // Model information
     private int $modelId;
+    private $modelIds = null;
     private string $modelVersion;
 
     //Categories & tags
     private string $tags;
-    private array $categoryIds;
+    private $categoryIds = null;
 
     // Prompt information
     private bool $isFree = false;
@@ -109,6 +110,30 @@ class Prompt
         }
 
         $this->modelId = $modelId;
+        return $this;
+    }
+
+    public function setModels (string $modelIds)
+    {
+        $modelIds = json_decode($modelIds);
+
+        if (empty($modelIds)) {
+            throw new Exception("Please select at least one model");
+        }
+
+        $PDO = Database::getInstance();
+        $stmt = $PDO->query("select id from ai_models");
+        $stmt->execute();
+
+        $dbModelIds = $stmt->fetchAll(PDO::FETCH_COLUMN);
+
+        foreach ($modelIds as $modelId) {
+            if (!in_array($modelId, $dbModelIds)) {
+                throw new Exception("Given model id does not match to any models.");
+            }
+        }
+
+        $this->modelIds = $modelIds;
         return $this;
     }
 
@@ -245,7 +270,7 @@ class Prompt
     }
 
 
-    public static function getPrompts (string $order = "new", string $categoryIds = null, string $modelIds = null, int $page = 1): array
+    public function getPrompts (string $order = "new", int $page = 1): array
     {
         $limit = 20;
         $offset = ($page - 1) * $limit;
@@ -262,20 +287,30 @@ class Prompt
                 break;
         }
 
+        if ($this->categoryIds != null) { // should be save from sql injection because already validated
+            $categoryIn = implode(",", $this->categoryIds);
+        } else {
+            $categoryIn = "category_prompt.category_id";
+        }
+
+        if ($this->modelIds != null) {
+            $modelIn = implode(",", $this->modelIds);
+        } else {
+            $modelIn = "prompts.model_id";
+        }
+
         $sql = "SELECT prompts.*
                 FROM prompts 
                 JOIN category_prompt ON prompts.id = category_prompt.prompt_id 
                 WHERE prompts.approved = 1
-                AND prompts.model_id IN (CASE WHEN :model_ids IS NOT NULL THEN :model_ids ELSE prompts.model_id END)
-                AND category_prompt.category_id IN (CASE WHEN :category_ids IS NOT NULL THEN :category_ids ELSE category_prompt.category_id END)
+                AND prompts.model_id IN (" . $modelIn . ")
+                AND category_prompt.category_id IN (" . $categoryIn . ")
                 GROUP BY prompts.id" 
                 . $sqlOrder .
                 " LIMIT :limit OFFSET :offset";
 
         $PDO = Database::getInstance();
         $stmt = $PDO->prepare($sql);
-        $stmt->bindValue(":model_ids", $modelIds);
-        $stmt->bindValue(":category_ids", $categoryIds);
         $stmt->bindValue(":limit", $limit, PDO::PARAM_INT);
         $stmt->bindValue(":offset", $offset, PDO::PARAM_INT);
         $stmt->execute();
