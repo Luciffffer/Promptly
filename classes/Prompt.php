@@ -68,6 +68,17 @@ class Prompt
 
         $tags = preg_replace("/(?<=,)\s*|\s*(?=,)/", '', $tags);
         $tags = explode(",", $tags);
+
+        foreach($tags as $tag) {
+            if (strlen($tag) > 20) {
+                throw new Exception("Single tag must be less than 20 characters.");
+            } else if (strlen($tag) < 2) {
+                throw new Exception("Single tag must be more than or equal to 2 characters.");
+            } else if (preg_match('/([^a-zA-Z0-9])/', $tag) === 1) {
+                throw new Exception("Tags can only contain letters and numbers.");
+            }
+        };
+
         $tags = json_encode($tags);
         
         $this->tags = $tags;
@@ -324,7 +335,7 @@ class Prompt
     public static function getPromptById (int $id): array
     {
         $PDO = Database::getInstance();
-        $stmt = $PDO->prepare("SELECT * FROM prompts WHERE id = :id AND approved = 1");
+        $stmt = $PDO->prepare("SELECT * FROM prompts WHERE id = :id");
         $stmt->bindValue(":id", $id);
         $stmt->execute();
 
@@ -344,7 +355,17 @@ class Prompt
 
     // AI model methods
 
-    public static function getAllModels()
+    public static function getModelById (int $id): array 
+    {
+        $PDO = Database::getInstance();
+        $stmt = $PDO->prepare("select * from ai_models where id = :id");
+        $stmt->bindValue(":id", $id);
+        $stmt->execute();
+
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
+    public static function getAllModels(): array
     {
         $PDO = Database::getInstance();
         $stmt = $PDO->query("select * from ai_models");
@@ -368,10 +389,20 @@ class Prompt
 
     // Category methods
 
-    public static function getAllCategories() 
+    public static function getAllCategories(): array
     {
         $PDO = Database::getInstance();
         $stmt = $PDO->query("select * from categories");
+        $stmt->execute();
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public static function getCategoriesByPromptId (int $id): array
+    {
+        $PDO = Database::getInstance();
+        $stmt = $PDO->prepare("SELECT categories.* FROM categories JOIN category_prompt ON categories.id = category_prompt.category_id WHERE category_prompt.prompt_id = :id");
+        $stmt->bindValue(":id", $id);
         $stmt->execute();
 
         return $stmt->fetchAll(PDO::FETCH_ASSOC);

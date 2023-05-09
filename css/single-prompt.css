@@ -69,11 +69,28 @@ select#model {
     gap: 2rem;
 }
 
-#single-prompt-top-left > span {
+#single-prompt-top span {
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: 0.5rem;
+}
+
+#single-prompt-top span > img {
+    aspect-ratio: 1/1;
+    width: 22px;
+}
+
+#single-prompt-top-right {
+    display: flex;
+    gap: 0.5rem;
+}
+
+#single-prompt-top-right > span {
+    padding: 0.3rem 1rem;
+
+    background-color: var(--grey-2);
+    border-radius: 10px;
 }
 
 #bought-number > i {
@@ -370,4 +387,186 @@ input::placeholder, textarea::placeholder {
     background-position: center;
     background-size: cover;
     background-repeat: no-repeat;
+}
+
+#single-prompt-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+#single-prompt-tags > * {
+    padding: 0.3rem 0.5rem;
+
+    background-color: var(--grey-2);
+    font-size: var(--small-size);
+
+    border-radius: 5px;
+}
+
+#single-prompt-tags > a {
+    background-color: var(--grey-3);
+}
+
+.single-prompt-login-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    padding: 4rem 0;
+    margin-bottom: 3rem;
+
+    background: linear-gradient(90.77deg, #05C7F250 0%, #953CEE50 100%);
+    backdrop-filter: blur(40px);
+    border-radius: 10px;
+}
+
+#single-prompt-basic-info > * {
+    margin-bottom: 2rem;
+}
+
+.single-prompt-login-container > * {
+    margin-bottom: 1.5rem;
+}
+
+.single-prompt-login-container > *:last-child {
+    margin-bottom: 0;
+}
+
+.single-prompt-login-container > div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+}
+
+#single-prompt-image-container > figure {
+    aspect-ratio: 1/1;
+    background-size: cover;
+    background-position: center;
+}
+
+#single-prompt-action-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+#single-prompt-action-section-right {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    position: relative;
+
+    padding: 0.5rem 1rem;
+    background-color: var(--grey-2);
+    border-radius: 10px;
+}
+
+#single-prompt-action-section-right > hr {
+    height: 1.5rem;
+    width: 2px;
+    background-color: var(--grey-1);
+    border: none;
+}
+
+#like-btn {
+    display: block;
+    height: 1.5rem;
+    width: 1.5rem;
+    background-image: url(../assets/images/site/heart-icon.svg);
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+#prompt-more-options-button {
+    display: block;
+    width: 1.5rem;
+    height: 1.5rem;
+    background-image: url(../assets/images/site/three-dots-icon.svg);
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+#get-prompt-btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.3rem;
+
+    padding: 0.5rem 1rem;
+    background: var(--blue-purple-gradient);
+    border-radius: 5px;
+}
+
+#get-prompt-btn:hover {
+    color: var(--off-white);
+}
+
+#get-prompt-btn > span {
+    font-weight: bold;
+}
+
+#get-prompt-btn > img {
+    aspect-ratio: 1/1;
+    height: 1.5rem;
+}
+
+#prompt-container {
+    padding: 1rem;
+    background-color: var(--dark-grey);
+    border-radius: 10px;
+    position: relative;
+}
+
+#prompt-container:has(#hide-prompt-overlay) > p {
+    pointer-events: none;
+}
+
+#hide-prompt-overlay {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+
+    background-color: #FFFFFF20;
+
+    backdrop-filter: blur(5px);
+    border-radius: 10px;
+}
+
+#hide-prompt-overlay > p {
+    color: var(--light-blue);
+    font-weight: bold;
+}
+
+#hide-prompt-overlay > p::before {
+    content: '';
+    display: block;
+    position: absolute;
+    width: 35%;
+    top: 48%;
+    left: 0;
+    height: 3px;
+    background-color: var(--light-blue);
+}
+
+#hide-prompt-overlay > p::after {
+    content: '';
+    display: block;
+    position: absolute;
+    width: 35%;
+    top: 48%;
+    right: 0;
+    height: 3px;
+    background-color: var(--light-blue);
 }

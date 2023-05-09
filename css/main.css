@@ -320,6 +320,10 @@ nav .logo-container > img {
   color: var(--light-blue);
 }
 
+.red-text {
+  color: var(--red);
+}
+
 .white-a {
   color: var(--off-white);
   text-decoration: none;

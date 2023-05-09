@@ -2,7 +2,7 @@
 
 include_once($_SERVER['DOCUMENT_ROOT'] . __ROOT__ . 'classes/Prompt.php');
 
-$models = Prompt::getAllModels();
+$navModels = Prompt::getAllModels();
 
 ?><aside>
     <nav aria-label="Platform/tab navigator" id="aside-nav">
@@ -27,8 +27,8 @@ $models = Prompt::getAllModels();
                 <h2>Models</h2>
             </div>
             <ul class="aside-ul">
-                <?php foreach ($models as $model) : ?>
-                    <li><a href="<?php echo __ROOT__; ?>all-prompts?order=popular&models=<?php echo $model['id']; ?>"><?php echo $model['name']; ?></a></li>
+                <?php foreach ($navModels as $navModel) : ?>
+                    <li><a href="<?php echo __ROOT__; ?>all-prompts?order=popular&models=<?php echo $navModel['id']; ?>"><?php echo $navModel['name']; ?></a></li>
                 <?php endforeach; ?>
             </ul>
         </div>

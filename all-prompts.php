@@ -79,7 +79,7 @@ $models = Prompt::getAllModels();
                     <div data-filterDropdown="models" class="filter-dropdown filter-dropdown-hidden hidden">
                         <div class="filter-dropdown-grid">
                             <?php foreach($models as $model) : ?>
-                                <span data-id="<?php echo $model['id']; ?>" <?php if (isset($_GET['categories']) && in_array($model['id'], explode(',', $_GET['models']))) echo 'class="filter-dropdown-checked"' ?>>
+                                <span data-id="<?php echo $model['id']; ?>" <?php if (isset($_GET['models']) && in_array($model['id'], explode(',', $_GET['models']))) echo 'class="filter-dropdown-checked"' ?>>
                                     <?php echo $model['name']; ?>
                                 </span>
                             <?php endforeach; ?>
@@ -225,10 +225,10 @@ $models = Prompt::getAllModels();
                         </a>
                         <div class="prompt-card-body">
                             <div class="prompt-card-body-left">
-                                <a class="white-a" href="prompt?id=<?php echo $prompt['id']; ?>"><?php echo $prompt['title']; ?></a>
+                                <a class="white-a" href="prompt?id=<?php echo $prompt['id']; ?>"><?php echo htmlspecialchars($prompt['title']); ?></a>
                                 <small class="prompt-card-tags">
                                     <?php for ($i = 0; $i < 4 && isset($promptTags[$i]); ++$i) : ?>
-                                        <span><?php echo $promptTags[$i]; ?></span>
+                                        <span><?php echo htmlspecialchars($promptTags[$i]); ?></span>
                                     <?php endfor; ?>
                                 </small>
                             </div>
