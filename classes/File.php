@@ -50,7 +50,7 @@ class File
     public function validateImageSize (int $size): void
     {
         if ($size > $this->maxImageSize) {
-            throw new Exception("Image size is too large. Max 1MB");
+            throw new Exception("Image size is too large. Max 2MB");
         }
     }
 
