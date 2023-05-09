@@ -74,8 +74,8 @@ class Prompt
                 throw new Exception("Single tag must be less than 20 characters.");
             } else if (strlen($tag) < 2) {
                 throw new Exception("Single tag must be more than or equal to 2 characters.");
-            } else if (preg_match('/([^a-zA-Z0-9])/', $tag) === 1) {
-                throw new Exception("Tags can only contain letters and numbers.");
+            } else if (preg_match('/([^a-zA-Z0-9\s])/', $tag) === 1) {
+                throw new Exception("Tags can only contain letters, numbers, and spaces.");
             }
         };
 
