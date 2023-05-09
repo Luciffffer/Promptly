@@ -1,0 +1,102 @@
+/* TO BE APPROVED PROMPTS PAGE */
+
+.prompt:first-child{
+    border-top: 1px solid -var(--off-white);
+}
+
+.prompt{
+    display: flex;
+    flex-direction: row;
+    border-bottom: 1px solid var(--off-white);
+
+    padding: 2rem;
+
+    background-color: -var(--light-gray);
+}
+
+.prompt-model{
+    position: absolute;
+    margin-left: 5%;
+}
+
+.prompt-model:first-child{
+    position: absolute;
+    margin-left: 2%;
+}
+
+.prompt-title-top{
+    position: absolute;
+    margin-left: 16%;
+}
+
+.title-tags{
+    display: flex;
+    flex-direction: column;
+    margin-left: 20%;
+}
+
+.prompt-title:first-child{
+    position: absolute;
+}
+
+.prompt-title{
+    position: absolute;
+}
+
+.prompt-tags{
+    display: flex;
+    flex-direction: row;
+    margin-top: 20px;
+}
+
+.prompt-images-title{
+    display: flex;
+    flex-direction: row;
+    width: 200px;
+
+    position: absolute;
+    margin-left: 35%;
+}
+
+.prompt-images{
+    width: 200px;
+    margin-left: 15%;
+    
+    display: flex;
+    flex-direction: row;
+
+    position: absolute;
+    margin-left: 35%;
+}
+
+.img-prompt{
+    width: 50px;
+    height: 50px;
+}
+
+.prompt-approve{
+    padding: absolute;
+    margin-left: 75%;
+}
+
+.prompt-deny{
+    padding: absolute;
+    margin-left: 2%;
+}
+
+.prompt-words{
+    position: absolute;
+    margin-left: 50%;
+}
+
+.buttons{
+    position: absolute;
+    margin-left: 65%;
+}
+
+.buttons a{
+    background-color: var(--purple);
+    padding: 5px;
+    border-radius: 5px;
+}
+

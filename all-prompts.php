@@ -73,7 +73,7 @@ $models = Prompt::getAllModels();
                                     <?php echo $category['title']; ?>
                                 </span>
                             <?php endforeach; ?>
-                        </div>
+                            </div>
                         <input class="primary-btn-white button" type="submit" value="Apply filters">
                     </div>
                     <div data-filterDropdown="models" class="filter-dropdown filter-dropdown-hidden hidden">
