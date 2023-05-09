@@ -12,6 +12,10 @@
                 session_start();
                 $user = User::getUserByEmail($_POST['email']);
 
+                if($user['isMod'] == 1){
+                    $_SESSION['isMod'] = true;
+                };
+
                 $_SESSION['username'] = $user['username'];
                 $_SESSION['userId'] = $user['id'];
                 $_SESSION['profile-pic'] = $user['profile_pic'];

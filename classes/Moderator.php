@@ -9,9 +9,6 @@ class Moderator extends User
         $statement = $PDO->prepare("SELECT * FROM `users` WHERE isMod = 1 AND id = :id");
         $statement->bindValue(':id', $id);
         $statement->execute();
-        
-        if($statement->rowCount() > 0){
-            return $_SESSION['isMod'] = true;
-        }
+        $result = $statement->fetch(PDO::FETCH_ASSOC);
     }
 }
