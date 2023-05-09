@@ -9,6 +9,6 @@ class Moderator extends User
         $statement = $PDO->prepare("SELECT * FROM `users` WHERE isMod = 1 AND id = :id");
         $statement->bindValue(':id', $id);
         $statement->execute();
-        $result = $statement->fetch(PDO::FETCH_ASSOC);
+        // $result = $statement->fetch(PDO::FETCH_ASSOC);
     }
 }
