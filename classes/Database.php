@@ -10,7 +10,7 @@ class Database
             return self::$PDO;
         } else {
             $config = parse_ini_file(__DIR__ . "/../config/config.ini");
-            self::$PDO = new PDO('mysql:host=' . $config['db_host'] . ';dbname=' . $config['db_name'], $config['db_user'], $config['db_password']);
+            self::$PDO = new PDO($config['db_conn_string'], $config['db_user'], $config['db_password']);
             
             return self::$PDO;
         }
