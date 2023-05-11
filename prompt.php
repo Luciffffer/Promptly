@@ -2,6 +2,7 @@
 
 include_once(__DIR__ . '/classes/Prompt.php');
 include_once(__DIR__ . '/classes/User.php');
+include_once(__DIR__ . '/classes/Like.php');
 
 session_start();
 
