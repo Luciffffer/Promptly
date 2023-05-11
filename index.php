@@ -75,5 +75,7 @@
             </div>
         </section>
     </header>
+    <a href="../promptly/moderator/approve-prompts.php">MODTOOL</a>
+
 </body>
 </html>
