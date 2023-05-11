@@ -1,5 +1,5 @@
 <nav id="primary-nav">
-    <img id="hamburger-menu" src="<?php echo __ROOT__; ?>/assets/images/site/hamburg-menu-icon.svg" alt="Hamburger menu button">
+    <img id="hamburger-menu" src="<?php echo __ROOT__; ?>assets/images/site/hamburg-menu-icon.svg" alt="Hamburger menu button">
     <div class="logo-ul-container">
         <div class="logo-container">
             <img src="<?php echo __ROOT__; ?>assets/images/site/promptly-logo.svg" alt="Logo">
@@ -49,4 +49,4 @@
     </div>
 </nav>
 <div id="nav-place-filler"></div>
-<script src="<?php echo __ROOT__; ?>/assets/js/primary-nav.js" defer></script>
+<script src="<?php echo __ROOT__; ?>assets/js/primary-nav.js" defer></script>

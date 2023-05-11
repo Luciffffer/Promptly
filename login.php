@@ -9,7 +9,6 @@
         try {
             if (User::canLogin($_POST['password'], $_POST['email'])) {
 
-                session_start();
                 $user = User::getUserByEmail($_POST['email']);
 
                 $_SESSION['username'] = $user['username'];
