@@ -403,30 +403,50 @@ nav .logo-container > img {
 #account-nav-login {
   position: relative;
   height: auto;
-  width: 150px;
-  background-color: var(--off-white);
-  border-radius: 10px;
 }
 
 #account-nav-hitbox-login {
   position: absolute;
-  width: auto;
-  top: 15px;
-  right: 0;
-  padding-top: 30px;
-  display: none;
+  width: 250px;
+  
+  padding: 0.3rem 0;
+
+  top: 120%;
+  right: -5px;
+  overflow: hidden;
+
+  background-color: var(--grey-2);
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.25);
 }
 
-#account-nav-login::before {
-  position: absolute;
-  right: 6px;
-  top: -8px;
+#account-nav-profile-info {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem 1rem;
+  padding: 1rem;
+}
 
-  content: "";
-  border-left: 10px solid transparent;
-  border-right: 10px solid transparent;
+#account-nav-profile-info > figure {
+  aspect-ratio: 1/1;
+  width: 45px;
+  height: 45px;
 
-  border-bottom: 10px solid var(--off-white);
+  background-size: cover;
+  background-position: center;
+
+  border-radius: 100%;
+}
+
+#account-nav-profile-info p {
+  margin-bottom: -0.2rem;
+}
+
+#account-nav-hitbox-login > hr {
+  border: none;
+  height: 1px;
+  margin: 5px 0;
+  background-color: var(--grey-3);
 }
 
 #account-nav-login > li {
@@ -434,33 +454,23 @@ nav .logo-container > img {
   display: block;
 }
 
-#account-nav-login li > a {
-  padding: 0.3rem 1rem;
-  display: block;
-  color: var(--dark-grey);
-  text-align: center;
-  border-bottom: 1px solid var(--grey-1);
+#account-nav-login li > a, #account-nav-mod-btn {
+  padding: 0.7rem 1rem;
+  display: grid;
+  align-items: center;
+  grid-template-columns: 20px 1fr;
+  gap: 0.7rem;
 }
 
-#account-nav-logout {
-  color: red !important;
-  display: none !important;
+#account-nav-login li > a:hover, #account-nav-mod-btn:hover {
+  background-color: rgba(80, 80, 80, 0.3);
+  color: var(--off-white);
 }
 
-#account-nav-login li:nth-child(2) a {
-  border-bottom: none;
-}
-
-.account-nav-login:hover #account-nav-hitbox-login {
-  display: block;
-}
-
-#account-nav-hitbox-login:hover {
-  display: block;
-}
-
-.profile-a:hover ~ #account-nav-hitbox-login {
-  display: block;
+#account-nav-login li > a > img, #account-nav-mod-btn > img {
+  width: 20px;
+  height: 20px;
+  justify-self: center;
 }
 
 
@@ -621,18 +631,6 @@ nav .logo-container > img {
   #primary-nav {
     display: flex;
     justify-content: space-between;
-  }
-
-  #account-nav-logout {
-    display: block !important;
-  }
-
-  #account-nav-logout a {
-    border-bottom: none !important;
-  }
-
-  #account-nav-login li:nth-child(2) a {
-    border-bottom: 1px solid var(--grey-1);
   }
 }
 

@@ -19,20 +19,41 @@
 
             <p class="credits hide-media-query">95 credits</p>
             <div style="position: relative;">
-                <div class="white-a profile-a">
-                    <span class="hide-media-query"><?php echo htmlspecialchars($_SESSION['username']); ?></span>
+                <a href="#" class="white-a profile-a" id="account-nav-btn">
                     <figure style="background-image: url(<?php echo __ROOT__ . htmlspecialchars($_SESSION['profile-pic']); ?>);"></figure>
-                </div>
-                <div id="account-nav-hitbox-login">
+                </a>
+                <div id="account-nav-hitbox-login" class="hidden">
+                    <div id="account-nav-profile-info">
+                        <figure style="background-image: url(<?php echo __ROOT__ . htmlspecialchars($_SESSION['profile-pic']); ?>)" aria-label="Profile pic"></figure>
+                        <div>
+                            <p><?php echo htmlspecialchars($_SESSION['username']); ?></p>
+                            <small class="credits">95 credits</small>
+                        </div>
+                    </div>
+                    <hr>
                     <ul id="account-nav-login" aria-label="Account navigation list">
-                        <li><a class="white-a" href="<?php echo __ROOT__; ?>profile?id=<?php echo $_SESSION['userId']; ?>">Your profile</a></li>
-                        <li><a class="white-a" href="<?php echo __ROOT__; ?>settings">Settings</a></li>
-                        <li id="account-nav-logout"><a class="white-a" href="<?php echo __ROOT__; ?>logout">Log out</a></li>
+                        <li><a class="white-a" href="<?php echo __ROOT__; ?>profile?id=<?php echo $_SESSION['userId']; ?>">
+                            <img src="<?php echo __ROOT__; ?>assets/images/site/account-icon.svg" alt="Profile icon">
+                            <span>Your profile</span>
+                        </a></li>
+                        <li><a class="white-a" href="<?php echo __ROOT__; ?>settings">
+                            <img src="<?php echo __ROOT__; ?>assets/images/site/settings-icon.svg" alt="Settings icon">
+                            <span>Settings</span>
+                        </a></li>
+                        <li id="account-nav-logout"><a class="white-a" href="<?php echo __ROOT__; ?>logout">
+                            <img src="<?php echo __ROOT__; ?>assets/images/site/logout-icon.svg" alt="Logout icon">
+                            <span>Log out</span>
+                        </a></li>
                     </ul>
+                    <?php if (isset($_SESSION['isModerator']) && $_SESSION['isModerator'] === true) : ?>
+                        <hr>
+                        <a href="#" id="account-nav-mod-btn">
+                            <img src="<?php echo __ROOT__; ?>assets/images/site/shield-icon.svg" alt="Shield">
+                            <span>Moderator section</span>
+                        </a>
+                    <?php endif; ?>
                 </div>
             </div>
-            <figure class="vertical-line hide-media-query"></figure>
-            <a class="white-a hide-media-query" href="<?php echo __ROOT__; ?>logout">Log out</a>
 
         <?php else : ?>
 
