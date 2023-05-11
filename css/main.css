@@ -337,7 +337,7 @@ nav .logo-container > img {
   justify-self: end;
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 1rem;
 }
 
 .vertical-line {
@@ -408,7 +408,8 @@ nav .logo-container > img {
 #account-nav-hitbox-login {
   position: absolute;
   width: 250px;
-  
+  display: none;
+
   padding: 0.3rem 0;
 
   top: 120%;
@@ -473,6 +474,102 @@ nav .logo-container > img {
   justify-self: center;
 }
 
+#notifications-btn {
+  cursor: pointer;
+  display: block;
+  border: none;
+  background: none;
+  background-image: url(../assets/images/site/bell-icon.svg);
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+  aspect-ratio: 1/1;
+  height: 25px;
+}
+
+#notifications-container {
+  display: none;
+  position: absolute;
+  width: 400px;
+  height: 500px;
+  top: 125%;
+  right: -10px;
+  padding: 0.3rem 0;
+  overflow: hidden;
+
+  background-color: var(--grey-2);
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.25);
+}
+
+#notifications-top > p {
+  padding: 0.5rem 1rem;
+}
+
+#notifications-top > hr {
+  border: none;
+  height: 1px;
+  margin-top: 5px;
+  background-color: var(--grey-3);
+}
+
+#notifications-list {
+  overflow-y: scroll;
+  padding-top: 5px;
+  height: calc(100% - 2.5rem);
+}
+
+#notifications-list::-webkit-scrollbar {
+  width: 10px;
+}
+
+#notifications-list::-webkit-scrollbar-track {
+  background: none;
+}
+
+#notifications-list::-webkit-scrollbar-thumb {
+  background: var(--grey-1);
+  border-radius: 10px;
+}
+
+.notification {
+  display: grid;
+  grid-template-columns: 60px 1fr;
+  gap: 1rem;
+  padding: 0.5rem 1rem;
+}
+
+.notification small {
+  color: var(--grey-1);
+}
+
+.notification > figure {
+  aspect-ratio: 1/1;
+  height: 60px;
+  background: var(--off-white);
+  background-size: cover;
+  background-position: center;
+  border-radius: 5px;
+}
+
+.dropdown.active > #notifications-container {
+  display: block !important;
+}
+
+.dropdown.active > #account-nav-hitbox-login {
+  display: block !important;
+}
+
+#account-nav-btn {
+  cursor: pointer;
+  aspect-ratio: 1/1;
+  width: 30px;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  border-radius: 100%;
+  border: none;
+}
 
 /* OTHER */
 

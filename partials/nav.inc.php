@@ -18,11 +18,27 @@
         <?php if (isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] === true) : ?>
 
             <p class="credits hide-media-query">95 credits</p>
-            <div style="position: relative;">
-                <a href="#" class="white-a profile-a" id="account-nav-btn">
-                    <figure style="background-image: url(<?php echo __ROOT__ . htmlspecialchars($_SESSION['profile-pic']); ?>);"></figure>
-                </a>
-                <div id="account-nav-hitbox-login" class="hidden">
+            <div style="position: relative" data-dropdown class="dropdown">
+                <button id="notifications-btn" data-dropdown-btn></button>
+                <div id="notifications-container">
+                    <div id="notifications-top">
+                        <p>Notifications</p>
+                        <hr>
+                    </div>
+                    <div id="notifications-list">
+                        <div class="notification">
+                            <figure></figure>
+                            <div>
+                                <p>New achievement: Welcome to Promptly!</p>
+                                <small>2 hours ago</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div style="position: relative;" data-dropdown class="dropdown">
+                <button class="white-a profile-a" id="account-nav-btn" style="background-image: url(<?php echo __ROOT__ . htmlspecialchars($_SESSION['profile-pic']); ?>);" data-dropdown-btn></button>
+                <div id="account-nav-hitbox-login">
                     <div id="account-nav-profile-info">
                         <figure style="background-image: url(<?php echo __ROOT__ . htmlspecialchars($_SESSION['profile-pic']); ?>)" aria-label="Profile pic"></figure>
                         <div>

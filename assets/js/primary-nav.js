@@ -6,21 +6,17 @@ document.querySelector("#hamburger-menu").addEventListener("click", e => {
 
 // account nav right
 document.addEventListener("click", e => { 
-    let target = e.target;
-    
-    do {
-        if (target == document.querySelector("#account-nav-hitbox-login")) {
-            return;
-        }
+    const isDropdownBtn = e.target.matches("[data-dropdown-btn]");
+    if (!isDropdownBtn && e.target.closest("[data-dropdown]") != null) return;
 
-        target = target.parentNode;
-    } while (target);
+    let currentDropdown;
+    if (isDropdownBtn) {
+        currentDropdown = e.target.closest("[data-dropdown]");
+        currentDropdown.classList.toggle("active");
+    }
 
-    document.querySelector("#account-nav-hitbox-login").classList.add("hidden");
-});
-
-document.querySelector("#account-nav-btn").addEventListener("click", e => {
-    e.preventDefault();
-    e.stopPropagation();
-    document.querySelector("#account-nav-hitbox-login").classList.toggle("hidden");
-});
+    document.querySelectorAll("[data-dropdown].active").forEach(dropdown => {
+        if (dropdown === currentDropdown) return;
+        dropdown.classList.remove("active");
+    })
+})
