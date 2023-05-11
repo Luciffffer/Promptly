@@ -34,7 +34,7 @@ $navModels = Prompt::getAllModels();
         </div>
         <div>
             <a href="#" class="aside-title">
-                <img src="<?php echo __ROOT__ ;?>/assets/images/site/library-icon.svg" alt="Library icon">
+                <img src="<?php echo __ROOT__ ;?>assets/images/site/library-icon.svg" alt="Library icon">
                 <h2>Library</h2>
             </a>
             <ul class="aside-ul">
