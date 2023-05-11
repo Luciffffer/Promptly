@@ -7,12 +7,12 @@ $navModels = Prompt::getAllModels();
 ?><aside>
     <nav aria-label="Platform/tab navigator" id="aside-nav">
         <a class="button primary-btn-white" href="<?php echo __ROOT__; ?>tools/add-prompt">
-            <img src="<?php echo __ROOT__; ?>/assets/images/site/plus-icon.svg" alt="Icon of a plus">
+            <img src="<?php echo __ROOT__; ?>assets/images/site/plus-icon.svg" alt="Icon of a plus">
             <span>Add Prompt</span>
         </a>
         <div>
             <a href="<?php echo __ROOT__; ?>discover" class="aside-title">
-                <img src="<?php echo __ROOT__ ;?>/assets/images/site/home-icon.svg" alt="Home icon">
+                <img src="<?php echo __ROOT__ ;?>assets/images/site/home-icon.svg" alt="Home icon">
                 <h2>Browse</h2>
             </a>
             <ul class="aside-ul">
@@ -23,7 +23,7 @@ $navModels = Prompt::getAllModels();
         </div>
         <div id="aside-models">
             <div class="aside-title">
-                <img src="<?php echo __ROOT__ ;?>/assets/images/site/robot-icon.svg" alt="Model icon">
+                <img src="<?php echo __ROOT__ ;?>assets/images/site/robot-icon.svg" alt="Model icon">
                 <h2>Models</h2>
             </div>
             <ul class="aside-ul">
