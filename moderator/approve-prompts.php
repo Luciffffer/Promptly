@@ -5,9 +5,9 @@
     $prompt = new Prompt();
     $prompts = $prompt->getPrompts(approved: 0);
    
-    if($_SESSION['isMod'] == false){
-        header('location: ../index');
-    }
+    // if($_SESSION['isMod'] == false){
+    //     header('location: ../index');
+    // }
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -51,8 +51,10 @@
                         </div>
                         <p class="prompt-words"><?php echo $prompt['word_count']?></p>
                         <div class="buttons">
-                            <a href="#">Approve</a>
-                            <a href="#">Deny</a>
+                        <form class="y-n-form" action="" method="POST" data-id="<?php echo $prompt['id']?>">
+                            <input type="submit" value="Approve" name="approve">
+                            <input type="submit" value="Deny" name="deny">
+                        </form>
                         </div>
 
                         </div>
@@ -62,6 +64,25 @@
             ?>
         </div>
 
+        <script>
+            const forms = document.querySelectorAll('.y-n-form');
+                forms.forEach(form =>{
+                    form.addEventListener('click', e =>{
+                    e.preventDefault();
+                    const id = e.currentTarget.dataset.id;
+                    if(e.target.name === 'approve'){
+                        console.log('apply');
+                    }
+                    else if(e.target.name === 'deny'){
+                        console.log('deny');
+                        <?php 
+                        $prompt = new Prompt();
+                        $prompt->deletePrompt($id);
+                        ?>
+                    }
+                })
+            })
+</script>
     </main>
 </body>
 </html>

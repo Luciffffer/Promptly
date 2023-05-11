@@ -8,6 +8,7 @@ class Prompt
     private string $title;
     private string $description;
     private int $authorId;
+    private int $id;
 
     // Model information
     private int $modelId;
@@ -33,8 +34,19 @@ class Prompt
 
     // Getters
 
-    
+    public function getId()
+    {
+        return $this->id;
+    }
+
     // Setters
+
+    public function setId($id)
+    {
+        $this->id = $id;
+
+        return $this;
+    }
 
     public function setTitle (string $title)
     {
@@ -353,6 +365,19 @@ class Prompt
         $stmt->execute();
     }
 
+    public function deletePrompt(): void
+    {
+        $PDO = Database::getInstance();
+
+        $sql = "DELETE FROM prompts WHERE id = :id";
+
+        $statement = $PDO->prepare($sql);
+        $statement->bindValue(":id", $this->id);
+        $statement->execute();
+
+        $count = $statement->rowCount();
+        if($count == 0) throw new Exception("Server error. Something went wrong. Try again later.");
+    }
 
     // AI model methods
 
