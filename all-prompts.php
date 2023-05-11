@@ -22,7 +22,7 @@ if (!empty($_GET['models'])) {
     $prompt->setModels($models);
 }
 
-$prompts = $prompt->getPrompts($order);
+$prompts = $prompt->getPrompts($order, approved: 1);
 $categories = Prompt::getAllCategories();
 $models = Prompt::getAllModels();
 
