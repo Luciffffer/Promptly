@@ -25,7 +25,7 @@ $likes = new like();
 $promptId = 1;
 $userId = 1;
 
-if ($likesManager->addLike($promptId, $userId)) {
+if ($likes->addLike($promptId, $userId)) {
     echo "Like added successfully!";
 } else {
     echo "Failed to add like.";
