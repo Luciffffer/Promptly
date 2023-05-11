@@ -281,7 +281,7 @@ class Prompt
     }
 
 
-    public function getPrompts (string $order = "new", int $page = 1): array
+    public function getPrompts (string $order = "new", int $page = 1, int $approved = null): array
     {
         $limit = 20;
         $offset = ($page - 1) * $limit;
@@ -316,7 +316,7 @@ class Prompt
         $sql = "SELECT prompts.*
                 FROM prompts 
                 JOIN category_prompt ON prompts.id = category_prompt.prompt_id 
-                WHERE prompts.approved = 1
+                WHERE prompts.approved = CASE WHEN :approved IS NOT NULL AND LENGTH(:approved) > 0 THEN :approved ELSE prompts.approved END
                 AND prompts.model_id IN (" . $modelIn . ")
                 AND category_prompt.category_id IN (" . $categoryIn . ")
                 GROUP BY prompts.id" 
@@ -327,6 +327,7 @@ class Prompt
         $stmt = $PDO->prepare($sql);
         $stmt->bindValue(":limit", $limit, PDO::PARAM_INT);
         $stmt->bindValue(":offset", $offset, PDO::PARAM_INT);
+        $stmt->bindValue(":approved", $approved);
         $stmt->execute();
         
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
