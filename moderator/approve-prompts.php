@@ -1,6 +1,7 @@
 <?php
     include_once(__DIR__ . "/../classes/Prompt.php");
-    include_once(__DIR__ . "/../classes/User.php");
+    include_once(__DIR__ . "/../classes/User.php"); 
+    // include_once("../ajax/remove-prompt.ajax.php"); 
 
     $prompt = new Prompt();
     $prompts = $prompt->getPrompts(approved: 0);
@@ -8,6 +9,7 @@
     // if($_SESSION['isMod'] == false){
     //     header('location: ../index');
     // }
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -51,7 +53,7 @@
                         </div>
                         <p class="prompt-words"><?php echo $prompt['word_count']?></p>
                         <div class="buttons">
-                        <form class="y-n-form" action="" method="POST" data-id="<?php echo $prompt['id']?>">
+                        <form class="formpost" action="" method="POST" data-id="<?php echo $prompt['id']?>">
                             <input type="submit" value="Approve" name="approve">
                             <input type="submit" value="Deny" name="deny">
                         </form>
@@ -65,23 +67,37 @@
         </div>
 
         <script>
-            const forms = document.querySelectorAll('.y-n-form');
-                forms.forEach(form =>{
-                    form.addEventListener('click', e =>{
-                    e.preventDefault();
-                    const id = e.currentTarget.dataset.id;
-                    if(e.target.name === 'approve'){
-                        console.log('apply');
-                    }
-                    else if(e.target.name === 'deny'){
-                        console.log('deny');
-                        <?php 
-                        $prompt = new Prompt();
-                        $prompt->deletePrompt($id);
-                        ?>
+    const forms = document.querySelectorAll('.formpost');
+    forms.forEach(form => {
+        form.addEventListener('submit', e => {
+            e.preventDefault();
+            const id = e.target.dataset.id;
+            if(e.submitter.name === 'approve') {
+                console.log('approve');
+            } else if(e.submitter.name === 'deny') {
+                console.log('deny');
+
+                fetch('../ajax/remove-prompt.ajax.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                    body: 'id=' + id
+                })
+                .then(response => {
+                    if (response.ok) {
+                        console.log('Prompt deleted successfully');
+                        e.target.parentElement.parentElement.remove();
+                    } else {
+                        console.error('Error deleting prompt');
                     }
                 })
-            })
+                .catch(error => {
+                    console.error('Error deleting prompt', error);
+                });
+            }
+        });
+    });
 </script>
     </main>
 </body>
