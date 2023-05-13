@@ -337,7 +337,7 @@ nav .logo-container > img {
   justify-self: end;
   display: flex;
   align-items: center;
-  gap: 1rem;
+  gap: 1.5rem;
 }
 
 .vertical-line {
@@ -366,7 +366,7 @@ nav .logo-container > img {
 }
 
 .credits {
-  margin-right: 3rem;
+  margin-right: 1rem;
 }
 
 #hamburger-menu {
@@ -475,10 +475,12 @@ nav .logo-container > img {
 }
 
 #notifications-btn {
+  position: relative;
   cursor: pointer;
   display: block;
   border: none;
   background: none;
+  padding: 0;
   background-image: url(../assets/images/site/bell-icon.svg);
   background-size: contain;
   background-position: center;
@@ -487,13 +489,27 @@ nav .logo-container > img {
   height: 25px;
 }
 
+#notification-count {
+  pointer-events: none;
+  position: absolute;
+  right: 0;
+  top: 0;
+  transform: translate(40%, -30%);
+  font-size: var(--body-size);
+  color: var(--off-white);
+  padding: 0 0.4rem;
+  margin: 0;
+  background-color: var(--red);
+  border-radius: 10px;
+}
+
 #notifications-container {
   display: none;
   position: absolute;
   width: 400px;
   height: 500px;
   top: 125%;
-  right: -10px;
+  right: -20px;
   padding: 0.3rem 0;
   overflow: hidden;
 
@@ -517,6 +533,53 @@ nav .logo-container > img {
   overflow-y: scroll;
   padding-top: 5px;
   height: calc(100% - 2.5rem);
+}
+
+#notifications-loading {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  aspect-ratio: 1/1;
+  width: 50px;
+  height: 50px;
+  transform: translate(-50%, -50%);
+  background-color: var(--grey-2);
+  border-radius: 100%;
+  z-index: 100;
+}
+
+#notifications-loading::after {
+  position: absolute;
+  content: "";
+  height: 100%;
+  width: 100%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: var(--grey-2);
+  border-radius: 100%;
+}
+
+#notifications-loading::before {
+  border-radius: 100%;
+  z-index: 0;
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  background: conic-gradient(var(--grey-2) 0deg, var(--light-blue) 360deg);
+  width: 125%;
+  height: 125%;
+  transform: translate(-50%, -50%);
+  animation: notifications-loading infinite 1s;
+}
+
+@keyframes notifications-loading {
+  from {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+  to {
+    transform: translate(-50%, -50%) rotate(360deg);}
 }
 
 #notifications-list::-webkit-scrollbar {

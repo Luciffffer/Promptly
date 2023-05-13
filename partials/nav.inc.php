@@ -1,4 +1,8 @@
-<nav id="primary-nav">
+<?php
+
+include_once($_SERVER['DOCUMENT_ROOT'] . __ROOT__ . "classes/Notification.php");
+
+?><nav id="primary-nav">
     <img id="hamburger-menu" src="<?php echo __ROOT__; ?>assets/images/site/hamburg-menu-icon.svg" alt="Hamburger menu button">
     <div class="logo-ul-container">
         <div class="logo-container">
@@ -19,20 +23,25 @@
 
             <p class="credits hide-media-query">95 credits</p>
             <div style="position: relative" data-dropdown class="dropdown">
-                <button id="notifications-btn" data-dropdown-btn></button>
+                <button id="notifications-btn" data-dropdown-btn>
+                    <?php 
+                        $ntCount = Notification::getNonViewedNotificationCountByUserId($_SESSION['userId']);
+                        echo $ntCount > 0 ? '<span id="notification-count">' . $ntCount . '</span>' : ''; 
+                    ?>
+                </button>
                 <div id="notifications-container">
                     <div id="notifications-top">
                         <p>Notifications</p>
                         <hr>
                     </div>
                     <div id="notifications-list">
-                        <div class="notification">
+                        <!-- <div class="notification">
                             <figure></figure>
                             <div>
                                 <p>New achievement: Welcome to Promptly!</p>
                                 <small>2 hours ago</small>
                             </div>
-                        </div>
+                        </div> -->
                     </div>
                 </div>
             </div>

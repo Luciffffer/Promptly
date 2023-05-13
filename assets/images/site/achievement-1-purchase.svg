@@ -1,0 +1,27 @@
+<svg width="121" height="122" viewBox="0 0 121 122" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M0 10C0 4.47716 4.47715 0 10 0H111C116.523 0 121 4.47715 121 10V112C121 117.523 116.523 122 111 122H10C4.47715 122 0 117.523 0 112V10Z" fill="url(#paint0_linear_580_3)"/>
+<mask id="mask0_580_3" style="mask-type:luminance" maskUnits="userSpaceOnUse" x="26" y="27" width="69" height="69">
+<path fill-rule="evenodd" clip-rule="evenodd" d="M28 45.25H93L89.3889 94H31.6111L28 45.25Z" fill="white" stroke="white" stroke-width="4" stroke-linejoin="round"/>
+<path d="M46.0557 52.4722V29H74.9446V52.4722" stroke="white" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M46.0557 79.5557H74.9446" stroke="black" stroke-width="4" stroke-linecap="round"/>
+</mask>
+<g mask="url(#mask0_580_3)">
+<path d="M17.167 18.1665H103.834V104.833H17.167V18.1665Z" fill="#E6E6E6"/>
+<mask id="mask1_580_3" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="57" y="56" width="6" height="12">
+<path d="M59 68V58.112L60.616 59.648H57.08V56.8H62.776V68H59Z" fill="black"/>
+</mask>
+<g mask="url(#mask1_580_3)">
+<path d="M5 11C5 5.47716 9.47715 1 15 1H116C121.523 1 126 5.47715 126 11V113C126 118.523 121.523 123 116 123H15C9.47715 123 5 118.523 5 113V11Z" fill="url(#paint1_linear_580_3)"/>
+</g>
+</g>
+<defs>
+<linearGradient id="paint0_linear_580_3" x1="0" y1="0" x2="122.598" y2="1.62778" gradientUnits="userSpaceOnUse">
+<stop stop-color="#05C7F2"/>
+<stop offset="1" stop-color="#953CEE"/>
+</linearGradient>
+<linearGradient id="paint1_linear_580_3" x1="5" y1="1" x2="127.598" y2="2.62778" gradientUnits="userSpaceOnUse">
+<stop stop-color="#05C7F2"/>
+<stop offset="1" stop-color="#953CEE"/>
+</linearGradient>
+</defs>
+</svg>
