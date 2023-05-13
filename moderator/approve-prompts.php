@@ -68,15 +68,33 @@
 
         <script>
     const forms = document.querySelectorAll('.formpost');
+    const formData = new FormData()
+    formData.append('id', id)
     forms.forEach(form => {
         form.addEventListener('submit', e => {
             e.preventDefault();
             const id = e.target.dataset.id;
             if(e.submitter.name === 'approve') {
                 console.log('approve');
+                fetch('../ajax/approve-prompts.ajax.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                    body: 'id=' + id
+                    
+                })
+                .then(response => {
+                    if (response.ok) {
+                        console.log('Prompt approved successfully');
+                        e.target.parentElement.parentElement.remove();
+                    } else {
+                        console.error('Error approving prompt');
+                    }
+                })
             } else if(e.submitter.name === 'deny') {
                 console.log('deny');
-
+                
                 fetch('../ajax/remove-prompt.ajax.php', {
                     method: 'POST',
                     headers: {
