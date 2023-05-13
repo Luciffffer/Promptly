@@ -1,12 +1,21 @@
 <?php 
-    
-    $PDO = Database::getInstance();
 
-    $sql = "UPDATE prompts SET approved = 1 WHERE id = :id";
+include_once(__DIR__ . "/../classes/Prompt.php");
+include_once(__DIR__ . "/../classes/Database.php");
 
-    $statement = $PDO->prepare($sql);
-    $statement->bindValue(":id", $this->id);
-    $statement->execute();
+if (isset($_SESSION['isModerator']) && $_SESSION['isModerator'] === true){
+    $prompt = new Prompt();
+    $prompt->setId($_POST['id']);
+    $prompt->approvePrompt($_POST['id']);
 
-    $count = $statement->rowCount();
-    if($count == 0) throw new Exception("Server error. Something went wrong. Try again later.");
+    $response = [
+        'status' => 'success',
+        'message' => 'Prompt approved'
+    ];
+
+    header('Content-Type: application/json');
+    echo json_encode($response);
+} else {
+    header('Location: ../index.php');
+}
+

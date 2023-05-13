@@ -68,51 +68,44 @@
 
         <script>
     const forms = document.querySelectorAll('.formpost');
-    const formData = new FormData()
-    formData.append('id', id)
+    
     forms.forEach(form => {
         form.addEventListener('submit', e => {
             e.preventDefault();
-            const id = e.target.dataset.id;
+            let id = e.target.dataset.id;
+            formdata = new FormData();
+            formdata.append('id', id);
+            
             if(e.submitter.name === 'approve') {
                 console.log('approve');
+                console.log(id);
                 fetch('../ajax/approve-prompts.ajax.php', {
                     method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded'
-                    },
-                    body: 'id=' + id
-                    
-                })
-                .then(response => {
-                    if (response.ok) {
-                        console.log('Prompt approved successfully');
+                    body: formdata
+                }) 
+                .then(
+                    response => response.json())
+                .then(result => {
+                    console.log(result);
+                    if(result.status === 'success') {
                         e.target.parentElement.parentElement.remove();
-                    } else {
-                        console.error('Error approving prompt');
                     }
                 })
             } else if(e.submitter.name === 'deny') {
                 console.log('deny');
-                
+                console.log(id);
                 fetch('../ajax/remove-prompt.ajax.php', {
                     method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded'
-                    },
-                    body: 'id=' + id
-                })
-                .then(response => {
-                    if (response.ok) {
-                        console.log('Prompt deleted successfully');
+                    body: formdata
+                }) 
+                .then(
+                    response => response.json())
+                .then(result => {
+                    console.log(result);
+                    if(result.status === 'success') {
                         e.target.parentElement.parentElement.remove();
-                    } else {
-                        console.error('Error deleting prompt');
                     }
-                })
-                .catch(error => {
-                    console.error('Error deleting prompt', error);
-                });
+                })   
             }
         });
     });
