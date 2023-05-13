@@ -100,3 +100,15 @@
     border-radius: 5px;
 }
 
+#btn-opmaak{
+    background-color: var(--purple);
+    padding: 5px;
+    border-radius: 5px;
+    border: none;
+    color: white;
+}
+
+#btn-opmaak:hover{
+    color: var(--light-blue);
+}
+

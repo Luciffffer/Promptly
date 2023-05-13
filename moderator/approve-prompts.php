@@ -54,8 +54,8 @@
                         <p class="prompt-words"><?php echo $prompt['word_count']?></p>
                         <div class="buttons">
                         <form class="formpost" action="" method="POST" data-id="<?php echo $prompt['id']?>">
-                            <input type="submit" value="Approve" name="approve">
-                            <input type="submit" value="Deny" name="deny">
+                            <input type="submit" id="btn-opmaak" value="Approve" name="approve">
+                            <input type="submit" id="btn-opmaak" value="Deny" name="deny">
                         </form>
                         </div>
 
