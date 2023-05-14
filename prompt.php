@@ -6,14 +6,29 @@ include_once(__DIR__ . '/classes/User.php');
 session_start();
 
 if (!empty($_GET['id'])) {
+
     $prompt = Prompt::getPromptById($_GET['id']);
+
+    $isAuthor = (isset($_SESSION['userId']) && $prompt['author_id'] == $_SESSION['userId']) ? true : false;
+
+    if ($prompt['approved'] == 0 && !$isAuthor) {
+        Leave();
+    }
+
     $model = Prompt::getModelById($prompt['model_id']);
     $categories = Prompt::getCategoriesByPromptId($_GET['id']);
     $author = User::getUserById($prompt['author_id']);
     $tags = json_decode($prompt['tags'], true);
 
-    Prompt::addView($_GET['id']);
+    if (!$isAuthor) {
+        Prompt::addView($_GET['id']);
+    }
+
 } else {
+    Leave();
+}
+
+function Leave() {
     header("Location: index");
     exit();
 }
@@ -71,6 +86,14 @@ if (!empty($_GET['id'])) {
                                 </span>
                             </div>
                         </section>
+                        <?php if (!$prompt['approved']) : ?>
+                            <section id="single-prompt-approval">
+                                <img src="./assets/images/site/warning-icon.svg" alt="Warning">
+                                <p>
+                                    This prompt is currently in the approval process. This means that it is not yet available to other users. You will get a notification as soon as your prompt has been approved or denied.
+                                </p>
+                            </section>
+                        <?php endif; ?>
                         <hr class="single-prompt-hr">
                         <section id="single-prompt-basic-info">
                             <div>
@@ -126,9 +149,20 @@ if (!empty($_GET['id'])) {
                                 </a>
                             </section>
 
-                                <?php // if prompt has been bought or author is the same as session userid ?>
+                                <?php if ($isAuthor) : // if prompt has been bought or author is the same as session userid ?>
 
-                                <?php // else ?>
+                                    <section id="prompt-section">
+                                        <h2>The <span class="blue-text">Prompt:</span></h2>
+                                        <div id="prompt-container">
+                                            <p><?php echo nl2br(htmlspecialchars($prompt['prompt'])); ?></p>
+                                        </div>
+                                        <h3>Instructions</h3>
+                                        <div id="prompt-container">
+                                            <p><?php echo nl2br(htmlspecialchars($prompt['prompt_instructions'])); ?></p>
+                                        </div>
+                                    </section>
+
+                                <?php else : ?>
 
                                     <section id="prompt-section">
                                         <h2>The <span class="blue-text">Prompt:</span></h2>
@@ -147,7 +181,7 @@ if (!empty($_GET['id'])) {
                                         </div>
                                     </section>
 
-                                <?php //endif ?>
+                                <?php endif; ?>
 
                         <?php endif; ?>
                     </div>
