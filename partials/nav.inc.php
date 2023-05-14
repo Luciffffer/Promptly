@@ -1,6 +1,7 @@
 <?php
 
 include_once($_SERVER['DOCUMENT_ROOT'] . __ROOT__ . "classes/Notification.php");
+include_once($_SERVER['DOCUMENT_ROOT'] . __ROOT__ . "classes/User.php");
 
 ?><nav id="primary-nav">
     <img id="hamburger-menu" src="<?php echo __ROOT__; ?>assets/images/site/hamburg-menu-icon.svg" alt="Hamburger menu button">
@@ -21,7 +22,11 @@ include_once($_SERVER['DOCUMENT_ROOT'] . __ROOT__ . "classes/Notification.php");
 
         <?php if (isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] === true) : ?>
 
-            <p class="credits hide-media-query">95 credits</p>
+            <?php
+                $credits = User::getCreditsByUserId($_SESSION['userId']);
+            ?>
+
+            <p class="credits hide-media-query"><?php echo $credits; ?> credits</p>
             <div style="position: relative" data-dropdown class="dropdown">
                 <button id="notifications-btn" data-dropdown-btn>
                     <?php 
@@ -34,15 +39,7 @@ include_once($_SERVER['DOCUMENT_ROOT'] . __ROOT__ . "classes/Notification.php");
                         <p>Notifications</p>
                         <hr>
                     </div>
-                    <div id="notifications-list">
-                        <!-- <div class="notification">
-                            <figure></figure>
-                            <div>
-                                <p>New achievement: Welcome to Promptly!</p>
-                                <small>2 hours ago</small>
-                            </div>
-                        </div> -->
-                    </div>
+                    <div id="notifications-list"></div>
                 </div>
             </div>
             <div style="position: relative;" data-dropdown class="dropdown">
@@ -52,7 +49,7 @@ include_once($_SERVER['DOCUMENT_ROOT'] . __ROOT__ . "classes/Notification.php");
                         <figure style="background-image: url(<?php echo __ROOT__ . htmlspecialchars($_SESSION['profile-pic']); ?>)" aria-label="Profile pic"></figure>
                         <div>
                             <p><?php echo htmlspecialchars($_SESSION['username']); ?></p>
-                            <small class="credits">95 credits</small>
+                            <small class="credits"><?php echo $credits; ?> credits</small>
                         </div>
                     </div>
                     <hr>

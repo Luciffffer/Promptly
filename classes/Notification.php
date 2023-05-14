@@ -51,6 +51,15 @@ class Notification
         $statement->execute();
     }
 
+    public static function setViewedByUserId (int $userId): void
+    {
+        $PDO = Database::getInstance();
+
+        $statement = $PDO->prepare("UPDATE notifications SET viewed = 1 WHERE user_id = :userId");
+        $statement->bindValue(":userId", $userId, PDO::PARAM_INT);
+        $statement->execute();
+    }
+
 
     // Get notifications
 

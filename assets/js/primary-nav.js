@@ -38,51 +38,72 @@ async function getNotifications() { // We use ajax for this because it would be 
     notificationsContainer.appendChild(spinner);
 
     // get notifications
-    const response = await fetch("ajax/get-notifications.ajax.php");
-    const json = await response.json();
+    try {
+        const response = await fetch("ajax/get-notifications.ajax.php");
+        const json = await response.json();
 
-    if (json.status === 'error') {
-        console.error(json.message);
-    } else {
-        
-        // remove loading spinner
-        spinner.remove();
+        if (json.status === 'error') {
+            throw json.message;
+        } else {
+            
+            // remove loading spinner
+            spinner.remove();
+    
+            // add notifications
+            json.body.forEach(notification => {
+                const notificationEl = document.createElement("a");
+                notificationEl.classList.add("notification");
+                notificationEl.href = notification.link;
+    
+                const notificationImg = document.createElement("figure");
+                notificationImg.style = `background-image: url(${notification.image})`;
+                notificationImg.alt = notification.title;
+                notificationEl.appendChild(notificationImg);
+    
+                const notificationText = document.createElement("div");
+    
+                const notificationTitle = document.createElement("p");
+                notificationTitle.innerHTML = notification.message; // should be safe from XSS because not user input
+                notificationText.appendChild(notificationTitle);
+    
+                // calculate time since notification
+                const date = () => {
+                    let [date, time] = notification.date_created.split(" ");
+                    return new Date(`${date}T${time}`);
+                }
+    
+                const timeAgo = timeSince(date());
+    
+                const notificationDate = document.createElement("small");
+                notificationDate.innerHTML = timeAgo;
+                notificationText.appendChild(notificationDate); 
+    
+                notificationEl.appendChild(notificationText);
+    
+                notificationsContainer.appendChild(notificationEl);
+            })
+    
+            // add you're all caught up message
+            const caughtUpDiv = document.createElement("div");
+            caughtUpDiv.classList.add("notification-caught-up");
+    
+            const p = document.createElement("p");
+            p.innerHTML = "You're all caught up!";
+            caughtUpDiv.appendChild(p);
+    
+            notificationsContainer.appendChild(caughtUpDiv);
 
-        // add notifications
-        json.body.forEach(notification => {
-            const notificationEl = document.createElement("a");
-            notificationEl.classList.add("notification");
-            notificationEl.href = notification.link;
-
-            const notificationImg = document.createElement("figure");
-            notificationImg.style = `background-image: url(${notification.image})`;
-            notificationImg.alt = notification.title;
-            notificationEl.appendChild(notificationImg);
-
-            const notificationText = document.createElement("div");
-
-            const notificationTitle = document.createElement("p");
-            notificationTitle.innerHTML = notification.message; // should be safe from XSS because not user input
-            notificationText.appendChild(notificationTitle);
-
-            // calculate time since notification
-            const date = () => {
-                let [date, time] = notification.date_created.split(" ");
-                return new Date(`${date}T${time}`);
+            // remove non viewed notification count
+            if (document.querySelector("#notification-count")) {
+                document.querySelector("#notification-count").remove();
             }
+        }
 
-            const timeAgo = timeSince(date());
-
-            const notificationDate = document.createElement("small");
-            notificationDate.innerHTML = timeAgo;
-            notificationText.appendChild(notificationDate); 
-
-            notificationEl.appendChild(notificationText);
-
-            notificationsContainer.appendChild(notificationEl);
-        })
-
+    } catch (error) {
+        console.error(error);
+        return;
     }
+
 }
 
 function timeSince(date) { // honestly not really happy with it but i don't have the time to look deeper into how to do it better

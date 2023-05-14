@@ -9,6 +9,7 @@ try {
     if (isset($_SESSION['userId'])) {
 
         $notifications = Notification::getNotificationsByUserId($_SESSION['userId']);
+        Notification::setViewedByUserId($_SESSION['userId']);
 
         $response = [
             'status' => 'success',
