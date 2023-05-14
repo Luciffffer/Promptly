@@ -11,7 +11,7 @@ if (!empty($_GET['id'])) {
 
     $isAuthor = (isset($_SESSION['userId']) && $prompt['author_id'] == $_SESSION['userId']) ? true : false;
 
-    if ($prompt['approved'] == 0 && !$isAuthor) {
+    if ($prompt['approved'] == 0 && !$isAuthor && !isset($_SESSION['isModerator'])) {
         Leave();
     }
 
@@ -126,11 +126,18 @@ function Leave() {
                                             <span>Get prompt for free!</span>    
                                         </a>
                                     <?php else : ?>
-                                        <a class="button" id="get-prompt-btn" href="#">
-                                            <img src="assets/images/site/plus-circle-icon.svg" alt="Get icon">
-                                            <span>Get prompt</span>
-                                        </a>
-                                        <small>It's only 1 credit!</small>
+                                        <?php if ($isAuthor || (isset($_SESSION['isModerator']) && $_SESSION['isModerator'] === true)) : ?>
+                                            <div id="prompt-gotten-container">
+                                                <img src="assets/images/site/success-icon.svg" alt="Checkmark">
+                                                <span>You own this prompt!</span>
+                                            </div>
+                                        <?php else : ?>
+                                            <a class="button" id="get-prompt-btn" href="#">
+                                                <img src="assets/images/site/plus-circle-icon.svg" alt="Get icon">
+                                                <span>Get prompt</span>
+                                            </a>
+                                            <small>It's only 1 credit!</small>
+                                        <?php endif; ?>
                                     <?php endif; ?>
                                 </div>
                                 <div id="single-prompt-action-section-right">
@@ -149,7 +156,7 @@ function Leave() {
                                 </a>
                             </section>
 
-                                <?php if ($isAuthor) : // if prompt has been bought or author is the same as session userid ?>
+                                <?php if ($isAuthor || isset($_SESSION['isModerator'])) : // if prompt has been bought or author is the same as session userid ?>
 
                                     <section id="prompt-section">
                                         <h2>The <span class="blue-text">Prompt:</span></h2>

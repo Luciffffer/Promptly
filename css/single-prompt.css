@@ -422,6 +422,10 @@ input::placeholder, textarea::placeholder {
     border-radius: 10px;
 }
 
+#single-prompt-basic-info {
+    margin-bottom: 2rem;
+}
+
 #single-prompt-basic-info > * {
     margin-bottom: 2rem;
 }
@@ -582,4 +586,20 @@ input::placeholder, textarea::placeholder {
     background-color: var(--grey-2);
     border: 2px solid var(--red);
     border-radius: 10px;
+}
+
+#prompt-gotten-container {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+
+    padding: 0.5rem 1rem;
+
+    background-color: var(--grey-2);
+    border-radius: 5px;
+}
+
+#prompt-gotten-container > img {
+    aspect-ratio: 1/1;
+    width: 1.5rem;
 }
