@@ -50,7 +50,7 @@ class Prompt
 
     public function setDescription (string $description)
     {
-        if (strlen($description) >= 500) {
+        if (strlen($description) >= 1000) {
             throw new Exception("Description must be less than 500 characters.");
         } else if (empty($description)) {
             throw new Exception("Description cannot be empty.");
@@ -283,7 +283,7 @@ class Prompt
 
     public function getPrompts (string $order = "new", int $page = 1, int $approved = null): array
     {
-        $limit = 20;
+        $limit = 14;
         $offset = ($page - 1) * $limit;
 
         switch ($order) {

@@ -124,6 +124,7 @@ input[type="submit"] {
 textarea {
   width: 100%;
   font-size: 1rem;
+  resize: vertical;
 }
 
 a {

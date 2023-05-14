@@ -620,7 +620,7 @@ aside {
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     gap: 2rem;
 
-    padding: 1rem 0;
+    padding: 2rem 0;
 }
 
 .prompt-card-header {
@@ -628,7 +628,7 @@ aside {
     background-position: center;
 
     display: block;
-    aspect-ratio: 3/1;
+    aspect-ratio: 2.5/1;
     border-radius: 10px;
     margin-bottom: 0.5rem;
 }
@@ -650,5 +650,44 @@ aside {
 }
 
 .prompt-card-get-btn {
-    padding-top: 0.3rem;
+    padding-top: 0.5rem;
+    aspect-ratio: 1/1;
+    height: 27px;
+}
+
+.prompt-card-loading .prompt-card-header {
+    background-color: var(--grey-2);
+    border-radius: 10px;
+}
+
+.prompt-card-loading .prompt-card-body-left p {
+    height: 1.3rem;
+    width: 15rem;
+    background-color: var(--grey-2);
+    border-radius: 5px;
+}
+
+.prompt-card-loading .prompt-card-body-left small {
+    display: block;
+    margin-top: 0.5rem;
+    height: 0.7rem;
+    width: 10rem;
+    background-color: var(--grey-2);
+    border-radius: 5px;
+}
+
+.prompt-card-loading .prompt-card-get-btn {
+    aspect-ratio: 1/1;
+    height: 27px;
+    background-color: var(--grey-2);
+    border-radius: 100%;
+}
+
+#prompt-list-end {
+    text-align: center;
+    padding: 3rem 0;
+}
+
+#prompt-list-end > * {
+    color: var(--grey-3);
 }
