@@ -31,6 +31,7 @@ document.addEventListener("click", e => {
 // ajax
 async function getNotifications() { // We use ajax for this because it would be useless and not good for loadspeeds to load images on every page
     const notificationsContainer = document.querySelector("#notifications-list");
+    const root = document.querySelector("#primary-nav").dataset.root;
 
     // add loading spinner
     let spinner = document.createElement("figure");
@@ -39,7 +40,7 @@ async function getNotifications() { // We use ajax for this because it would be 
 
     // get notifications
     try {
-        const response = await fetch("ajax/get-notifications.ajax.php");
+        const response = await fetch(root + "ajax/get-notifications.ajax.php");
         const json = await response.json();
 
         if (json.status === 'error') {
@@ -53,10 +54,10 @@ async function getNotifications() { // We use ajax for this because it would be 
             json.body.forEach(notification => {
                 const notificationEl = document.createElement("a");
                 notificationEl.classList.add("notification");
-                notificationEl.href = notification.link;
+                notificationEl.href = root + notification.link;
     
                 const notificationImg = document.createElement("figure");
-                notificationImg.style = `background-image: url(${notification.image})`;
+                notificationImg.style = `background-image: url(${root + notification.image})`;
                 notificationImg.alt = notification.title;
                 notificationEl.appendChild(notificationImg);
     

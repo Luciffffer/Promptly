@@ -3,7 +3,7 @@
 include_once($_SERVER['DOCUMENT_ROOT'] . __ROOT__ . "classes/Notification.php");
 include_once($_SERVER['DOCUMENT_ROOT'] . __ROOT__ . "classes/User.php");
 
-?><nav id="primary-nav">
+?><nav id="primary-nav" data-root="<?php echo __ROOT__; ?>">
     <img id="hamburger-menu" src="<?php echo __ROOT__; ?>assets/images/site/hamburg-menu-icon.svg" alt="Hamburger menu button">
     <div class="logo-ul-container">
         <div class="logo-container">

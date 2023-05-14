@@ -13,11 +13,11 @@ class Achievement
         $statement->bindValue(":userId", $userId, PDO::PARAM_INT);
         $statement->execute();
 
-        self::getAchievementById($achievementId);
+        $achievement = self::getAchievementById($achievementId);
 
         // send notification
         $notification = new Notification();
-        $notification->setMessage("You unlocked the achievement: " . $achievement['name'] . "!");
+        $notification->setMessage("You unlocked the achievement: " . $achievement['title']);
         $notification->setUserId($userId);
         $notification->setLink("profile?id=" . $userId);
         $notification->setImage($achievement['cover']);
