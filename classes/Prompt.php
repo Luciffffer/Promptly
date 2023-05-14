@@ -345,6 +345,16 @@ class Prompt
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
+    public static function getPromptsByUserId (int $id): array
+    {
+        $PDO = Database::getInstance();
+        $stmt = $PDO->prepare("SELECT * FROM prompts WHERE author_id = :user_id ORDER BY date_created DESC limit 20");
+        $stmt->bindValue(":user_id", $id);
+        $stmt->execute();
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
     public static function addView (int $id): void
     {
         $PDO = Database::getInstance();
