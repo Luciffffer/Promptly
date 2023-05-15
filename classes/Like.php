@@ -20,19 +20,34 @@ class like
             echo "Error getting likes: " . $e->getMessage();
         }
     }
-    public function addLike($promptId, $userId)
+    public function toggleLike($promptId, $userId)
     {
         $pdo = Database::getInstance();
 
         try {
-            $stmt = $pdo->prepare("INSERT INTO liked (prompt_id, user_id) VALUES (:prompt_id, :user_id)");
+            $stmt = $pdo->prepare("SELECT * FROM liked WHERE prompt_id = :prompt_id AND user_id = :user_id");
             $stmt->bindParam(':prompt_id', $promptId, PDO::PARAM_INT);
             $stmt->bindParam(':user_id', $userId, PDO::PARAM_INT);
             $stmt->execute();
-            
-            echo "success";
+            $like = $stmt->fetch();
+
+            if ($like) {
+                // User has already liked the prompt, so remove their like
+                $stmt = $pdo->prepare("DELETE FROM liked WHERE prompt_id = :prompt_id AND user_id = :user_id");
+                $stmt->bindParam(':prompt_id', $promptId, PDO::PARAM_INT);
+                $stmt->bindParam(':user_id', $userId, PDO::PARAM_INT);
+                $stmt->execute();
+                echo "removed";
+            } else {
+                // User hasn't liked the prompt yet, so add their like
+                $stmt = $pdo->prepare("INSERT INTO liked (prompt_id, user_id) VALUES (:prompt_id, :user_id)");
+                $stmt->bindParam(':prompt_id', $promptId, PDO::PARAM_INT);
+                $stmt->bindParam(':user_id', $userId, PDO::PARAM_INT);
+                $stmt->execute();
+                echo "added";
+            }
         } catch (PDOException $e) {
-            echo "Error adding like: " . $e->getMessage();
+            echo "Error toggling like: " . $e->getMessage();
         }
     }
 }
@@ -42,5 +57,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['prompt_id'], $_POST['
     $userId = $_POST['user_id'];
 
     $like = new like();
-    $like->addLike($promptId, $userId);
+    $like->toggleLike($promptId, $userId);
 }

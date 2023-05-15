@@ -196,11 +196,14 @@ $AllLikes = Like::getLikes($_GET['id']);
                     user_id: userId
                 },
                 success: function(response) {
-                    if (response === 'success') {
+                    if (response === 'added') {
                         AllLikes.text(parseInt(AllLikes.text()) + 1); 
                         console.log('Liked prompt.');
+                    } else if (response === 'removed') {
+                        AllLikes.text(parseInt(AllLikes.text()) - 1);
+                        console.log('Removed like from prompt.');
                     } else {
-                        console.log('Failed to like prompt.');
+                        console.log('Failed to toggle like.');
                     }
                 },
             });
