@@ -14,6 +14,9 @@ if (!empty($_GET['id'])) {
     $tags = json_decode($prompt['tags'], true);
 
     Prompt::addView($_GET['id']);
+
+    $promptData = json_encode($prompt);
+    $promptDataEscaped = htmlspecialchars($promptData, ENT_QUOTES, 'UTF-8');
 } else {
     header("Location: index");
     exit();
@@ -112,8 +115,8 @@ if (!empty($_GET['id'])) {
                                     <?php endif; ?>
                                 </div>
                                 <div id="single-prompt-action-section-right">
-                                    <a id="like-btn" href="#" aria-label="Like prompt"></a>
-                                    <span>6</span>
+                                    <a id="like-btn" href="#" aria-label="Like prompt" data-prompt-id="123" data-user-id="456"></a>
+                                    <span id="likes-count">6</span>
                                     <hr>
                                     <a id="prompt-more-options-button" href="#" aria-label="More options"></a>
                                 </div>
@@ -174,10 +177,36 @@ if (!empty($_GET['id'])) {
             </div>
         </div>
     </main>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
-        document.querySelector('#like-btn').addEventListener('click', function() {
-            alert('You liked the prompt!');
+    var promptId = <?php echo $_GET['id']; ?>;
+    var userId = <?php echo $_SESSION['userId']; ?>;
+
+    $(document).ready(function() {
+        $('#like-btn').click(function(event) {
+            event.preventDefault();
+
+            $.ajax({
+                url: './classes/Like.php',
+                type: 'POST',
+                data: {
+                    prompt_id: promptId,
+                    user_id: userId
+                },
+                success: function(response) {
+                    if (response === 'success') {
+                        console.log('Liked prompt.');
+                    } else {
+                        console.log('Failed to like prompt.');
+                    }
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    console.log('AJAX error: ' + textStatus + ' - ' + errorThrown);
+                }
+            });
         });
-    </script>
+    });
+</script>
+
 </body>
 </html>
