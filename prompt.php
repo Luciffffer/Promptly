@@ -2,6 +2,8 @@
 
 include_once(__DIR__ . '/classes/Prompt.php');
 include_once(__DIR__ . '/classes/User.php');
+include_once(__DIR__ . '/classes/Comment.php');
+include_once(__DIR__ . '/classes/Date.php');
 
 session_start();
 
@@ -190,6 +192,56 @@ function Leave() {
 
                                 <?php endif; ?>
 
+
+                            <section id="comment-section">
+                                <h2>Comments</h2>
+
+                                <form action="" id="add-comment-form">
+                                    <figure style="background-image: url(<?php echo $_SESSION['profile-pic']; ?>)"></figure>
+                                    <div>
+                                        <textarea rows="1" name="comment" id="comment-textarea" placeholder="Add a comment..."></textarea>
+                                        <div id="comment-buttons" class="hidden">
+                                            <button class="button" id="comment-cancel">Cancel</button>
+                                            <button class="button" id="comment-submit-btn">Post</button>
+                                        </div>
+                                    </div>
+                                </form>
+                                <script src="assets/js/comment-section.js" defer></script>
+
+                                <div id="comment-list">
+                                    <?php 
+                                        $comments = Comment::getAllComments($prompt['id']);
+                                    ?>
+
+                                    <?php if (empty($comments)) : ?>
+                                        <div id="no-comments-container">
+                                            <p>No comments yet</p>
+                                        </div>
+                                    <?php endif; ?>
+                                    
+                                    <?php foreach ($comments as $comment) : ?>
+
+                                        <?php $commentUser = User::getUserById($comment['user_id']); ?>
+
+                                        <div class="comment">
+                                            <a href="profile?id=<?php echo $commentUser['id'] ?>">
+                                                <figure style="background-image: url(<?php echo $commentUser['profile_pic'] ?>)"></figure>
+                                            </a>
+                                            <div>
+                                                <div class="comment-top">
+                                                    <a class="white-a" href="profile?id=<?php echo $commentUser['id'] ?>"><?php echo htmlspecialchars($commentUser['username']); ?></a>
+                                                    <small><?php echo Date::getElapsedtime($comment['date_created']); ?></small>
+                                                </div>
+                                                <p><?php echo nl2br(htmlspecialchars($comment['comment'])); ?></p>
+                                            </div>
+                                            <?php if ((isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] === true && ($comment['user_id'] === $_SESSION['userId']) || isset($_SESSION['isModerator']))) : ?>
+                                                <a href="#" class="delete-comment-btn" data-comment-id="<?php echo $comment['id']; ?>" aria-label="Delete comment"></a>
+                                            <?php endif; ?>
+                                        </div>
+
+                                    <?php endforeach; ?>
+                                </div>
+                            </section>
                         <?php endif; ?>
                     </div>
                     <section id="single-prompt-image-container">

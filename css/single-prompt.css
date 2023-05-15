@@ -603,3 +603,143 @@ input::placeholder, textarea::placeholder {
     aspect-ratio: 1/1;
     width: 1.5rem;
 }
+
+#comment-section {
+    margin-top: 3rem;
+}
+
+#comment-section > form {
+    margin-bottom: 2rem;
+}
+
+#comment-section > h2 {
+    margin-bottom: 1rem;
+}
+
+#add-comment-form {
+    display: flex;
+    gap: 1rem;
+}
+
+#add-comment-form > figure {
+    aspect-ratio: 1/1;
+    width: 65px;
+    height: 65px;
+    background-size: cover;
+    background-position: center;
+    border-radius: 50%;
+}
+
+#add-comment-form > div {
+    width: 100%;
+}
+
+#comment-textarea {
+    background-color: var(--grey-2);
+    padding: 0.7rem 1rem;
+    height: auto;
+    border: none;
+    resize: vertical;
+    overflow: hidden;
+    border-radius: 10px;
+    color: var(--off-white);
+}
+
+#comment-textarea:focus {
+    outline: solid 1px var(--grey-3);
+}
+
+#comment-buttons {
+    display: flex;
+    gap: 0.5rem;
+    justify-content: flex-end;
+    margin-top: 0.5rem;
+}
+
+#comment-submit-btn {
+    cursor: pointer;
+    font-family: "Montserrat", sans-serif;
+    font-weight: bold;
+    font-size: var(--body-size);
+    border: none;
+
+    background: var(--blue-purple-gradient);
+    color: var(--off-white);
+
+    padding: 0.3rem 1rem;
+
+    border-radius: 5px;
+}
+
+#comment-cancel {
+    cursor: pointer;
+    font-family: "Montserrat", sans-serif;
+    font-size: var(--body-size);
+    border: none;
+
+    background: var(--grey-2);
+    color: var(--off-white);
+
+    padding: 0.3rem 1rem;
+
+    border-radius: 5px;
+}
+
+#no-comments-container {
+    padding: 1rem 0;
+    text-align: center;
+    color: var(--grey-3);
+}
+
+.comment {
+    position: relative;
+    display: flex;
+    gap: 1rem;
+}
+
+.comment figure {
+    aspect-ratio: 1/1;
+    width: 65px;
+    height: 65px;
+    background-size: cover;
+    background-position: center;
+    border-radius: 50%;
+}
+
+#comment-list > .comment {
+    margin-bottom: 2rem;
+}
+
+.comment-top {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;    
+    margin-bottom: 0.3rem;
+}
+
+.comment-top small {
+    color: var(--grey-1);
+}
+
+.delete-comment-btn {
+    cursor: pointer;
+    display: none;
+    position: absolute;
+    right: 0;
+    top: 0;
+    height: 30px;
+    width: 30px;
+    background-image: url('../assets/images/site/trash-icon.svg');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 16px;
+}
+
+.comment:hover .delete-comment-btn {
+    display: block;
+}
+
+.delete-comment-btn:hover {
+    background-color: var(--grey-2);
+    border-radius: 100%;
+}

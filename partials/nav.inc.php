@@ -3,7 +3,11 @@
 include_once($_SERVER['DOCUMENT_ROOT'] . __ROOT__ . "classes/Notification.php");
 include_once($_SERVER['DOCUMENT_ROOT'] . __ROOT__ . "classes/User.php");
 
-?><nav id="primary-nav" data-root="<?php echo __ROOT__; ?>">
+?><nav id="primary-nav" 
+    data-root="<?php echo __ROOT__; ?>" 
+    <?php if (isset($_SESSION['loggedIn'])) echo 'data-user-id="' . $_SESSION['userId'] . '"'; ?> 
+    <?php if (isset($_SESSION['isModerator'])) echo 'data-mod="true"'; ?>
+>
     <img id="hamburger-menu" src="<?php echo __ROOT__; ?>assets/images/site/hamburg-menu-icon.svg" alt="Hamburger menu button">
     <div class="logo-ul-container">
         <div class="logo-container">
