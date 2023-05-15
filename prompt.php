@@ -198,9 +198,11 @@ $AllLikes = Like::getLikes($_GET['id']);
                 success: function(response) {
                     if (response === 'added') {
                         AllLikes.text(parseInt(AllLikes.text()) + 1); 
+                        document.getElementById("like-btn").style.backgroundImage="url('assets/images/site/heart-icon-red.svg')";
                         console.log('Liked prompt.');
                     } else if (response === 'removed') {
                         AllLikes.text(parseInt(AllLikes.text()) - 1);
+                        document.getElementById("like-btn").style.backgroundImage="url('assets/images/site/heart-icon.svg')";
                         console.log('Removed like from prompt.');
                     } else {
                         console.log('Failed to toggle like.');
