@@ -21,6 +21,7 @@ if (!empty($_GET['id'])) {
     header("Location: index");
     exit();
 }
+$AllLikes = Like::getLikes($_GET['id']);
 
 ?><!DOCTYPE html>
 <html lang="en">
@@ -115,8 +116,8 @@ if (!empty($_GET['id'])) {
                                     <?php endif; ?>
                                 </div>
                                 <div id="single-prompt-action-section-right">
-                                    <a id="like-btn" href="#" aria-label="Like prompt" data-prompt-id="123" data-user-id="456"></a>
-                                    <span id="likes-count">6</span>
+                                    <a id="like-btn" href="#" aria-label="Like prompt"></a>
+                                    <span id="likes-count"><?php echo $AllLikes; ?></span>
                                     <hr>
                                     <a id="prompt-more-options-button" href="#" aria-label="More options"></a>
                                 </div>
@@ -181,6 +182,7 @@ if (!empty($_GET['id'])) {
     <script>
     var promptId = <?php echo $_GET['id']; ?>;
     var userId = <?php echo $_SESSION['userId']; ?>;
+    var AllLikes = $('#likes-count'); // Get the likes count element
 
     $(document).ready(function() {
         $('#like-btn').click(function(event) {
@@ -195,14 +197,12 @@ if (!empty($_GET['id'])) {
                 },
                 success: function(response) {
                     if (response === 'success') {
+                        AllLikes.text(parseInt(AllLikes.text()) + 1); 
                         console.log('Liked prompt.');
                     } else {
                         console.log('Failed to like prompt.');
                     }
                 },
-                error: function(jqXHR, textStatus, errorThrown) {
-                    console.log('AJAX error: ' + textStatus + ' - ' + errorThrown);
-                }
             });
         });
     });

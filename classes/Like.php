@@ -3,6 +3,23 @@ require_once(__DIR__ . "/Database.php");
 
 class like
 {
+    //get likes from database
+    public static function getLikes($promptId)
+    {
+        $pdo = Database::getInstance();
+    
+        try {
+            $stmt = $pdo->prepare("SELECT COUNT(*) FROM liked WHERE prompt_id = :prompt_id");
+            $stmt->bindParam(':prompt_id', $promptId, PDO::PARAM_INT);
+            $stmt->execute();
+            $likes = $stmt->fetchColumn();
+    
+            return $likes;
+    
+        } catch (PDOException $e) {
+            echo "Error getting likes: " . $e->getMessage();
+        }
+    }
     public function addLike($promptId, $userId)
     {
         $pdo = Database::getInstance();
