@@ -174,5 +174,10 @@ if (!empty($_GET['id'])) {
             </div>
         </div>
     </main>
+    <script>
+        document.querySelector('#like-btn').addEventListener('click', function() {
+            alert('You liked the prompt!');
+        });
+    </script>
 </body>
 </html>
