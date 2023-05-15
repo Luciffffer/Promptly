@@ -13,20 +13,17 @@ class like
             $stmt->bindParam(':user_id', $userId, PDO::PARAM_INT);
             $stmt->execute();
             
-            return true;
+            echo "success";
         } catch (PDOException $e) {
             echo "Error adding like: " . $e->getMessage();
-            return false;
         }
     }
 }
 
-$likes = new like();
-$promptId = 1;
-$userId = 1;
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['prompt_id'], $_POST['user_id'])) {
+    $promptId = $_POST['prompt_id'];
+    $userId = $_POST['user_id'];
 
-if ($likes->addLike($promptId, $userId)) {
-    echo "Like added successfully!";
-} else {
-    echo "Failed to add like.";
+    $like = new like();
+    $like->addLike($promptId, $userId);
 }
