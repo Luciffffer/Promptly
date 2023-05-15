@@ -1,8 +1,10 @@
 let currentPage = 1;
 const promptList = document.querySelector("#all-prompts-list");
 
-window.addEventListener("scroll", function scrolledToEnd (e) {
-    if ((window.innerHeight + Math.round(window.scrollY)) >= document.body.offsetHeight) {
+window.addEventListener("scroll", scrolledToEnd);
+
+function scrolledToEnd () {
+    if ((window.innerHeight + Math.round(window.scrollY)) >= document.body.offsetHeight || document.body.scrollHeight < document.body.clientHeight) {
         
          // create filler content while loading
         let tempPrompts = [];
@@ -66,7 +68,9 @@ window.addEventListener("scroll", function scrolledToEnd (e) {
             })
 
     }   
-})
+}
+
+scrolledToEnd();
 
 function createPromptCard ({title = '', tags = '', headerImage = '', id = '', isLoading = false}) {
     const promptCard = document.createElement("div");
