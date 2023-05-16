@@ -486,7 +486,6 @@ input::placeholder, textarea::placeholder {
     width: 1.5rem;
     height: 1.5rem;
     background-image: url(../assets/images/site/three-dots-icon.svg);
-    color: red;
     background-size: contain;
     background-position: center;
     background-repeat: no-repeat;

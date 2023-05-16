@@ -15,8 +15,7 @@ if (!empty($_GET['id'])) {
 
     Prompt::addView($_GET['id']);
 
-    $promptData = json_encode($prompt);
-    $promptDataEscaped = htmlspecialchars($promptData, ENT_QUOTES, 'UTF-8');
+
 } else {
     header("Location: index");
     exit();
