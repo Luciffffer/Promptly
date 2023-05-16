@@ -89,7 +89,12 @@
     color: white;
 }
 
-#btn-opmaak:hover{
-    color: var(--light-blue);
+#btn-opmaak2{
+    background-color: var(--off-white);
+    padding: 5px;
+    border-radius: 5px;
+    border: none;
+    color: var(--purple);
 }
+
 

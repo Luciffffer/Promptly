@@ -64,8 +64,8 @@
 
                         <div class="buttons">
                         <form class="formpost" action="" method="POST" data-id="<?php echo $prompt['id']?>">
-                            <input type="submit" id="btn-opmaak" value="Approve" name="approve">
-                            <input type="submit" id="btn-opmaak" value="Deny" name="deny">
+                            <input type="submit" id="btn-opmaak" class="button" value="Approve" name="approve">
+                            <input type="submit" id="btn-opmaak2" class="button" value="Deny" name="deny">
                         </form>
                         </div>
 
