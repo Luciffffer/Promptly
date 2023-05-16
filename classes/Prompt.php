@@ -408,4 +408,5 @@ class Prompt
 
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+
 }

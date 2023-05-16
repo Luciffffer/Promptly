@@ -50,6 +50,23 @@ class like
             echo "Error toggling like: " . $e->getMessage();
         }
     }
+    public static function getUserLikes($userId, $promptId)
+    {
+        $pdo = Database::getInstance();
+    
+        try {
+            $stmt = $pdo->prepare("SELECT * FROM liked WHERE user_id = :user_id AND prompt_id = :prompt_id");
+            $stmt->bindParam(':user_id', $userId, PDO::PARAM_INT);
+            $stmt->bindParam(':prompt_id', $promptId, PDO::PARAM_INT);
+            $stmt->execute();
+            $likes = $stmt->fetchColumn();
+    
+            return $likes;
+    
+        } catch (PDOException $e) {
+            echo "Error getting likes: " . $e->getMessage();
+        }
+    }
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['prompt_id'], $_POST['user_id'])) {

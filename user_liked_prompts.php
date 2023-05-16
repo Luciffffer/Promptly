@@ -21,9 +21,6 @@ if (!empty($_GET['order'])) {
 }
 
 
-$prompt = new Prompt();
-$prompts = $prompt->getPrompts($order, approved: 1);
-
 
 ?><!DOCTYPE html>
 <html lang="en">
