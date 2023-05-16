@@ -3,7 +3,6 @@
     include_once(__DIR__ . "/../classes/User.php");
     include_once(__DIR__ . "/../classes/Security.php"); 
     // include_once("../ajax/remove-prompt.ajax.php"); 
-    session_start();
     Security::onlyModerator();
 
     $prompt = new Prompt();
@@ -41,11 +40,18 @@
                     <div class='prompt'>
                             <p class="prompt-model"><?php echo $prompt['model_id']?></p>
                             <div class="title-tags">
-                                <p class="prompt-title"><?php echo $prompt['title']?></p>
-                                <?php foreach($tags as $tag){ ?>
-                                    <p class="prompt-tags"><?php echo $tag?></p>
-                                <?php } ?>
-                                <p class="prompt-tags"><?php json_decode($prompt['tags'])?></p>
+                                <a href="../prompt?id=<?php echo $prompt['id']?>">
+                                    <p class="prompt-title"><?php echo $prompt['title']?></p>
+                                </a>
+                                <p class="prompt-tags">
+                                <?php foreach($tags as $key => $tag): 
+                                    if ($key > 3){
+                                        break;
+                                    }
+                                    ?>
+                                    <span><?php echo $tag;?></span>
+                                <?php endforeach; ?>
+                                </p>
                             </div>
                             <div class="prompt-images">
                                 <p class="img-prompt" style="background-image: url(../<?php echo $prompt['example_image1']; ?>)"></p>
@@ -88,7 +94,7 @@
                     body: formdata
                 }) 
                 .then(
-                    response => response.json())
+                    response => response.json()) //.json veranderd json naar string in js die je kan gebruiken.
                 .then(result => {
                     console.log(result);
                     if(result.status === 'success') {
