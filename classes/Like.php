@@ -24,7 +24,7 @@ class like
     {
         $pdo = Database::getInstance();
 
-        try {
+         
             $stmt = $pdo->prepare("SELECT * FROM liked WHERE prompt_id = :prompt_id AND user_id = :user_id");
             $stmt->bindParam(':prompt_id', $promptId, PDO::PARAM_INT);
             $stmt->bindParam(':user_id', $userId, PDO::PARAM_INT);
@@ -46,9 +46,7 @@ class like
                 $stmt->execute();
                 echo "added";
             }
-        } catch (PDOException $e) {
-            echo "Error toggling like: " . $e->getMessage();
-        }
+        
     }
     public static function getUserLikes($userId, $promptId)
     {
