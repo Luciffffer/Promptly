@@ -7,7 +7,7 @@ class Prompt
     // Basic information
     private string $title;
     private string $description;
-    private int $authorId;
+    private $authorId = null;
 
     // Model information
     private int $modelId;
@@ -319,6 +319,7 @@ class Prompt
                 WHERE prompts.approved = CASE WHEN :approved IS NOT NULL AND LENGTH(:approved) > 0 THEN :approved ELSE prompts.approved END
                 AND prompts.model_id IN (" . $modelIn . ")
                 AND category_prompt.category_id IN (" . $categoryIn . ")
+                AND prompts.author_id = CASE WHEN :author_id IS NOT NULL THEN :author_id ELSE prompts.author_id END
                 GROUP BY prompts.id" 
                 . $sqlOrder .
                 " LIMIT :limit OFFSET :offset";
@@ -327,6 +328,7 @@ class Prompt
         $stmt = $PDO->prepare($sql);
         $stmt->bindValue(":limit", $limit, PDO::PARAM_INT);
         $stmt->bindValue(":offset", $offset, PDO::PARAM_INT);
+        $stmt->bindValue(":author_id", $this->authorId);
         $stmt->bindValue(":approved", $approved);
         $stmt->execute();
         

@@ -810,9 +810,8 @@ nav .logo-container > img {
     display: none;
   }
 
-  #primary-nav {
-    display: flex;
-    justify-content: space-between;
+  .account-nav {
+    gap: 0.7rem;
   }
 }
 

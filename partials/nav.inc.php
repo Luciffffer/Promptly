@@ -53,7 +53,7 @@ include_once($_SERVER['DOCUMENT_ROOT'] . __ROOT__ . "classes/User.php");
                         <figure style="background-image: url(<?php echo __ROOT__ . htmlspecialchars($_SESSION['profile-pic']); ?>)" aria-label="Profile pic"></figure>
                         <div>
                             <p><?php echo htmlspecialchars($_SESSION['username']); ?></p>
-                            <small class="credits"><?php echo $credits; ?> credits</small>
+                            <small><?php echo $credits; ?> credits</small>
                         </div>
                     </div>
                     <hr>

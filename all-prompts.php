@@ -215,11 +215,13 @@ $models = Prompt::getAllModels();
 
                     <?php 
                         $promptTags = json_decode($prompt['tags'], true);  
+                        $promptModel = Prompt::GetModelById($prompt['model_id']);
                     ?>
                     <div>
                         <a href="prompt?id=<?php echo $prompt['id']; ?>" class="prompt-card-header" style="background-image: url(<?php echo $prompt['header_image']; ?>)">
                             <div class="prompt-card-header-model">
-
+                                <img src="<?php echo $promptModel['icon']; ?>" alt="<?php echo $promptModel['name']; ?>">
+                                <span><?php echo $promptModel['name']; ?></span>
                             </div>
                         </a>
                         <div class="prompt-card-body">

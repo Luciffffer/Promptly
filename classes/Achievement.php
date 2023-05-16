@@ -33,4 +33,13 @@ class Achievement
 
         return $statement->fetch(PDO::FETCH_ASSOC);
     }
+
+    public static function getAchievementsByUserId ($userId) {
+        $PDO = Database::getInstance();
+        $statement = $PDO->prepare("SELECT achievements.* FROM achievements INNER JOIN achievement_user ON achievement_user.achievement_id = achievements.id WHERE achievement_user.user_id = :userId");
+        $statement->bindValue(":userId", $userId);
+        $statement->execute();
+
+        return $statement->fetchAll(PDO::FETCH_ASSOC);
+    }
 }

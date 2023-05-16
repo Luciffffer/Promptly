@@ -36,7 +36,9 @@ function scrolledToEnd () {
                             title: prompt.title,
                             tags: JSON.parse(prompt.tags),
                             headerImage: prompt.header_image,
-                            id: prompt.id
+                            id: prompt.id,
+                            modelName: prompt.model.name,
+                            modelIcon: prompt.model.icon
                         })
 
                         promptList.appendChild(promptCard);
@@ -46,14 +48,16 @@ function scrolledToEnd () {
                     if (json.prompts.length < 14) {
                         this.removeEventListener("scroll", scrolledToEnd);
 
-                        const endOfPrompts = document.createElement("div");
-                        endOfPrompts.id = "prompt-list-end";
-                        
-                        const endOfPromptsText = document.createElement("h2");
-                        endOfPromptsText.textContent = "You've reached the end!";
+                        if (!document.querySelector('#prompt-list-end')) {
+                            const endOfPrompts = document.createElement("div");
+                            endOfPrompts.id = "prompt-list-end";
+                            
+                            const endOfPromptsText = document.createElement("h2");
+                            endOfPromptsText.textContent = "You've reached the end!";
 
-                        endOfPrompts.appendChild(endOfPromptsText);
-                        document.querySelector('#main-content').appendChild(endOfPrompts);
+                            endOfPrompts.appendChild(endOfPromptsText);
+                            document.querySelector('#main-content').appendChild(endOfPrompts);
+                        }
 
                         return;
                     }
@@ -72,7 +76,7 @@ function scrolledToEnd () {
 
 scrolledToEnd();
 
-function createPromptCard ({title = '', tags = '', headerImage = '', id = '', isLoading = false}) {
+function createPromptCard ({title = '', tags = '', headerImage = '', id = '', modelName = '', modelIcon = '', isLoading = false}) {
     const promptCard = document.createElement("div");
     if (isLoading) promptCard.classList.add("prompt-card-loading");
 
@@ -80,6 +84,22 @@ function createPromptCard ({title = '', tags = '', headerImage = '', id = '', is
     if (!isLoading) promptCardHeader.href = `prompt.php?id=${id}`;
     promptCardHeader.classList.add("prompt-card-header");
     promptCardHeader.style.backgroundImage = `url(${headerImage})`;
+
+    if (!isLoading) {
+        const promptCardHeaderModel = document.createElement("div");
+        promptCardHeaderModel.classList.add("prompt-card-header-model");
+
+        const promptCardHeaderModelImg = document.createElement("img");
+        promptCardHeaderModelImg.src = modelIcon;
+        promptCardHeaderModelImg.alt = modelName;
+        promptCardHeaderModel.append(promptCardHeaderModelImg);
+
+        const promptCardHeaderModelName = document.createElement("span");
+        promptCardHeaderModelName.textContent = modelName;
+        promptCardHeaderModel.append(promptCardHeaderModelName);
+
+        promptCardHeader.append(promptCardHeaderModel);
+    }
 
     const promptCardBody = document.createElement("div");
     promptCardBody.classList.add("prompt-card-body");

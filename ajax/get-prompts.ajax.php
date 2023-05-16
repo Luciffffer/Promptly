@@ -29,6 +29,12 @@ try {
 
     $prompts = $prompt->getPrompts($order, $page, 1);
 
+    // attach model information to prompts
+    foreach($prompts as $key => $prompt) {
+        $model = Prompt::getModelById($prompt['model_id']);
+        $prompts[$key]['model'] = $model;
+    }
+
     $response = [
         "status" => "success",
         "prompts" => $prompts,

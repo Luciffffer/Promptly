@@ -16,6 +16,7 @@ aside {
     height: 100%;
     width: 250px;
     padding: 2rem 1.5rem;
+    z-index: 10000;
 
     border-right: 2px solid var(--grey-2);
 }
@@ -191,6 +192,107 @@ aside {
     margin-bottom: 1rem;
 }
 
+#profile-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 2rem;
+}
+
+@media screen and (max-width: 1000px) {
+    #profile-grid {
+        grid-template-columns: 1.5fr 1fr;
+    }
+}
+
+@media screen and (max-width: 800px) {
+    #profile-grid {
+        grid-template-columns: 1fr;
+    }
+
+    #profile-prompts {
+        grid-row: 2;
+    }
+
+    .center-parent {
+        padding: 0 1.5rem;
+    }
+
+    #profile-header-div {
+        flex-direction: column;
+        gap: 1rem !important;
+    }
+
+    #profile-header {
+        padding: 0 1.5rem !important;
+    }
+}
+
+.grey {
+    color: var(--grey-1);
+}
+
+#profile-action-section {
+    display: flex;
+    gap: 1rem;
+
+    margin-bottom: 2rem;
+    padding: 0 1rem;
+    border-radius: 10px;
+}
+
+#profile-action-section > a {
+    font-weight: bold;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    background: var(--blue-purple-gradient);
+}
+
+#profile-action-section > a:hover {
+    color: var(--off-white);
+}
+
+#profile-about-section {
+    background-color: var(--grey-2);
+    border-radius: 10px;
+}
+
+#profile-about-section > *:not(hr) {
+    padding: 1rem;
+}
+
+#profile-about-section > div > h3 {
+    margin-bottom: 1rem;
+}
+
+#profile-achievements {
+    background-color: var(--dark-grey);
+    padding: 1rem;
+    border-radius: 10px;
+    display: grid;  
+    gap: 1rem;
+    grid-template-columns: repeat(auto-fill, minmax(60px, 1fr));
+}
+
+.achievement {
+    position: relative;
+}
+
+.achievement span {
+    display: none;
+    position: absolute;
+    text-align: center;
+    right: 50%;
+    transform: translate(50%, 5px);
+    background-color: var(--grey-3);
+    padding: 0.5rem;
+    width: 200px;
+    border-radius: 5px;
+}
+
+.achievement:hover span {
+    display: block;
+}
+
 #profile-header-div {
     display: flex;
     align-items: center;
@@ -221,11 +323,16 @@ aside {
     -webkit-background-clip: text;
 }
 
+#profile-header-information {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
 #profile-header-information > span {
     background-color: var(--dark-grey);
     padding: 0.4rem 0.7rem;
     border-radius: 5px;
-    margin-right: 0.5rem;
 }
 
 #profile-information {
@@ -623,14 +730,42 @@ aside {
     padding: 2rem 0;
 }
 
+.prompt-card-header-model {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+
+    font-size: 14px;
+
+    padding: 0.3rem 1rem;
+
+    background-color: var(--grey-2);
+    border-radius: 10px;
+}
+
+.prompt-card-header-model > img {
+    aspect-ratio: 1/1;
+    height: 20px;
+}
+
 .prompt-card-header {
     background-size: cover;
     background-position: center;
+
+    position: relative;
 
     display: block;
     aspect-ratio: 2.5/1;
     border-radius: 10px;
     margin-bottom: 0.5rem;
+}
+
+.prompt-card-header:hover {
+    color: var(--off-white) !important;
 }
 
 .prompt-card-body {
@@ -646,7 +781,21 @@ aside {
 }
 
 .prompt-card-tags > span {
-    color: var(--light-medium-blue);
+    color: var(--grey-1);
+}
+
+#profile-prompts-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 2rem;
+}
+
+#profile-prompts > hr {
+    margin-top: 1rem;
+    margin-bottom: 2rem;
+    height: 2px;
+    border: none;
+    background-color: var(--grey-3);
 }
 
 .prompt-card-get-btn {

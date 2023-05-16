@@ -25,5 +25,8 @@
             </div>
         </section>
     </header>
+    <section style="margin-top: 6rem; text-align: center; color: var(--red);">
+        <h2>This page is work in progress!</h2>
+    </section>
 </body>
 </html>
