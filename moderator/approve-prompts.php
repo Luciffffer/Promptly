@@ -1,15 +1,15 @@
 <?php
     include_once(__DIR__ . "/../classes/Prompt.php");
-    include_once(__DIR__ . "/../classes/User.php"); 
+    include_once(__DIR__ . "/../classes/User.php");
+    include_once(__DIR__ . "/../classes/Security.php"); 
     // include_once("../ajax/remove-prompt.ajax.php"); 
+    session_start();
+    Security::onlyModerator();
 
     $prompt = new Prompt();
     $prompts = $prompt->getPrompts(approved: 0);
    
-    // if($_SESSION['isMod'] == false){
-    //     header('location: ../index');
-    // }
-
+    
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -37,21 +37,25 @@
             </div>
             <?php 
                 foreach($prompts as $prompt){
-                    ?>
-                    
+                    $tags = json_decode($prompt['tags']); ?>                
                     <div class='prompt'>
-                        <p class="prompt-model"><?php echo $prompt['model_id']?></p>
-                        <div class="title-tags">
-                            <p class="prompt-title"><?php echo $prompt['title']?></p>
-                            <p class="prompt-tags"><?php echo $prompt['tags']?></p>
-                        </div>
-                        <div class="prompt-images">
-                            <p class="img-prompt" style="background-image: url(../<?php echo $prompt['example_image1']; ?>)"></p>
-                            <p class="img-prompt" style="background-image: url(../<?php echo $prompt['example_image2']; ?>)"></p>
-                            <p class="img-prompt" style="background-image: url(../<?php echo $prompt['example_image3']; ?>)"></p>
-                            <p class="img-prompt" style="background-image: url(../<?php echo $prompt['example_image4']; ?>)"></p>
-                        </div>
-                        <p class="prompt-words"><?php echo $prompt['word_count']?></p>
+                            <p class="prompt-model"><?php echo $prompt['model_id']?></p>
+                            <div class="title-tags">
+                                <p class="prompt-title"><?php echo $prompt['title']?></p>
+                                <?php foreach($tags as $tag){ ?>
+                                    <p class="prompt-tags"><?php echo $tag?></p>
+                                <?php } ?>
+                                <p class="prompt-tags"><?php json_decode($prompt['tags'])?></p>
+                            </div>
+                            <div class="prompt-images">
+                                <p class="img-prompt" style="background-image: url(../<?php echo $prompt['example_image1']; ?>)"></p>
+                                <p class="img-prompt" style="background-image: url(../<?php echo $prompt['example_image2']; ?>)"></p>
+                                <p class="img-prompt" style="background-image: url(../<?php echo $prompt['example_image3']; ?>)"></p>
+                                <p class="img-prompt" style="background-image: url(../<?php echo $prompt['example_image4']; ?>)"></p>
+                            </div>
+                            <p class="prompt-words"><?php echo $prompt['word_count']?></p>
+                            
+
                         <div class="buttons">
                         <form class="formpost" action="" method="POST" data-id="<?php echo $prompt['id']?>">
                             <input type="submit" id="btn-opmaak" value="Approve" name="approve">
