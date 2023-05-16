@@ -39,7 +39,7 @@ $navModels = Prompt::getAllModels();
             </a>
             <ul class="aside-ul">
                 <li><a href="#">Bought</a></li>
-                <li><a href="#">Liked</a></li>
+                <li><a href="./user_liked_prompts.php">Liked</a></li>
                 <li><a href="#">Your Prompts</a></li>
             </ul>
         </div>

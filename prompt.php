@@ -15,7 +15,6 @@ if (!empty($_GET['id'])) {
 
     Prompt::addView($_GET['id']);
 
-
 } else {
     header("Location: index");
     exit();
