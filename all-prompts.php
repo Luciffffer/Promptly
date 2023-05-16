@@ -41,7 +41,7 @@ $models = Prompt::getAllModels();
     <?php include_once(__DIR__ . "/partials/nav.inc.php"); ?>
     <main>
         <?php include_once(__DIR__ . "/partials/aside.inc.php"); ?>
-        <div style="padding: 0 3rem">
+        <div style="padding: 0 3rem" id="main-content">
             <header id="all-prompts-header">
                 <h1><span class="blue-text">All</span> Prompts</h1>
                 <form action="" method="GET" id="all-prompts-form">
@@ -211,7 +211,6 @@ $models = Prompt::getAllModels();
             </header>
             <hr class="grey-hr">
             <section aria-label="Prompt list" id="all-prompts-list">
-                <?php //var_dump($prompts); ?>
                 <?php foreach ($prompts as $prompt) : ?>
 
                     <?php 
@@ -239,6 +238,7 @@ $models = Prompt::getAllModels();
                     </div>
 
                 <?php endforeach; ?>
+                <script src="./assets/js/all-prompts-infinite-scroll.js" defer></script>
             </section>
         </div>
     </main>

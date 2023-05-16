@@ -62,7 +62,7 @@ class Prompt
 
     public function setDescription (string $description)
     {
-        if (strlen($description) >= 500) {
+        if (strlen($description) >= 1000) {
             throw new Exception("Description must be less than 500 characters.");
         } else if (empty($description)) {
             throw new Exception("Description cannot be empty.");
@@ -295,7 +295,7 @@ class Prompt
 
     public function getPrompts (string $order = "new", int $page = 1, int $approved = null): array
     {
-        $limit = 20;
+        $limit = 14;
         $offset = ($page - 1) * $limit;
 
         switch ($order) {
@@ -355,6 +355,16 @@ class Prompt
         if ($stmt->rowCount() == 0) throw new Exception("Prompt not found.");
 
         return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
+    public static function getPromptsByUserId (int $id): array
+    {
+        $PDO = Database::getInstance();
+        $stmt = $PDO->prepare("SELECT * FROM prompts WHERE author_id = :user_id ORDER BY date_created DESC limit 20");
+        $stmt->bindValue(":user_id", $id);
+        $stmt->execute();
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
     public static function addView (int $id): void

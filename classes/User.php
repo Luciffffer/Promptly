@@ -280,6 +280,18 @@ class User
         return $result;
     }
 
+    public static function getCreditsByUserId (int $id): int
+    {
+        $PDO = Database::getInstance();
+        $stmt = $PDO->prepare("SELECT credits FROM users WHERE id = :id AND active = 1");
+        $stmt->bindValue(":id", $id);
+        $stmt->execute();
+
+        $result = $stmt->fetch();
+        
+        return $result['credits'];
+    }
+
 
     // misc
 
