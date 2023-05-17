@@ -3,6 +3,7 @@
 include_once(__DIR__ . "/../classes/Security.php");
 include_once(__DIR__ . "/../classes/Prompt.php");
 include_once(__DIR__ . "/../classes/File.php");
+include_once(__DIR__ . "/../classes/Achievement.php");
 
 Security::onlyLoggedIn();
 
@@ -69,6 +70,14 @@ if (!empty($_POST) && !empty($_FILES)) {
         }
 
         $prompt->insertPrompt();
+
+        $prompts = Prompt::getPromptsByUserId($_SESSION['userId']);
+
+        if (count($prompts) === 1) {
+            Achievement::unlockAchievement(2, $_SESSION['userId']);
+        }
+
+        header("Location: ../prompt?id=" . $prompts[0]['id']);
 
     } catch (Throwable $err) {
         $error = $err->getMessage();

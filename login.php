@@ -9,13 +9,14 @@
         try {
             if (User::canLogin($_POST['password'], $_POST['email'])) {
 
-                session_start();
                 $user = User::getUserByEmail($_POST['email']);
 
                 $_SESSION['username'] = $user['username'];
                 $_SESSION['userId'] = $user['id'];
                 $_SESSION['profile-pic'] = $user['profile_pic'];
                 $_SESSION['loggedIn'] = true;
+
+                if ($user['is_moderator'] === 1) $_SESSION['isModerator'] = true;
 
                 header('location: index');
 

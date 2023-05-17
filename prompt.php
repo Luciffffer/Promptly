@@ -3,19 +3,35 @@
 include_once(__DIR__ . '/classes/Prompt.php');
 include_once(__DIR__ . '/classes/User.php');
 include_once(__DIR__ . '/classes/Like.php');
+include_once(__DIR__ . '/classes/Comment.php');
+include_once(__DIR__ . '/classes/Date.php');
 
 session_start();
 
 if (!empty($_GET['id'])) {
+
     $prompt = Prompt::getPromptById($_GET['id']);
+
+    $isAuthor = (isset($_SESSION['userId']) && $prompt['author_id'] == $_SESSION['userId']) ? true : false;
+
+    if ($prompt['approved'] == 0 && !$isAuthor && !isset($_SESSION['isModerator'])) {
+        Leave();
+    }
+
     $model = Prompt::getModelById($prompt['model_id']);
     $categories = Prompt::getCategoriesByPromptId($_GET['id']);
     $author = User::getUserById($prompt['author_id']);
     $tags = json_decode($prompt['tags'], true);
 
-    Prompt::addView($_GET['id']);
+    if (!$isAuthor) {
+        Prompt::addView($_GET['id']);
+    }
 
 } else {
+    Leave();
+}
+
+function Leave() {
     header("Location: index");
     exit();
 }
@@ -74,6 +90,14 @@ $AllLikes = Like::getLikes($_GET['id']);
                                 </span>
                             </div>
                         </section>
+                        <?php if (!$prompt['approved']) : ?>
+                            <section id="single-prompt-approval">
+                                <img src="./assets/images/site/warning-icon.svg" alt="Warning">
+                                <p>
+                                    This prompt is currently in the approval process. This means that it is not yet available to other users. You will get a notification as soon as your prompt has been approved or denied.
+                                </p>
+                            </section>
+                        <?php endif; ?>
                         <hr class="single-prompt-hr">
                         <section id="single-prompt-basic-info">
                             <div>
@@ -106,11 +130,18 @@ $AllLikes = Like::getLikes($_GET['id']);
                                             <span>Get prompt for free!</span>    
                                         </a>
                                     <?php else : ?>
-                                        <a class="button" id="get-prompt-btn" href="#">
-                                            <img src="assets/images/site/plus-circle-icon.svg" alt="Get icon">
-                                            <span>Get prompt</span>
-                                        </a>
-                                        <small>It's only 1 credit!</small>
+                                        <?php if ($isAuthor || (isset($_SESSION['isModerator']) && $_SESSION['isModerator'] === true)) : ?>
+                                            <div id="prompt-gotten-container">
+                                                <img src="assets/images/site/success-icon.svg" alt="Checkmark">
+                                                <span>You own this prompt!</span>
+                                            </div>
+                                        <?php else : ?>
+                                            <a class="button" id="get-prompt-btn" href="#">
+                                                <img src="assets/images/site/plus-circle-icon.svg" alt="Get icon">
+                                                <span>Get prompt</span>
+                                            </a>
+                                            <small>It's only 1 credit!</small>
+                                        <?php endif; ?>
                                     <?php endif; ?>
                                 </div>
                                 <div id="single-prompt-action-section-right">
@@ -129,9 +160,20 @@ $AllLikes = Like::getLikes($_GET['id']);
                                 </a>
                             </section>
 
-                                <?php // if prompt has been bought or author is the same as session userid ?>
+                                <?php if ($isAuthor || isset($_SESSION['isModerator'])) : // if prompt has been bought or author is the same as session userid ?>
 
-                                <?php // else ?>
+                                    <section id="prompt-section">
+                                        <h2>The <span class="blue-text">Prompt:</span></h2>
+                                        <div id="prompt-container">
+                                            <p><?php echo nl2br(htmlspecialchars($prompt['prompt'])); ?></p>
+                                        </div>
+                                        <h3>Instructions</h3>
+                                        <div id="prompt-container">
+                                            <p><?php echo nl2br(htmlspecialchars($prompt['prompt_instructions'])); ?></p>
+                                        </div>
+                                    </section>
+
+                                <?php else : ?>
 
                                     <section id="prompt-section">
                                         <h2>The <span class="blue-text">Prompt:</span></h2>
@@ -150,8 +192,58 @@ $AllLikes = Like::getLikes($_GET['id']);
                                         </div>
                                     </section>
 
-                                <?php //endif ?>
+                                <?php endif; ?>
 
+
+                            <section id="comment-section">
+                                <h2>Comments</h2>
+
+                                <form action="" id="add-comment-form">
+                                    <figure style="background-image: url(<?php echo $_SESSION['profile-pic']; ?>)"></figure>
+                                    <div>
+                                        <textarea rows="1" name="comment" id="comment-textarea" placeholder="Add a comment..."></textarea>
+                                        <div id="comment-buttons" class="hidden">
+                                            <button class="button" id="comment-cancel">Cancel</button>
+                                            <button class="button" id="comment-submit-btn">Post</button>
+                                        </div>
+                                    </div>
+                                </form>
+                                <script src="assets/js/comment-section.js" defer></script>
+
+                                <div id="comment-list">
+                                    <?php 
+                                        $comments = Comment::getAllComments($prompt['id']);
+                                    ?>
+
+                                    <?php if (empty($comments)) : ?>
+                                        <div id="no-comments-container">
+                                            <p>No comments yet</p>
+                                        </div>
+                                    <?php endif; ?>
+                                    
+                                    <?php foreach ($comments as $comment) : ?>
+
+                                        <?php $commentUser = User::getUserById($comment['user_id']); ?>
+
+                                        <div class="comment">
+                                            <a href="profile?id=<?php echo $commentUser['id'] ?>">
+                                                <figure style="background-image: url(<?php echo $commentUser['profile_pic'] ?>)"></figure>
+                                            </a>
+                                            <div>
+                                                <div class="comment-top">
+                                                    <a class="white-a" href="profile?id=<?php echo $commentUser['id'] ?>"><?php echo htmlspecialchars($commentUser['username']); ?></a>
+                                                    <small><?php echo Date::getElapsedtime($comment['date_created']); ?></small>
+                                                </div>
+                                                <p><?php echo nl2br(htmlspecialchars($comment['comment'])); ?></p>
+                                            </div>
+                                            <?php if ((isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] === true && ($comment['user_id'] === $_SESSION['userId']) || isset($_SESSION['isModerator']))) : ?>
+                                                <a href="#" class="delete-comment-btn" data-comment-id="<?php echo $comment['id']; ?>" aria-label="Delete comment"></a>
+                                            <?php endif; ?>
+                                        </div>
+
+                                    <?php endforeach; ?>
+                                </div>
+                            </section>
                         <?php endif; ?>
                     </div>
                     <section id="single-prompt-image-container">
@@ -178,6 +270,8 @@ $AllLikes = Like::getLikes($_GET['id']);
     </main>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
+    // William used jquery for this
+
     var promptId = <?php echo $_GET['id']; ?>;
     var userId = <?php echo $_SESSION['userId']; ?>;
     var AllLikes = $('#likes-count'); // Get the likes count element

@@ -21,15 +21,15 @@ class File
         return $this->path;
     }
 
-    
+
     // setters
 
-    public function setImageName (string $name)
+    public function setImageName(string $name)
     {
         if (empty($name)) {
             throw new Exception("No image uploaded.");
         }
-        
+
         $extension = explode('.', $name);
         $extension = strtolower(end($extension));
 
@@ -47,15 +47,20 @@ class File
 
     // others
 
-    public function validateImageSize (int $size): void
+    public function validateImageSize(int $size): void
     {
         if ($size > $this->maxImageSize) {
             throw new Exception("Image size is too large. Max 2MB");
         }
     }
 
-    public function moveImage (string $tmp_name): void
+    public function moveImage(string $tmp_name): void
     {
         move_uploaded_file($tmp_name, __DIR__ . '/../' . $this->path);
+    }
+
+    public static function deleteFile($path): void
+    {
+        unlink(__DIR__ . '/../' . $path);
     }
 }

@@ -33,14 +33,14 @@ $navModels = Prompt::getAllModels();
             </ul>
         </div>
         <div>
-            <a href="#" class="aside-title">
+            <a href="<?php echo __ROOT__; ?>library.php" class="aside-title">
                 <img src="<?php echo __ROOT__ ;?>assets/images/site/library-icon.svg" alt="Library icon">
                 <h2>Library</h2>
             </a>
             <ul class="aside-ul">
-                <li><a href="#">Bought</a></li>
-                <li><a href="./user_liked_prompts.php">Liked</a></li>
-                <li><a href="#">Your Prompts</a></li>
+                <li><a href="<?php echo __ROOT__; ?>library.php?page=bought">Bought</a></li>
+                <li><a href="<?php echo __ROOT__; ?>library.php?page=liked">Liked</a></li>
+                <li><a href="<?php echo __ROOT__; ?>library.php?page=yours">Your Prompts</a></li>
             </ul>
         </div>
     </nav>

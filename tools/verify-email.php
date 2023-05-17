@@ -3,6 +3,7 @@
     include_once(__DIR__ . "/../classes/User.php");
     include_once(__DIR__ . "/../classes/Security.php");
     include_once(__DIR__ . "/../classes/Token.php");
+    include_once(__DIR__ . "/../classes/Achievement.php");
 
     Security::onlyNonLoggedIn();
 
@@ -11,6 +12,7 @@
             $token = Token::getTokenObject($_GET['code'], "email");
             User::verifyEmail($token['user_id']);
             Token::deleteToken($token['id']);
+            Achievement::unlockAchievement(1, $token['user_id']);
             $success = true;
         } catch (Throwable $err) {
             $error = $err->getMessage();

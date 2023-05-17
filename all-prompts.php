@@ -41,7 +41,7 @@ $models = Prompt::getAllModels();
     <?php include_once(__DIR__ . "/partials/nav.inc.php"); ?>
     <main>
         <?php include_once(__DIR__ . "/partials/aside.inc.php"); ?>
-        <div style="padding: 0 3rem">
+        <div style="padding: 0 3rem" id="main-content">
             <header id="all-prompts-header">
                 <h1><span class="blue-text">All</span> Prompts</h1>
                 <form action="" method="GET" id="all-prompts-form">
@@ -211,16 +211,17 @@ $models = Prompt::getAllModels();
             </header>
             <hr class="grey-hr">
             <section aria-label="Prompt list" id="all-prompts-list">
-                <?php //var_dump($prompts); ?>
                 <?php foreach ($prompts as $prompt) : ?>
 
                     <?php 
                         $promptTags = json_decode($prompt['tags'], true);  
+                        $promptModel = Prompt::GetModelById($prompt['model_id']);
                     ?>
                     <div>
                         <a href="prompt?id=<?php echo $prompt['id']; ?>" class="prompt-card-header" style="background-image: url(<?php echo $prompt['header_image']; ?>)">
                             <div class="prompt-card-header-model">
-
+                                <img src="<?php echo $promptModel['icon']; ?>" alt="<?php echo $promptModel['name']; ?>">
+                                <span><?php echo $promptModel['name']; ?></span>
                             </div>
                         </a>
                         <div class="prompt-card-body">
@@ -239,6 +240,7 @@ $models = Prompt::getAllModels();
                     </div>
 
                 <?php endforeach; ?>
+                <script src="./assets/js/all-prompts-infinite-scroll.js" defer></script>
             </section>
         </div>
     </main>
