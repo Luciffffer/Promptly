@@ -22,6 +22,7 @@ if (!empty($_GET['id'])) {
     $categories = Prompt::getCategoriesByPromptId($_GET['id']);
     $author = User::getUserById($prompt['author_id']);
     $tags = json_decode($prompt['tags'], true);
+    $AllLikes = Like::getLikes($_GET['id']);
 
     if (!$isAuthor) {
         Prompt::addView($_GET['id']);
@@ -35,7 +36,6 @@ function Leave() {
     header("Location: index");
     exit();
 }
-$AllLikes = Like::getLikes($_GET['id']);
 
 ?><!DOCTYPE html>
 <html lang="en">
@@ -124,28 +124,26 @@ $AllLikes = Like::getLikes($_GET['id']);
                         <?php else: ?>
                             <section id="single-prompt-action-section">
                                 <div>
-                                    <?php if ($prompt['free']) : ?>
+                                    <?php if ($isAuthor || (isset($_SESSION['isModerator']) && $_SESSION['isModerator'] === true)) : ?>
+                                        <div id="prompt-gotten-container">
+                                            <img src="assets/images/site/success-icon.svg" alt="Checkmark">
+                                            <span>You own this prompt!</span>
+                                        </div>
+                                    <?php elseif ($prompt['free']) : ?>
                                         <a class="button" id="get-prompt-btn" href="#">
                                             <img src="assets/images/site/plus-circle-icon.svg" alt="Get icon">
                                             <span>Get prompt for free!</span>    
                                         </a>
                                     <?php else : ?>
-                                        <?php if ($isAuthor || (isset($_SESSION['isModerator']) && $_SESSION['isModerator'] === true)) : ?>
-                                            <div id="prompt-gotten-container">
-                                                <img src="assets/images/site/success-icon.svg" alt="Checkmark">
-                                                <span>You own this prompt!</span>
-                                            </div>
-                                        <?php else : ?>
-                                            <a class="button" id="get-prompt-btn" href="#">
-                                                <img src="assets/images/site/plus-circle-icon.svg" alt="Get icon">
-                                                <span>Get prompt</span>
-                                            </a>
-                                            <small>It's only 1 credit!</small>
-                                        <?php endif; ?>
+                                        <a class="button" id="get-prompt-btn" href="#">
+                                            <img src="assets/images/site/plus-circle-icon.svg" alt="Get icon">
+                                            <span>Get prompt</span>
+                                        </a>
+                                        <small>It's only 1 credit!</small>
                                     <?php endif; ?>
                                 </div>
                                 <div id="single-prompt-action-section-right">
-                                    <a id="like-btn" href="#" aria-label="Like prompt"></a>
+                                    <a id="like-btn" href="#" aria-label="Like prompt" data-liked="<?php echo Like::isLiked($_SESSION['userId'], $_GET['id']) ? 'true' : 'false'; ?>"></a>
                                     <span id="likes-count"><?php echo $AllLikes; ?></span>
                                     <hr>
                                     <a id="prompt-more-options-button" href="#" aria-label="More options"></a>
@@ -270,18 +268,27 @@ $AllLikes = Like::getLikes($_GET['id']);
     </main>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
-    // William used jquery for this
+    // William used jquery for this. Increases loading time. I would recommend using vanilla js instead
 
     var promptId = <?php echo $_GET['id']; ?>;
+
+    // Not safe. User can change this and thus make other users like the prompt
+    // UserId should not be send with ajax. It should be gotten from session in toggle-like.ajax.php
     var userId = <?php echo $_SESSION['userId']; ?>;
+
     var AllLikes = $('#likes-count'); // Get the likes count element
 
     $(document).ready(function() {
         $('#like-btn').click(function(event) {
             event.preventDefault();
 
+            // right now the like button lags. That's because we wait for the ajax response before we change the like button
+            // if you have extra time it would be great to change the like button before the ajax response
+            // create a variable called isLiked and change it together with the like button style when clicked. Don't wait for response
+            // if the response throws an error then change the like button back to the previous state. Otherwise don't do anything
+
             $.ajax({
-                url: './classes/Like.php',
+                url: './ajax/toggle-like.ajax.php',
                 type: 'POST',
                 data: {
                     prompt_id: promptId,
@@ -290,11 +297,11 @@ $AllLikes = Like::getLikes($_GET['id']);
                 success: function(response) {
                     if (response === 'added') {
                         AllLikes.text(parseInt(AllLikes.text()) + 1); 
-                        document.getElementById("like-btn").style.backgroundImage="url('assets/images/site/heart-icon-red.svg')";
+                        document.getElementById("like-btn").dataset.liked = "true";
                         console.log('Liked prompt.');
                     } else if (response === 'removed') {
                         AllLikes.text(parseInt(AllLikes.text()) - 1);
-                        document.getElementById("like-btn").style.backgroundImage="url('assets/images/site/heart-icon.svg')";
+                        document.getElementById("like-btn").dataset.liked = "false";
                         console.log('Removed like from prompt.');
                     } else {
                         console.log('Failed to toggle like.');

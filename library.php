@@ -1,6 +1,7 @@
 <?php
 
 include_once(__DIR__ . "/classes/Security.php");
+include_once(__DIR__ . "/classes/Prompt.php");
 
 Security::onlyLoggedIn();
 
@@ -12,17 +13,23 @@ if (!empty($_GET['page'])) {
             break;
         case "liked":
             $page = "liked";
+            $prompts = Prompt::getAllLikedPromptsByUserId($_SESSION['userId']);
             break;
         case "yours":
             $page = "yours";
+            $prompt = new Prompt();
+            $prompt->setAuthorId($_SESSION['userId']);
+            $prompts = $prompt->getPrompts(order: 'new');
             break;
         default:
             $page = "liked";
+            $prompts = Prompt::getAllLikedPromptsByUserId($_SESSION['userId']);
             break;
     }
 
 } else {
     $page = 'liked';
+    $prompts = Prompt::getAllLikedPromptsByUserId($_SESSION['userId']);
 }
 
 ?><!DOCTYPE html>
@@ -77,6 +84,70 @@ if (!empty($_GET['page'])) {
                     })
                 </script>
             </header>
+            <div class="center-parent">
+                <?php if (!empty($prompts)) : ?>
+
+                    <?php if ($page === 'yours') : ?>
+                        <section id="note-section">
+                            <p>Prompts marked with a <span class="red-text">red border</span> haven't been approved yet!</p>
+                        </section>
+                    <?php endif; ?>
+
+                    <section aria-label="Prompt list" id="all-prompts-list">
+                        <?php foreach ($prompts as $prompt) : ?>
+
+                            <?php 
+                                $promptTags = json_decode($prompt['tags'], true);  
+                                $promptModel = Prompt::GetModelById($prompt['model_id']);
+                            ?>
+                            <div>
+                                <a href="prompt?id=<?php echo $prompt['id']; ?>" class="prompt-card-header <?php if (!$prompt['approved']) echo 'prompt-card-unapproved'; ?>" style="background-image: url(<?php echo $prompt['header_image']; ?>)">
+                                    <div class="prompt-card-header-model">
+                                        <?php if ($prompt['approved']) : ?>
+                                            <img src="<?php echo $promptModel['icon']; ?>" alt="<?php echo $promptModel['name']; ?>">
+                                            <span><?php echo $promptModel['name']; ?></span>
+                                        <?php else : ?>
+                                            <img src="assets/images/site/cross-symbol.svg" alt="Cross">
+                                            <span class="red-text">Not Approved</span>
+                                        <?php endif; ?>
+                                    </div>
+                                </a>
+                                <div class="prompt-card-body">
+                                    <div class="prompt-card-body-left">
+                                        <a class="white-a" href="prompt?id=<?php echo $prompt['id']; ?>"><?php echo htmlspecialchars($prompt['title']); ?></a>
+                                        <small class="prompt-card-tags">
+                                            <?php for ($i = 0; $i < 4 && isset($promptTags[$i]); ++$i) : ?>
+                                                <span><?php echo htmlspecialchars($promptTags[$i]); ?></span>
+                                            <?php endfor; ?>
+                                        </small>
+                                    </div>
+                                    <a href="#" class="button prompt-card-get-btn">
+                                        <img src="assets/images/site/plus-circle-icon.svg" alt="Get Prompt">
+                                    </a>
+                                </div>
+                            </div>
+
+                        <?php endforeach; ?>
+                    </section>
+
+                <?php else : ?>
+
+                    <section aria-label="Prompt list">
+                        <div id="no-prompts-container">
+                            <?php if ($page === 'liked') : ?>
+                                <h2>You haven't liked any prompts yet.</h2>
+                                <p>Go to the <a href="discover.php">discover</a> page to find some prompts you like.</p>
+                            <?php elseif ($page === 'bought') : ?>
+                                <h2>You haven't bought any prompts yet</h2>
+                            <?php elseif ($page === 'yours') : ?>
+                                <h2>You haven't created any prompts yet</h2>
+                                <p>Go to the <a href="tools/add-prompt.php">add prompt</a> page to create your own prompts.</p>
+                            <?php endif; ?>
+                        </div>
+                    </section>
+
+                <?php endif; ?>
+            </div>
         </div>
     </main>
 </body>

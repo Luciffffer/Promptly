@@ -737,13 +737,13 @@ aside {
 
     display: flex;
     align-items: center;
-    gap: 1rem;
+    gap: 0.5rem;
 
     font-size: 14px;
 
-    padding: 0.3rem 1rem;
+    padding: 0.5rem 1rem;
 
-    background-color: var(--grey-2);
+    background-color: var(--dark-grey);
     border-radius: 10px;
 }
 
@@ -888,4 +888,57 @@ aside {
     border: none;
     background-color: var(--off-white);
     transition: transform 0.3s, width 0.3s;   
+}
+
+#no-prompts-container {
+    padding: 3rem 0;
+    text-align: center;
+    color: var(--grey-3);
+}
+
+#no-prompts-container a {
+    color: var(--grey-3);
+    position: relative;
+}
+
+#no-prompts-container a:hover {
+    color: var(--grey-1);
+}
+
+#no-prompts-container a:hover::after {
+    background-color: var(--grey-1);
+}
+
+#no-prompts-container a::after {
+    content: "";
+    display: block;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background-color: var(--grey-3);
+}
+
+#note-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    text-align: center;
+
+    background-color: var(--grey-2);
+
+    padding: 1rem;
+    margin-top: 1.5rem;
+
+    border-radius: 10px;
+}
+
+.prompt-card-unapproved {
+    border: 2px solid var(--red);
+}
+
+.not-approved-card-header {
+    background-color: var(--red);
 }

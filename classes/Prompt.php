@@ -357,6 +357,16 @@ class Prompt
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    public static function getAllLikedPromptsByUserId (int $id): array
+    {
+        $PDO = Database::getInstance();
+        $stmt = $PDO->prepare("SELECT prompts.* FROM prompts INNER JOIN likes ON likes.prompt_id = prompts.id WHERE likes.user_id = :user_id ORDER BY date_created DESC");
+        $stmt->bindValue(":user_id", $id);
+        $stmt->execute();
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
     public static function addView (int $id): void
     {
         $PDO = Database::getInstance();

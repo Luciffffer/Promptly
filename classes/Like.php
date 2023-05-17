@@ -7,63 +7,49 @@ class like
     public static function getLikes($promptId)
     {
         $pdo = Database::getInstance();
-    
-        try {
-            $stmt = $pdo->prepare("SELECT COUNT(*) FROM liked WHERE prompt_id = :prompt_id");
-            $stmt->bindParam(':prompt_id', $promptId, PDO::PARAM_INT);
-            $stmt->execute();
-            $likes = $stmt->fetchColumn();
-    
-            return $likes;
-    
-        } catch (PDOException $e) {
-            echo "Error getting likes: " . $e->getMessage();
-        }
+
+        $stmt = $pdo->prepare("SELECT COUNT(*) FROM likes WHERE prompt_id = :prompt_id");
+        $stmt->bindParam(':prompt_id', $promptId, PDO::PARAM_INT);
+        $stmt->execute();
+        $likes = $stmt->fetchColumn();
+
+        return $likes;
+
     }
+
     public function toggleLike($promptId, $userId)
     {
         $pdo = Database::getInstance();
 
-         
-            $stmt = $pdo->prepare("SELECT * FROM liked WHERE prompt_id = :prompt_id AND user_id = :user_id");
+        if ($this::isLiked($userId, $promptId)) {
+            // User has already liked the prompt, so remove their like
+            $stmt = $pdo->prepare("DELETE FROM likes WHERE prompt_id = :prompt_id AND user_id = :user_id");
             $stmt->bindParam(':prompt_id', $promptId, PDO::PARAM_INT);
             $stmt->bindParam(':user_id', $userId, PDO::PARAM_INT);
             $stmt->execute();
-            $like = $stmt->fetch();
-
-            if ($like) {
-                // User has already liked the prompt, so remove their like
-                $stmt = $pdo->prepare("DELETE FROM liked WHERE prompt_id = :prompt_id AND user_id = :user_id");
-                $stmt->bindParam(':prompt_id', $promptId, PDO::PARAM_INT);
-                $stmt->bindParam(':user_id', $userId, PDO::PARAM_INT);
-                $stmt->execute();
-                echo "removed";
-            } else {
-                // User hasn't liked the prompt yet, so add their like
-                $stmt = $pdo->prepare("INSERT INTO liked (prompt_id, user_id) VALUES (:prompt_id, :user_id)");
-                $stmt->bindParam(':prompt_id', $promptId, PDO::PARAM_INT);
-                $stmt->bindParam(':user_id', $userId, PDO::PARAM_INT);
-                $stmt->execute();
-                echo "added";
-            }
+            echo "removed"; // don't echo stuff in classes. Just return it
+        } else {
+            // User hasn't liked the prompt yet, so add their like
+            $stmt = $pdo->prepare("INSERT INTO likes (prompt_id, user_id) VALUES (:prompt_id, :user_id)");
+            $stmt->bindParam(':prompt_id', $promptId, PDO::PARAM_INT);
+            $stmt->bindParam(':user_id', $userId, PDO::PARAM_INT);
+            $stmt->execute();
+            echo "added"; // don't echo stuff in classes. Just return it
+        }
         
     }
-    public static function getUserLikes($userId, $promptId)
+
+    public static function isLiked ($userId, $promptId): bool
     {
         $pdo = Database::getInstance();
-    
-        try {
-            $stmt = $pdo->prepare("SELECT * FROM liked WHERE user_id = :user_id AND prompt_id = :prompt_id");
-            $stmt->bindParam(':user_id', $userId, PDO::PARAM_INT);
-            $stmt->bindParam(':prompt_id', $promptId, PDO::PARAM_INT);
-            $stmt->execute();
-            $likes = $stmt->fetchColumn();
-    
-            return $likes;
-    
-        } catch (PDOException $e) {
-            echo "Error getting likes: " . $e->getMessage();
-        }
+
+        $stmt = $pdo->prepare("SELECT * FROM likes WHERE prompt_id = :prompt_id AND user_id = :user_id");
+        $stmt->bindParam(':prompt_id', $promptId, PDO::PARAM_INT);
+        $stmt->bindParam(':user_id', $userId, PDO::PARAM_INT);
+        $stmt->execute();
+        $result = $stmt->fetch();
+
+        return $result ? true : false;
     }
 }
 

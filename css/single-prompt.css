@@ -743,3 +743,11 @@ input::placeholder, textarea::placeholder {
     background-color: var(--grey-2);
     border-radius: 100%;
 }
+
+[data-liked="false"] {
+    background-image: url('../assets/images/site/heart-icon.svg') !important;
+}
+
+[data-liked="true"] {
+    background-image: url('../assets/images/site/heart-icon-red.svg') !important;
+}
