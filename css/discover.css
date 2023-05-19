@@ -1,0 +1,166 @@
+body {
+    scroll-behavior: smooth;
+}
+
+#discover-header {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    position: relative;
+    max-width: 100%;
+
+    padding: 4rem 1rem;
+    overflow: hidden;
+
+    text-align: center;
+}
+
+#discover-header > * {
+    z-index: 2;
+}
+
+#discover-header > h1 {
+    margin-bottom: 0.5rem;
+}
+
+#discover-header > p {
+    max-width: 400px;
+    margin-bottom: 3rem;
+}
+
+#discover-text {
+    background: var(--blue-purple-gradient);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.discover-header-rect {
+    position: absolute;
+    z-index: 0 !important;
+
+    background-image: url(../assets/images/site/gradient-rect.svg);
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+#discover-header-rect-1 {
+    width: 400px;
+    height: 400px;
+    bottom: -120px;
+    left: -150px;
+}
+
+main {
+    width: 100%;
+}
+
+#discover-header-rect-2 {
+    width: 400px;
+    height: 400px;
+    top: -200px;
+    right: -80px;
+    transform: rotate(-50deg);
+}
+
+.discover-lines {
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+
+    width: 100%;
+
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+
+    border-top: 1px solid var(--grey-3);
+    border-bottom: 1px solid var(--grey-3);
+}
+
+.discover-prompts-list-section {
+    max-width: 100%;
+}
+
+.discover-prompts-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    margin-bottom: 1.5rem;
+}
+
+.discover-prompts-top-right {
+    display: flex;
+    gap: 1rem;
+}
+
+.arrow {
+    margin-top: -0.3rem;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 1.3rem;
+}
+
+.hor-scroll-container {
+    position: relative;
+}
+
+.discover-prompts-list {
+    position: relative;
+
+    display: inline-grid;
+    grid-auto-flow: column;
+    grid-auto-columns: max(300px, 23%);
+    gap: 1.5rem;
+
+    padding: 0 3rem;
+    margin: 0;
+
+    width: calc(98.5vw - 250px);
+
+    overflow-x: auto;
+    overscroll-behavior-inline: contain;
+
+    scroll-snap-type: inline mandatory;
+    scroll-padding-inline: 3rem;
+}
+
+.discover-prompts-list::-webkit-scrollbar {
+    display: none;
+}
+
+.discover-prompts-list > * {
+    scroll-snap-align: start;
+}
+
+[data-scroll="left"], [data-scroll="right"] {
+    cursor: pointer;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 100;
+
+    position: absolute;
+    width: 3rem;
+    height: 100%;
+}
+
+[data-scroll="left"] > img, [data-scroll="right"] > img {
+    height: 40px;
+    width: 40px;
+}
+
+[data-scroll="left"] {
+    left: 0;
+    top: 0;
+    background: #202124cc;
+}
+
+[data-scroll="right"] {
+    right: 0;
+    top: 0;
+    background-color: #202124cc;
+}

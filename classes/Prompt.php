@@ -281,9 +281,8 @@ class Prompt
     }
 
 
-    public function getPrompts (string $order = "new", int $page = 1, int $approved = null): array
+    public function getPrompts (string $order = "new", int $page = 1, int $approved = null, int $limit = 14): array
     {
-        $limit = 14;
         $offset = ($page - 1) * $limit;
 
         switch ($order) {

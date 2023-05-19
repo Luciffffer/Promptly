@@ -18,6 +18,8 @@ aside {
     padding: 2rem 1.5rem;
     z-index: 10000;
 
+    background-color: var(--dark-grey);
+
     border-right: 2px solid var(--grey-2);
 }
 
