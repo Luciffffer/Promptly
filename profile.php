@@ -61,10 +61,6 @@ try {
             <div class="center-parent">
                 <div class="center" id="profile-grid">
                     <section id="profile-prompts">
-                        <!-- <div id="profile-prompts-top">
-                            <h2><?php echo htmlspecialchars($user['username']); ?>'s Prompts</h2>
-                        </div>
-                        <hr> -->
                         <div id="profile-prompts-list">
                             <?php foreach ($prompts as $prompt) : ?>
 
@@ -106,7 +102,7 @@ try {
                             <hr class="grey-hr">
                             <div>
                                 <h3>Biography</h3>
-                                <p>
+                                <p id="biography-container">
                                     <?php 
                                         if (!empty($user['biography'])) {
                                             echo nl2br(htmlspecialchars($user['biography']));

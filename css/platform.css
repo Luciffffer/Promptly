@@ -200,6 +200,12 @@ aside {
     gap: 2rem;
 }
 
+#biography-container {
+    background-color: var(--dark-grey);
+    padding: 1rem;
+    border-radius: 10px;
+}
+
 @media screen and (max-width: 1000px) {
     #profile-grid {
         grid-template-columns: 1.5fr 1fr;
