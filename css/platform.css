@@ -644,6 +644,10 @@ aside {
     color: var(--off-white) !important;
 }
 
+#active-filter-free {
+    background-color: var(--purple) !important;
+}
+
 #order {
     background-color: var(--off-white);
     padding: 0.3rem 0.5rem;

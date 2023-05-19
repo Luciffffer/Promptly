@@ -36,7 +36,7 @@ if (!empty($_POST) && !empty($_FILES)) {
         $prompt->setPromptInstructions($_POST['instructions']);
 
         // set is prompt free?
-        if (isset($_POST['free'])) $prompt->setIsFree(true);
+        if (isset($_POST['free'])) $prompt->setIsFree(true); else $prompt->setIsFree(false);
 
         // set images
         foreach ($_FILES as $key => $file) {

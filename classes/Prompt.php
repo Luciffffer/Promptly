@@ -19,7 +19,7 @@ class Prompt
     private $categoryIds = null;
 
     // Prompt information
-    private bool $isFree = false;
+    private $isFree = null;
     private string $prompt;
     private string $promptInstructions;
     private int $wordCount;
@@ -319,6 +319,7 @@ class Prompt
                 AND prompts.model_id IN (" . $modelIn . ")
                 AND category_prompt.category_id IN (" . $categoryIn . ")
                 AND prompts.author_id = CASE WHEN :author_id IS NOT NULL THEN :author_id ELSE prompts.author_id END
+                AND prompts.free = CASE WHEN :free IS NOT NULL THEN :free ELSE prompts.free END
                 GROUP BY prompts.id" 
                 . $sqlOrder .
                 " LIMIT :limit OFFSET :offset";
@@ -329,6 +330,7 @@ class Prompt
         $stmt->bindValue(":offset", $offset, PDO::PARAM_INT);
         $stmt->bindValue(":author_id", $this->authorId);
         $stmt->bindValue(":approved", $approved);
+        $stmt->bindValue(":free", $this->isFree);
         $stmt->execute();
         
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
