@@ -3,6 +3,7 @@
 include_once(__DIR__ . "/classes/User.php");
 include_once(__DIR__ . "/classes/Prompt.php");
 include_once(__DIR__ . "/classes/Achievement.php");
+include_once(__DIR__ . "/classes/Follow.php");
 
 session_start();
 
@@ -38,6 +39,7 @@ try {
     <link rel="stylesheet" href="css/main.css">
     <link rel="shortcut icon" href="assets/images/site/promptly-logo.svg" type="image/x-icon">
     <link rel="stylesheet" href="css/platform.css">
+    <script src="assets/js/profile-follow-ajax.js" defer></script>
 </head>
 <body>
     <?php include_once(__DIR__ . "/partials/nav.inc.php"); ?>
@@ -52,7 +54,7 @@ try {
                         <h1 id="profile-header-username"><?php echo htmlspecialchars($user['username']); ?></h1>
                         <div id="profile-header-information">
                             <span><?php echo count($prompts); ?> Prompts</span>
-                            <span>34 Followers</span>
+                            <span data-follower-count><?php echo Follow::getFollowerCount($_GET['id']); ?> Followers</span>
                             <span>13 Likes</span>
                         </div>
                     </div>
@@ -95,7 +97,13 @@ try {
                     </section>
                     <div>
                         <section id="profile-action-section">
-                            <a href="#" class="button">Follow</a>
+                            <?php if (!isset($_SESSION['loggedIn'])) : ?>
+                                <a href="login.php" class="button">Follow</a>
+                            <?php elseif (!Follow::isFollowing($_SESSION['userId'], $_GET['id'])) : ?>
+                                <a href="#" data-follow="false" class="button">Follow</a>
+                            <?php else : ?>
+                                <a href="#" data-follow="true" class="button">Unfollow</a>
+                            <?php endif; ?>
                         </section>
                         <section id="profile-about-section">
                             <h2>About</h2>

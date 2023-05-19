@@ -258,7 +258,7 @@ class User
         $result = $stmt->fetch();
 
         if ($result == false) {
-            throw new Exception("User with this email does not exist.");
+            throw new Exception("User with this id does not exist.");
         }
         
         return $result;

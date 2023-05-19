@@ -239,6 +239,12 @@ aside {
     color: var(--grey-1);
 }
 
+[data-follow="true"] {
+    background: none !important;
+    font-weight: normal !important;
+    outline: 2px solid var(--off-white);
+}
+
 #profile-action-section {
     display: flex;
     gap: 1rem;
