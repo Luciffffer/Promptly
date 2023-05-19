@@ -99,7 +99,7 @@ $models = Prompt::getAllModels();
                         <small>Active filters:</small>
                         <div style="gap: 1rem">
                             <div id="active-filters-container">
-                                <?php if (!empty($_GET['free'] && $_GET['free'] == 1)) : ?>
+                                <?php if (isset($_GET['free']) && !empty($_GET['free'] && $_GET['free'] == 1)) : ?>
                                     <span id="active-filter-free" data-free="1">
                                         Free
                                         <img src="assets/images/site/cross-symbol-white.svg" alt="Delete filter">

@@ -149,8 +149,8 @@ main {
 }
 
 [data-scroll="left"] > img, [data-scroll="right"] > img {
-    height: 40px;
-    width: 40px;
+    aspect-ratio: 1/1;
+    width: 80%;
 }
 
 [data-scroll="left"] {
@@ -163,4 +163,29 @@ main {
     right: 0;
     top: 0;
     background-color: #202124cc;
+}
+
+@media screen and (max-width: 1000px) {
+    #discover-header-rect-1 {
+        width: 300px;
+        height: 300px;
+        bottom: -100px;
+    }
+
+    #discover-header-rect-2 {
+        width: 300px;
+        height: 300px;
+        top: -150px;
+    }
+}
+
+@media screen and (max-width: 800px) {
+    .discover-prompts-list {
+        padding: 0 1.5rem;
+        scroll-padding-inline: 1.5rem;
+    }
+
+    [data-scroll="left"], [data-scroll="right"] {
+        display: none;
+    }
 }
