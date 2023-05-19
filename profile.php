@@ -4,6 +4,7 @@ include_once(__DIR__ . "/classes/User.php");
 include_once(__DIR__ . "/classes/Prompt.php");
 include_once(__DIR__ . "/classes/Achievement.php");
 include_once(__DIR__ . "/classes/Follow.php");
+include_once(__DIR__ . "/classes/Like.php");
 
 session_start();
 
@@ -55,7 +56,7 @@ try {
                         <div id="profile-header-information">
                             <span><?php echo count($prompts); ?> Prompts</span>
                             <span data-follower-count><?php echo Follow::getFollowerCount($_GET['id']); ?> Followers</span>
-                            <span>13 Likes</span>
+                            <span><?php echo Like::getLikesByUserId($_GET['id']); ?> Likes</span>
                         </div>
                     </div>
                 </div>

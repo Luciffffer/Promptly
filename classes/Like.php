@@ -17,6 +17,18 @@ class like
 
     }
 
+    public static function getLikesByUserId (int $userId): int
+    {
+        $pdo = Database::getInstance();
+
+        $stmt = $pdo->prepare("SELECT COUNT(*) FROM likes WHERE user_id = :user_id");
+        $stmt->bindParam(':user_id', $userId, PDO::PARAM_INT);
+        $stmt->execute();
+        $likes = $stmt->fetchColumn();
+
+        return $likes;
+    }
+
     public function toggleLike($promptId, $userId)
     {
         $pdo = Database::getInstance();

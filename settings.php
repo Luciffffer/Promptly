@@ -4,10 +4,14 @@ include_once(__DIR__ . "/classes/Security.php");
 include_once(__DIR__ . "/classes/User.php");
 include_once(__DIR__ . "/classes/Prompt.php");
 include_once(__DIR__ . "/classes/File.php");
+include_once(__DIR__ . "/classes/Like.php");
+include_once(__DIR__ . "/classes/Follow.php");
 
 Security::onlyLoggedIn();
 $user = User::getUserById($_SESSION['userId']);
-$prompts = Prompt::getPromptsByUserId($_SESSION['userId']);
+$prompt = new Prompt();
+$prompt->setAuthorId($user['id']);
+$prompts = $prompt->getPrompts(approved: 1);
 
 if (!empty($_POST) || !empty($_FILES)) {
     try {
@@ -110,8 +114,8 @@ if (!empty($_POST) || !empty($_FILES)) {
                         <h1 id="profile-header-username"><?php echo htmlspecialchars($user['username']); ?></h1>
                         <div id="profile-header-information">
                             <span><?php echo count($prompts); ?> Prompts</span>
-                            <span>34 Followers</span>
-                            <span>13 Likes</span>
+                            <span><?php echo Follow::getFollowerCount($user['id']); ?> Followers</span>
+                            <span><?php echo Like::getLikesByUserId($user['id']); ?> Likes</span>
                         </div>
                     </div>
                 </div>
