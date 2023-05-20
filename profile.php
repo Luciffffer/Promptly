@@ -5,6 +5,7 @@ include_once(__DIR__ . "/classes/Prompt.php");
 include_once(__DIR__ . "/classes/Achievement.php");
 include_once(__DIR__ . "/classes/Follow.php");
 include_once(__DIR__ . "/classes/Like.php");
+include_once(__DIR__ . "/classes/Report.php");
 
 session_start();
 
@@ -30,6 +31,15 @@ try {
     exit();
 }
 
+if(isset($_POST['report-reason']) && isset($_POST['report-description'])){
+    $report = new Report();
+    $report->setUser_id($_GET['id']);
+    $report->setReason($_POST['report-reason']);
+    $report->setDescription($_POST['report-description']);
+    $report->setReport_id($_SESSION['userId']);
+    $report->saveReport();
+}
+
 ?><!DOCTYPE html>
 <html lang="en">
 <head>
@@ -53,6 +63,7 @@ try {
                     <div>
                         <p style="margin-bottom: -1rem;">Account</p>
                         <h1 id="profile-header-username"><?php echo htmlspecialchars($user['username']); ?></h1>
+                        <img id="flag-icon" src="assets/images/site/flag.svg" alt="" onclick="showReport()">
                         <div id="profile-header-information">
                             <span><?php echo count($prompts); ?> Prompts</span>
                             <span data-follower-count><?php echo Follow::getFollowerCount($_GET['id']); ?> Followers</span>
@@ -137,6 +148,36 @@ try {
                 </div>
             </div>
         </div>
+
+        <div id="report-screen" style="display:none">
+            <h1>Report this user</h1>
+            <p id="close" onclick="closeReport()">X</p>
+            <form action="" method="POST">
+                <label for="report-reason">Reason</label>
+                <select name="report-reason" id="report-reason">
+                    <option value="Spam">Spam</option>
+                    <option value="Inappropriate">Inappropriate</option>
+                    <option value="Other">Other</option>
+                </select>
+
+                <label for="report-description"><br><br>Description</label>
+                <textarea name="report-description" id="report-description" cols="30" rows="10"></textarea>
+
+                <input id="rpt-btn" type="submit" value="Report">
+            </form>
+        </div>
     </main>
 </body>
+<script>
+
+var reportScrn = document.getElementById("report-screen");
+var closeBtn = document.getElementById("close");
+    function showReport() {
+        reportScrn.style.display = "block"; 
+    }
+
+    function closeReport(){
+        reportScrn.style.display = "none";
+    }
+</script>
 </html>

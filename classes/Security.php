@@ -19,7 +19,7 @@ class Security {
 
     public static function onlyModerator(){
         session_start();
-        if (!isset($_SESSION['isMod']) || $_SESSION['isMod'] === false) {
+        if (!isset($_SESSION['isModerator']) || $_SESSION['isModerator'] === false) {
             header("location: http://". $_SERVER['HTTP_HOST'] . __ROOT__ . "index");
         }
     }

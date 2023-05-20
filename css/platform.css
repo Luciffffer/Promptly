@@ -313,6 +313,17 @@ aside {
     gap: 2rem;
 }
 
+#flag-icon{
+    display:block;
+    padding-top: -20px;
+    margin-left: 450px;
+    margin-right: 0.5rem;
+    height: 30px;
+    width: 30px;
+
+   
+}
+
 #profile-header {
     padding: 0 3rem;
     background-color: var(--grey-2);
@@ -959,4 +970,36 @@ aside {
 
 .not-approved-card-header {
     background-color: var(--red);
+}
+
+#report-screen{
+    position:fixed;
+    padding:25px;
+    margin:0;
+
+    border-radius: 10px;
+    left: 35%;
+    top: 25%;
+
+    background-color: var(--purple);
+
+    filter: drop-shadow(5px 5px 53px var(--off-white));
+
+}
+
+#rpt-btn{
+    color: var(--purple);
+    background-color: white;
+    padding: 5px;
+    border-radius: 5px;
+}
+
+#close{
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    padding: 5px;
+    cursor: pointer;
+
+    font-weight: 600;
 }

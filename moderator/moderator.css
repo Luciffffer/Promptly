@@ -32,30 +32,25 @@
 .title-tags{
     display: flex;
     flex-direction: column;
-    /* margin-left: 20%; */
-}
-
-.prompt-title:first-child{
-    /* position: absolute; */
-}
-
-.prompt-title{
-    /* position: absolute; */
 }
 
 .prompt-tags{
     display: flex;
     flex-direction: row;
-    /* margin-top: 20px; */
+    gap: 4px;
+    font-size: 7pt;
+
+    color: var(--light-medium-blue);
 }
 
 .prompt-images-title{
     display: flex;
     flex-direction: row;
     width: 200px;
+}
 
-    /* position: absolute; */
-    /* margin-left: 35%; */
+.img-prompt{
+    background-size: 50px 50px;
 }
 
 .prompt-images{
@@ -74,24 +69,10 @@
     height: 50px;
 }
 
-.prompt-approve{
-    /* padding: absolute; */
-    /* margin-left: 75%; */
-}
-
-.prompt-deny{
-    /* padding: absolute; */
-    /* margin-left: 2%; */
-}
-
-.prompt-words{
-    /* position: absolute; */
-    /* margin-left: 50%; */
-}
-
-.buttons{
-    /* position: absolute; */
-    /* margin-left: 65%; */
+#aprompt{
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    padding: 1rem
 }
 
 .buttons a{
@@ -99,4 +80,21 @@
     padding: 5px;
     border-radius: 5px;
 }
+
+#btn-opmaak{
+    background-color: var(--purple);
+    padding: 5px;
+    border-radius: 5px;
+    border: none;
+    color: white;
+}
+
+#btn-opmaak2{
+    background-color: var(--off-white);
+    padding: 5px;
+    border-radius: 5px;
+    border: none;
+    color: var(--purple);
+}
+
 

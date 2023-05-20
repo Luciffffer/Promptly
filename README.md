@@ -50,13 +50,18 @@ root_dir = #path from localhost to the promptly folder. E.g. /php/promptly/
 
 ### .htaccess
 
-In your .htaccess file there is 1 line you have to change. This line is as follows:
+In your .htaccess file there is 1 line you have to change. The others you just have to copy and paste. Put the following code in your .htaccess file:
 
 ```
+RewriteEngine On
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^([^\.]+)$ $1.php [NC,L]
+
+## always load config.php file
 php_value auto_prepend_file C:/xampp/htdocs/php/promptly/config/config.php
 ```
 
-Change the path to the exact path to the config.php file on your PC. This will cause the config.php file to load on each page.
+In the last line, change the path to be the exact path to the config.php file on your PC. This will cause the config.php file to load on each page.
 
 </br>
 

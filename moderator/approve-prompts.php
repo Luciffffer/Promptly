@@ -1,15 +1,14 @@
 <?php
     include_once(__DIR__ . "/../classes/Prompt.php");
-    include_once(__DIR__ . "/../classes/User.php"); 
+    include_once(__DIR__ . "/../classes/User.php");
+    include_once(__DIR__ . "/../classes/Security.php"); 
     // include_once("../ajax/remove-prompt.ajax.php"); 
+    Security::onlyModerator();
 
     $prompt = new Prompt();
     $prompts = $prompt->getPrompts(approved: 0);
    
-    // if($_SESSION['isMod'] == false){
-    //     header('location: ../index');
-    // }
-
+    
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -17,7 +16,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Moderation tool</title>
+    <title>Approve Prompts - MOD</title>
     <link rel="stylesheet" href="../css/main.css">
     <link rel="shortcut icon" href="../assets/images/site/promptly-logo.svg" type="image/x-icon">
     <link rel="stylesheet" href="../css/platform.css">
@@ -37,25 +36,36 @@
             </div>
             <?php 
                 foreach($prompts as $prompt){
-                    ?>
-                    
+                    $tags = json_decode($prompt['tags']); ?>                
                     <div class='prompt'>
-                        <p class="prompt-model"><?php echo $prompt['model_id']?></p>
-                        <div class="title-tags">
-                            <p class="prompt-title"><?php echo $prompt['title']?></p>
-                            <p class="prompt-tags"><?php echo $prompt['tags']?></p>
-                        </div>
-                        <div class="prompt-images">
-                            <p class="img-prompt" style="background-image: url(../<?php echo $prompt['example_image1']; ?>)"></p>
-                            <p class="img-prompt" style="background-image: url(../<?php echo $prompt['example_image2']; ?>)"></p>
-                            <p class="img-prompt" style="background-image: url(../<?php echo $prompt['example_image3']; ?>)"></p>
-                            <p class="img-prompt" style="background-image: url(../<?php echo $prompt['example_image4']; ?>)"></p>
-                        </div>
-                        <p class="prompt-words"><?php echo $prompt['word_count']?></p>
+                            <p class="prompt-model"><?php echo $prompt['model_id']?></p>
+                            <div class="title-tags">
+                                <a href="../prompt?id=<?php echo $prompt['id']?>">
+                                    <p class="prompt-title"><?php echo $prompt['title']?></p>
+                                </a>
+                                <p class="prompt-tags">
+                                <?php foreach($tags as $key => $tag): 
+                                    if ($key > 3){
+                                        break;
+                                    }
+                                    ?>
+                                    <span><?php echo $tag;?></span>
+                                <?php endforeach; ?>
+                                </p>
+                            </div>
+                            <div class="prompt-images">
+                                <p class="img-prompt" style="background-image: url(../<?php echo $prompt['example_image1']; ?>)"></p>
+                                <p class="img-prompt" style="background-image: url(../<?php echo $prompt['example_image2']; ?>)"></p>
+                                <p class="img-prompt" style="background-image: url(../<?php echo $prompt['example_image3']; ?>)"></p>
+                                <p class="img-prompt" style="background-image: url(../<?php echo $prompt['example_image4']; ?>)"></p>
+                            </div>
+                            <p class="prompt-words"><?php echo $prompt['word_count']?></p>
+                            
+
                         <div class="buttons">
                         <form class="formpost" action="" method="POST" data-id="<?php echo $prompt['id']?>">
-                            <input type="submit" value="Approve" name="approve">
-                            <input type="submit" value="Deny" name="deny">
+                            <input type="submit" id="btn-opmaak" class="button" value="Approve" name="approve">
+                            <input type="submit" id="btn-opmaak2" class="button" value="Deny" name="deny">
                         </form>
                         </div>
 
@@ -66,53 +76,45 @@
             ?>
         </div>
 
-        <script>
+<script>
     const forms = document.querySelectorAll('.formpost');
-    const formData = new FormData()
-    formData.append('id', id)
     forms.forEach(form => {
         form.addEventListener('submit', e => {
             e.preventDefault();
-            const id = e.target.dataset.id;
+            let id = e.target.dataset.id;
+            formdata = new FormData();
+            formdata.append('id', id);
+            
             if(e.submitter.name === 'approve') {
                 console.log('approve');
+                console.log(id);
                 fetch('../ajax/approve-prompts.ajax.php', {
                     method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded'
-                    },
-                    body: 'id=' + id
-                    
-                })
-                .then(response => {
-                    if (response.ok) {
-                        console.log('Prompt approved successfully');
+                    body: formdata
+                }) 
+                .then(
+                    response => response.json()) //.json veranderd json naar string in js die je kan gebruiken.
+                .then(result => {
+                    console.log(result);
+                    if(result.status === 'success') {
                         e.target.parentElement.parentElement.remove();
-                    } else {
-                        console.error('Error approving prompt');
                     }
                 })
             } else if(e.submitter.name === 'deny') {
                 console.log('deny');
-                
+                console.log(id);
                 fetch('../ajax/remove-prompt.ajax.php', {
                     method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded'
-                    },
-                    body: 'id=' + id
-                })
-                .then(response => {
-                    if (response.ok) {
-                        console.log('Prompt deleted successfully');
+                    body: formdata
+                }) 
+                .then(
+                    response => response.json())
+                .then(result => {
+                    console.log(result);
+                    if(result.status === 'success') {
                         e.target.parentElement.parentElement.remove();
-                    } else {
-                        console.error('Error deleting prompt');
                     }
-                })
-                .catch(error => {
-                    console.error('Error deleting prompt', error);
-                });
+                })   
             }
         });
     });
