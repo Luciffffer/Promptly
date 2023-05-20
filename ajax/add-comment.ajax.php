@@ -1,14 +1,17 @@
 <?php
 
 include_once(__DIR__ . "/../classes/Comment.php");
+include_once(__DIR__ . "/../classes/User.php");
 
 session_start();
 
+$user = User::getUserById($_SESSION['userId']);
+
 try {
 
-    if (isset($_SESSION['userId'])) {
+    if (isset($_SESSION['userId']) && $user['blocked'] == 0) {
     
-        if (empty($_POST['promptId']) || empty($_POST['comment'])) {
+        if (empty($_POST['promptId']) || empty($_POST['comment']) && $user['blocked'] = 0) {
             throw new Exception('Prompt id and comment is required');
         }
 
