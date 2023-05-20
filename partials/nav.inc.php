@@ -8,8 +8,15 @@ include_once($_SERVER['DOCUMENT_ROOT'] . __ROOT__ . "classes/User.php");
     <?php if (isset($_SESSION['loggedIn'])) echo 'data-user-id="' . $_SESSION['userId'] . '"'; ?> 
     <?php if (isset($_SESSION['isModerator'])) echo 'data-mod="true"'; ?>
 >
-    <div style="position: relative;" data-dropdown class="dropdown">
+    <div id="left-nav" data-dropdown class="dropdown">
         <img data-dropdown-btn id="hamburger-menu" src="<?php echo __ROOT__; ?>assets/images/site/hamburg-menu-icon.svg" alt="Hamburger menu button">
+        <div data-dropdown class="dropdown">
+            <button data-dropdown-btn id="search-btn" aria-label="Display search bar"></button>
+            <form id="search-bar-li" action="all-prompts">
+                <input aria-label="Search bar" class="search-bar" type="text" name="search" placeholder="Search" />
+                <button id="search-submit" type="submit"></button>
+            </form>
+        </div>
         <div class="logo-ul-container">
             <div class="logo-container">
                 <img src="<?php echo __ROOT__; ?>assets/images/site/promptly-logo.svg" alt="Logo">
@@ -27,11 +34,6 @@ include_once($_SERVER['DOCUMENT_ROOT'] . __ROOT__ . "classes/User.php");
         <img src="<?php echo __ROOT__; ?>assets/images/site/promptly-logo.svg" alt="Logo">
         <h3>Promptly</h3>
     </div>
-
-    <!-- <div data-dropdown class="dropdown">
-        <button data-dropdown-btn id="search-btn" aria-label="Display search bar"></button>
-        <input aria-label="Search bar" class="search-bar" type="text" placeholder="Search">
-    </div> -->
 
     <div class="account-nav" aria-label="Account navigation">
 

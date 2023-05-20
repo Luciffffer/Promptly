@@ -289,6 +289,17 @@ nav .logo-container > img {
   gap: 2rem;
 }
 
+#search-btn {
+  background: none;
+  border: none;
+  display: none;
+  background-image: url(../assets/images/site/search-icon.svg);
+  background-size: cover;
+  background-repeat: no-repeat;
+  aspect-ratio: 1/1;
+  height: 25px;
+}
+
 .search-bar {
   background-color: var(--off-white) !important;
 
@@ -299,8 +310,27 @@ nav .logo-container > img {
   text-align: center;
   justify-self: center;
 
-  border-radius: 100px !important;
+  border-top-left-radius: 100px !important;
+  border-bottom-left-radius: 100px !important;
   transition: width 300ms;
+}
+
+#search-submit {
+  background: none;
+  border: none;
+  padding: 0;
+  height: 28.9px;
+  width: 40px;
+
+  background-color: var(--off-white);
+  background-image: url(../assets/images/site/search-icon-dark.svg);
+  background-size: 20px;
+  background-position: center;
+  background-repeat: no-repeat;
+  border-top-right-radius: 100px !important;
+  border-bottom-right-radius: 100px !important;
+
+  border-left: 1px solid var(--grey-1);
 }
 
 #search-bar-li {
@@ -371,6 +401,7 @@ nav .logo-container > img {
 }
 
 #hamburger-menu {
+  height: 20px;
   display: none;
   cursor: pointer;
 }
@@ -714,8 +745,8 @@ nav .logo-container > img {
   .logo-ul-container {
     position: absolute;
     z-index: 9999;
-    top: 29px;
-    left: -5px;
+    top: 45px;
+    left: 1.2rem;
     display: none;
     width: 200px;
     background-color: var(--grey-2);
@@ -740,11 +771,33 @@ nav .logo-container > img {
     display: block;
   }
 
-  #search-bar-li {
-    position: relative;
-    top: 0;
+  #search-btn {
     display: block;
+  }
+
+  #left-nav {
+    display: flex;
+    gap: 1.5rem;
+    align-items: center;
+  }
+
+  #search-submit {
+    border-top-right-radius: 0px !important;
+    border-bottom-right-radius: 0px !important;
+    cursor: pointer;
+  }
+
+  #search-bar-li {
+    display: flex;
+    top: 50px;
     height: auto;
+    transition: transform 100ms;
+    transform-origin: top center;
+    transform: scaleY(0);
+  }
+
+  .dropdown.active > #search-bar-li {
+    transform: scaleY(100%);
   }
 
   .search-bar {
@@ -835,6 +888,10 @@ nav .logo-container > img {
   .account-nav {
     gap: 0.7rem;
   }
+
+  #left-nav {
+    gap: 0.7rem;
+  }
 }
 
 @media screen and (max-width: 500px) {
@@ -846,6 +903,10 @@ nav .logo-container > img {
     width: calc(100vw - 3rem);
     right: 1.5rem;
     top: 45px;
+  }
+
+  .logo-container > img {
+    display: none;
   }
 }
 
