@@ -5,10 +5,20 @@ include_once(__DIR__ . "/../classes/Prompt.php");
 try {
     $prompt = new Prompt();
 
+    if (!empty($_GET['free']) && $_GET['free'] == 1) {
+        $prompt->setIsFree(true);
+    }
+
     if (!empty($_GET['order'])) {
         $order = $_GET['order'];
     } else {
         $order = "";
+    }
+
+    if (!empty($_GET['search'])) {
+        $search = $_GET['search'];
+    } else {
+        $search = '';
     }
 
     if (!empty($_GET['page'])) {
@@ -27,7 +37,7 @@ try {
         $prompt->setModels($models);
     }
 
-    $prompts = $prompt->getPrompts($order, $page, 1);
+    $prompts = $prompt->getPrompts($order, $page, 1, search: $search);
 
     // attach model information to prompts
     foreach($prompts as $key => $prompt) {

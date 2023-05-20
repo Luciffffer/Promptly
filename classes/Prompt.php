@@ -281,7 +281,7 @@ class Prompt
     }
 
 
-    public function getPrompts (string $order = "new", int $page = 1, int $approved = null, int $limit = 14): array
+    public function getPrompts (string $order = "new", int $page = 1, int $approved = null, int $limit = 14, string $search = null): array
     {
         $offset = ($page - 1) * $limit;
 
@@ -320,9 +320,12 @@ class Prompt
                 AND category_prompt.category_id IN (" . $categoryIn . ")
                 AND prompts.author_id = CASE WHEN :author_id IS NOT NULL THEN :author_id ELSE prompts.author_id END
                 AND prompts.free = CASE WHEN :free IS NOT NULL THEN :free ELSE prompts.free END
+                AND (prompts.title LIKE CASE WHEN :search IS NOT NULL THEN :search ELSE prompts.title END
+                OR prompts.description LIKE CASE WHEN :search IS NOT NULL THEN :search ELSE prompts.description END
+                OR prompts.tags LIKE CASE WHEN :search IS NOT NULL THEN :search ELSE prompts.tags END)
                 GROUP BY prompts.id" 
                 . $sqlOrder .
-                " LIMIT :limit OFFSET :offset";
+                " LIMIT :limit OFFSET :offset"; // Look at this beauty. It's absolutely disgusting. I love it.
 
         $PDO = Database::getInstance();
         $stmt = $PDO->prepare($sql);
@@ -331,6 +334,7 @@ class Prompt
         $stmt->bindValue(":author_id", $this->authorId);
         $stmt->bindValue(":approved", $approved);
         $stmt->bindValue(":free", $this->isFree);
+        $stmt->bindValue(":search", "%" . $search . "%");
         $stmt->execute();
         
         return $stmt->fetchAll(PDO::FETCH_ASSOC);

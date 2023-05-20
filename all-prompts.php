@@ -16,6 +16,12 @@ if (!empty($_GET['order'])) {
     $order = '';
 }
 
+if (!empty($_GET['search'])) {
+    $search = $_GET['search'];
+} else {
+    $search = '';
+}
+
 if (!empty($_GET['categories'])) {
     $categories = '[' . $_GET['categories'] . ']';
     $prompt->setCategories($categories);
@@ -26,7 +32,7 @@ if (!empty($_GET['models'])) {
     $prompt->setModels($models);
 }
 
-$prompts = $prompt->getPrompts($order, approved: 1);
+$prompts = $prompt->getPrompts($order, approved: 1, search: $search);
 $categories = Prompt::getAllCategories();
 $models = Prompt::getAllModels();
 
@@ -36,7 +42,13 @@ $models = Prompt::getAllModels();
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>All Prompts - Promptly</title>
+    <title>
+        <?php if (!empty($_GET['search'])) : ?>
+            Results for: <?php echo htmlspecialchars($_GET['search']); ?> - Promptly
+        <?php else : ?>
+            All Prompts - Promptly
+        <?php endif; ?>
+    </title>
     <link rel="stylesheet" href="css/main.css">
     <link rel="shortcut icon" href="assets/images/site/promptly-logo.svg" type="image/x-icon">
     <link rel="stylesheet" href="css/platform.css">
@@ -47,7 +59,13 @@ $models = Prompt::getAllModels();
         <?php include_once(__DIR__ . "/partials/aside.inc.php"); ?>
         <div style="padding: 0 3rem" id="main-content">
             <header id="all-prompts-header">
-                <h1><span class="blue-text">All</span> Prompts</h1>
+                <h1>
+                    <?php if (!empty($_GET['search'])) : ?>
+                        Results for: <span class="blue-text"><?php echo htmlspecialchars($_GET['search']); ?></span>
+                    <?php else : ?>
+                        <span class="blue-text">All</span> Prompts
+                    <?php endif; ?>
+                </h1>
                 <form action="" method="GET" id="all-prompts-form">
                     <div>
                         <div id="filter-btn-container">
@@ -66,6 +84,11 @@ $models = Prompt::getAllModels();
                             <input data-input="categories" class="hidden" type="text" name="categories"></input>
                             <input data-input="models" class="hidden" type="text" name="models"></input>
                             <input data-input="free" class="hidden" type="text" name="free" value="<?php if (!empty($_GET['free'])) echo $_GET['free']; ?>"></input>
+                            
+                            <?php if (!empty($_GET['search'])) : ?>
+                                <input class="hidden" type="text" name="search" value="<?php echo htmlspecialchars($_GET['search']); ?>">
+                            <?php endif; ?>
+
                         </div>
                         <?php if (empty($_GET['categories']) && empty($_GET['models']) && empty($_GET['free'])) : ?>
                             <select name="order" id="order" onchange="this.form.submit()">
