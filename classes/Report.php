@@ -73,4 +73,14 @@ class Report
         $stmt->bindValue(':reporter_id', $this->report_id);
         $stmt->execute();
     }
+
+    // get alles
+    public function getReports()
+    {
+        $PDO = Database::getInstance();
+        $stmt = $PDO->prepare("SELECT * FROM report");
+        $stmt->execute();
+        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
+    }
 }

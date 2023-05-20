@@ -80,9 +80,9 @@ if(isset($_POST['report-reason']) && isset($_POST['report-description'])){
             <form action="" method="POST">
                 <label for="report-reason">Reason</label>
                 <select name="report-reason" id="report-reason">
-                    <option value="1">Spam</option>
-                    <option value="2">Inappropriate</option>
-                    <option value="3">Other</option>
+                    <option value="Spam">Spam</option>
+                    <option value="Inappropriate">Inappropriate</option>
+                    <option value="Other">Other</option>
                 </select>
 
                 <label for="report-description"><br><br>Description</label>
