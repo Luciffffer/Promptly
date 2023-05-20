@@ -44,18 +44,63 @@
                             <p class="prompt-title"><?php echo $report['reason'];?></p>
                             <p class="prompt-title"><?php echo $report['description'];?></p>
                             <div class="buttons">
-                                <form class="formpost" action="" method="POST" data-id="<?php echo $prompt['id']?>">
-                                    <input type="submit" id="btn-opmaak" class="button" value="Approve" name="approve">
-                                    <input type="submit" id="btn-opmaak2" class="button" value="Deny" name="deny">
+                                <form class="formpost" action="" method="POST" data-id="<?php echo $report['user_id']?>">
+                                    <input type="submit" id="btn-opmaak" class="button" value="Block" name="block">
+                                    <input type="submit" id="btn-opmaak2" class="button" value="Ignore" name="ignore">
                                 </form>
                             </div>
                     </div>
                         
                     
                     <?php
+                    
                 }
             ?>
         </div>
     </main>
+
+    <script>
+        const forms = document.querySelectorAll('.formpost');
+        forms.forEach(form => {
+        form.addEventListener('submit', e => {
+            e.preventDefault();
+            let id = e.target.dataset.id;
+            formdata = new FormData();
+            formdata.append('id', id);
+            
+            if(e.submitter.name === 'block') {
+                console.log('block');
+                console.log(id);
+                fetch('../ajax/block-user.ajax.php', {
+                    method: 'POST',
+                    body: formdata
+                }) 
+                .then(
+                    response => response.json()) //.json veranderd json naar string in js die je kan gebruiken.
+                .then(result => {
+                    console.log(result);
+                    if(result.status === 'success') {
+                        e.target.parentElement.parentElement.remove();
+                    }
+                })
+            } else if(e.submitter.name === 'ignore') {
+                console.log('deny');
+                console.log(id);
+                fetch('../ajax/ignore-report.ajax.php', {
+                    method: 'POST',
+                    body: formdata
+                }) 
+                .then(
+                    response => response.json())
+                .then(result => {
+                    console.log(result);
+                    if(result.status === 'success') {
+                        e.target.parentElement.parentElement.remove();
+                    }
+                })   
+            }
+        });
+    });
+    </script>
 </body>
 </html>

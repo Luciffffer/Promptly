@@ -208,6 +208,18 @@ class User
         if ($count == 0) throw new Exception("Something went wrong. Try again later");
     }
 
+    public function blockUser(): void
+    {
+        $PDO = Database::getInstance();
+
+        $stmt = $PDO->prepare("UPDATE users SET blocked = 1 WHERE id = :id");
+        $stmt->bindValue(":id", $this->id);
+        $stmt->execute();
+
+        $count = $stmt->rowCount();
+
+        if ($count == 0) throw new Exception("Something went wrong with blocking user. Try again later");
+    }
 
     // static functions
 

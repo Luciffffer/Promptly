@@ -83,4 +83,13 @@ class Report
         $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
         return $result;
     }
+
+    //delete report na blocken/denyen
+    public function removeReport(): void
+    {
+        $PDO = Database::getInstance();
+        $stmt = $PDO->prepare("DELETE FROM report WHERE user_id = :user_id");
+        $stmt->bindValue(':user_id', $this->user_id);
+        $stmt->execute();
+    }
 }
