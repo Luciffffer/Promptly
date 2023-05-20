@@ -2,10 +2,16 @@
 
 include_once(__DIR__ . "/classes/Security.php");
 include_once(__DIR__ . "/classes/User.php");
+include_once(__DIR__ . "/classes/Prompt.php");
 include_once(__DIR__ . "/classes/File.php");
+include_once(__DIR__ . "/classes/Like.php");
+include_once(__DIR__ . "/classes/Follow.php");
 
 Security::onlyLoggedIn();
 $user = User::getUserById($_SESSION['userId']);
+$prompt = new Prompt();
+$prompt->setAuthorId($user['id']);
+$prompts = $prompt->getPrompts(approved: 1);
 
 if (!empty($_POST) || !empty($_FILES)) {
     try {
@@ -38,6 +44,7 @@ if (!empty($_POST) || !empty($_FILES)) {
             $path = $image->getPath();
             $newUser->setProfileImg($path);
             $image->moveImage($tmpName);
+            File::deleteFile($user['profile_pic']);
         }
 
         if(isset($_POST['biography'])) { // check if the input button was pressed
@@ -106,9 +113,9 @@ if (!empty($_POST) || !empty($_FILES)) {
                         <p style="margin-bottom: -1rem;">Account</p>
                         <h1 id="profile-header-username"><?php echo htmlspecialchars($user['username']); ?></h1>
                         <div id="profile-header-information">
-                            <span>22 Prompts</span>
-                            <span>34 Followers</span>
-                            <span>13 Likes</span>
+                            <span><?php echo count($prompts); ?> Prompts</span>
+                            <span><?php echo Follow::getFollowerCount($user['id']); ?> Followers</span>
+                            <span><?php echo Like::getLikesByUserId($user['id']); ?> Likes</span>
                         </div>
                     </div>
                 </div>
@@ -148,7 +155,10 @@ if (!empty($_POST) || !empty($_FILES)) {
                         </a>
                         <a href="#" data-button="biography">
                             <span>Biography</span>
-                            <span><?php echo nl2br(htmlspecialchars($user['biography'])); ?></span>
+                            <span>
+                                <?php if(!empty($user['biography'])) {echo nl2br(htmlspecialchars($user['biography'])); } else {
+                                echo "No biography yet!";} ?>
+                            </span>
                             <figure class="right-arrow"></figure>
                         </a>
                     </section>

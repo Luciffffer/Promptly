@@ -258,7 +258,7 @@ class User
         $result = $stmt->fetch();
 
         if ($result == false) {
-            throw new Exception("User with this email does not exist.");
+            throw new Exception("User with this id does not exist.");
         }
         
         return $result;
@@ -278,6 +278,18 @@ class User
         }
         
         return $result;
+    }
+
+    public static function getCreditsByUserId (int $id): int
+    {
+        $PDO = Database::getInstance();
+        $stmt = $PDO->prepare("SELECT credits FROM users WHERE id = :id AND active = 1");
+        $stmt->bindValue(":id", $id);
+        $stmt->execute();
+
+        $result = $stmt->fetch();
+        
+        return $result['credits'];
     }
 
 

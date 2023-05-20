@@ -11,6 +11,10 @@ input.addEventListener("keyup", e => {
 
         displayError("Username can only contain letters and numbers.");
 
+    } else if (input.value.length < 3) {
+        
+        displayError("Username must be at least 3 characters long.");
+
     } else {
 
         const formData = new FormData();

@@ -6,6 +6,10 @@ session_start();
 
 $prompt = new Prompt();
 
+if (!empty($_GET['free']) && $_GET['free'] == 1) {
+    $prompt->setIsFree(true);
+}
+
 if (!empty($_GET['order'])) {
     $order = $_GET['order'];
 } else {
@@ -41,7 +45,7 @@ $models = Prompt::getAllModels();
     <?php include_once(__DIR__ . "/partials/nav.inc.php"); ?>
     <main>
         <?php include_once(__DIR__ . "/partials/aside.inc.php"); ?>
-        <div style="padding: 0 3rem">
+        <div style="padding: 0 3rem" id="main-content">
             <header id="all-prompts-header">
                 <h1><span class="blue-text">All</span> Prompts</h1>
                 <form action="" method="GET" id="all-prompts-form">
@@ -55,10 +59,15 @@ $models = Prompt::getAllModels();
                                 <h3>Categories</h3>
                                 <img src="assets/images/site/arrow-right.svg" alt="Arrow right">
                             </a>
+                            <a data-free-btn href="#" class="filter-btn button">
+                                <h3>Free</h3>
+                                <img src="assets/images/site/arrow-right.svg" alt="Arrow right">
+                            </a>
                             <input data-input="categories" class="hidden" type="text" name="categories"></input>
                             <input data-input="models" class="hidden" type="text" name="models"></input>
+                            <input data-input="free" class="hidden" type="text" name="free" value="<?php if (!empty($_GET['free'])) echo $_GET['free']; ?>"></input>
                         </div>
-                        <?php if (empty($_GET['categories']) && empty($_GET['models'])) : ?>
+                        <?php if (empty($_GET['categories']) && empty($_GET['models']) && empty($_GET['free'])) : ?>
                             <select name="order" id="order" onchange="this.form.submit()">
                                 <option value="new" <?php if (isset($_GET['order']) && $_GET['order'] == 'new') echo 'selected'; ?>>New</option>
                                 <option value="popular" <?php if (isset($_GET['order']) && $_GET['order'] == 'popular') echo 'selected'; ?>>Popular</option>
@@ -86,10 +95,17 @@ $models = Prompt::getAllModels();
                         </div>
                         <input class="primary-btn-white button" type="submit" value="Apply filters">
                     </div>
-                    <?php if ((isset($_GET['categories']) && !empty($_GET['categories']) || (isset($_GET['models']) && !empty($_GET['models'])))) : ?>
+                    <?php if ((isset($_GET['categories']) && !empty($_GET['categories']) || (isset($_GET['models']) && !empty($_GET['models']))) || (isset($_GET['free']) && $_GET['free'] == 1)) : ?>
                         <small>Active filters:</small>
                         <div style="gap: 1rem">
                             <div id="active-filters-container">
+                                <?php if (isset($_GET['free']) && !empty($_GET['free'] && $_GET['free'] == 1)) : ?>
+                                    <span id="active-filter-free" data-free="1">
+                                        Free
+                                        <img src="assets/images/site/cross-symbol-white.svg" alt="Delete filter">
+                                    </span>
+                                <?php endif; ?>
+
                                 <?php if (!empty($_GET['models'])) : // bro please tell me there is a better way wtf is this 😭😭😭😭😭😭?>
 
                                     <?php foreach ($models as $model) : ?>
@@ -160,7 +176,7 @@ $models = Prompt::getAllModels();
 
                     // show/hide filter dropdowns
                     document.querySelector("#filter-btn-container").addEventListener("click", e => {
-                        if (e.target.classList.contains("filter-btn")) {
+                        if (e.target.dataset.filterbtn !== undefined) {
                             e.preventDefault();
                             const dropdown = document.querySelector(`[data-filterDropdown="${e.target.dataset.filterbtn}"]`);
                             const input = document.querySelector(`[data-input="${e.target.dataset.filterbtn}"]`);
@@ -195,6 +211,13 @@ $models = Prompt::getAllModels();
                         activeFiltersContainer.addEventListener("click", e => {
                             if (e.target.tagName === "IMG") {
                                 const filter = e.target.parentElement;
+
+                                if (filter.id === "active-filter-free") {
+                                    document.querySelector(`[data-input="free"]`).value = '';
+                                    document.querySelector("#all-prompts-form").submit();
+                                    return;
+                                }
+
                                 const filterType = filter.classList.contains("active-filter-model") ? "models" : "categories";
                                 const filterId = filter.dataset.id;
                                 const filterDropdown = document.querySelector(`[data-filterDropdown="${filterType}"]`);
@@ -207,20 +230,29 @@ $models = Prompt::getAllModels();
                         })
                     }
 
+                    // free button
+                    document.querySelector("[data-free-btn]").addEventListener('click', e => {
+                        e.preventDefault();
+
+                        document.querySelector("[data-input='free']").value = 1;
+                        document.querySelector("#all-prompts-form").submit();
+                    })
+
                 </script>
             </header>
             <hr class="grey-hr">
             <section aria-label="Prompt list" id="all-prompts-list">
-                <?php //var_dump($prompts); ?>
                 <?php foreach ($prompts as $prompt) : ?>
 
                     <?php 
                         $promptTags = json_decode($prompt['tags'], true);  
+                        $promptModel = Prompt::GetModelById($prompt['model_id']);
                     ?>
                     <div>
                         <a href="prompt?id=<?php echo $prompt['id']; ?>" class="prompt-card-header" style="background-image: url(<?php echo $prompt['header_image']; ?>)">
                             <div class="prompt-card-header-model">
-
+                                <img src="<?php echo $promptModel['icon']; ?>" alt="<?php echo $promptModel['name']; ?>">
+                                <span><?php echo $promptModel['name']; ?></span>
                             </div>
                         </a>
                         <div class="prompt-card-body">
@@ -239,6 +271,7 @@ $models = Prompt::getAllModels();
                     </div>
 
                 <?php endforeach; ?>
+                <script src="./assets/js/all-prompts-infinite-scroll.js" defer></script>
             </section>
         </div>
     </main>

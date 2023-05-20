@@ -124,6 +124,7 @@ input[type="submit"] {
 textarea {
   width: 100%;
   font-size: 1rem;
+  resize: vertical;
 }
 
 a {
@@ -288,6 +289,17 @@ nav .logo-container > img {
   gap: 2rem;
 }
 
+#search-btn {
+  background: none;
+  border: none;
+  display: none;
+  background-image: url(../assets/images/site/search-icon.svg);
+  background-size: cover;
+  background-repeat: no-repeat;
+  aspect-ratio: 1/1;
+  height: 25px;
+}
+
 .search-bar {
   background-color: var(--off-white) !important;
 
@@ -298,8 +310,27 @@ nav .logo-container > img {
   text-align: center;
   justify-self: center;
 
-  border-radius: 100px !important;
+  border-top-left-radius: 100px !important;
+  border-bottom-left-radius: 100px !important;
   transition: width 300ms;
+}
+
+#search-submit {
+  background: none;
+  border: none;
+  padding: 0;
+  height: 28.9px;
+  width: 40px;
+
+  background-color: var(--off-white);
+  background-image: url(../assets/images/site/search-icon-dark.svg);
+  background-size: 20px;
+  background-position: center;
+  background-repeat: no-repeat;
+  border-top-right-radius: 100px !important;
+  border-bottom-right-radius: 100px !important;
+
+  border-left: 1px solid var(--grey-1);
 }
 
 #search-bar-li {
@@ -337,7 +368,7 @@ nav .logo-container > img {
   justify-self: end;
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 1.5rem;
 }
 
 .vertical-line {
@@ -366,10 +397,11 @@ nav .logo-container > img {
 }
 
 .credits {
-  margin-right: 3rem;
+  margin-right: 1rem;
 }
 
 #hamburger-menu {
+  height: 20px;
   display: none;
   cursor: pointer;
 }
@@ -403,30 +435,51 @@ nav .logo-container > img {
 #account-nav-login {
   position: relative;
   height: auto;
-  width: 150px;
-  background-color: var(--off-white);
-  border-radius: 10px;
 }
 
 #account-nav-hitbox-login {
   position: absolute;
-  width: auto;
-  top: 15px;
-  right: 0;
-  padding-top: 30px;
+  width: 250px;
   display: none;
+
+  padding: 0.3rem 0;
+
+  top: 120%;
+  right: -5px;
+  overflow: hidden;
+
+  background-color: var(--grey-2);
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.25);
 }
 
-#account-nav-login::before {
-  position: absolute;
-  right: 6px;
-  top: -8px;
+#account-nav-profile-info {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem 1rem;
+  padding: 1rem;
+}
 
-  content: "";
-  border-left: 10px solid transparent;
-  border-right: 10px solid transparent;
+#account-nav-profile-info > figure {
+  aspect-ratio: 1/1;
+  width: 45px;
+  height: 45px;
 
-  border-bottom: 10px solid var(--off-white);
+  background-size: cover;
+  background-position: center;
+
+  border-radius: 100%;
+}
+
+#account-nav-profile-info p {
+  margin-bottom: -0.2rem;
+}
+
+#account-nav-hitbox-login > hr {
+  border: none;
+  height: 1px;
+  margin: 5px 0;
+  background-color: var(--grey-3);
 }
 
 #account-nav-login > li {
@@ -434,33 +487,216 @@ nav .logo-container > img {
   display: block;
 }
 
-#account-nav-login li > a {
-  padding: 0.3rem 1rem;
+#account-nav-login li > a, #account-nav-mod-btn {
+  padding: 0.7rem 1rem;
+  display: grid;
+  align-items: center;
+  grid-template-columns: 20px 1fr;
+  gap: 0.7rem;
+}
+
+#account-nav-login li > a:hover, #account-nav-mod-btn:hover {
+  background-color: rgba(80, 80, 80, 0.3);
+  color: var(--off-white);
+}
+
+#account-nav-login li > a > img, #account-nav-mod-btn > img {
+  width: 20px;
+  height: 20px;
+  justify-self: center;
+}
+
+#notifications-btn {
+  position: relative;
+  cursor: pointer;
   display: block;
-  color: var(--dark-grey);
-  text-align: center;
-  border-bottom: 1px solid var(--grey-1);
+  border: none;
+  background: none;
+  padding: 0;
+  background-image: url(../assets/images/site/bell-icon.svg);
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+  aspect-ratio: 1/1;
+  height: 25px;
 }
 
-#account-nav-logout {
-  color: red !important;
-  display: none !important;
+.active > #notifications-btn {
+  background-image: url(../assets/images/site/bell-filled-icon.svg);
 }
 
-#account-nav-login li:nth-child(2) a {
-  border-bottom: none;
+#notification-count {
+  pointer-events: none;
+  position: absolute;
+  right: 0;
+  top: 0;
+  transform: translate(40%, -30%);
+  font-size: var(--body-size);
+  color: var(--off-white);
+  padding: 0 0.4rem;
+  margin: 0;
+  background-color: var(--red);
+  border-radius: 10px;
 }
 
-.account-nav-login:hover #account-nav-hitbox-login {
-  display: block;
+#notifications-container {
+  display: none;
+  position: absolute;
+  width: 400px;
+  height: 500px;
+  top: 125%;
+  right: -20px;
+  padding: 0.3rem 0;
+  overflow: hidden;
+
+  background-color: var(--grey-2);
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.25);
 }
 
-#account-nav-hitbox-login:hover {
-  display: block;
+#notifications-top > p {
+  padding: 0.5rem 1rem;
 }
 
-.profile-a:hover ~ #account-nav-hitbox-login {
-  display: block;
+#notifications-top > hr {
+  border: none;
+  height: 1px;
+  margin-top: 5px;
+  background-color: var(--grey-3);
+}
+
+#notifications-relative {
+  position: relative;
+}
+
+#notifications-list {
+  overflow-y: auto;
+  padding: 5px 0;
+  height: calc(100% - 2.5rem);
+}
+
+#notifications-loading {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  aspect-ratio: 1/1;
+  width: 50px;
+  height: 50px;
+  transform: translate(-50%, -50%);
+  background-color: var(--grey-2);
+  border-radius: 100%;
+  z-index: 100;
+}
+
+#notifications-loading::after {
+  position: absolute;
+  content: "";
+  height: 100%;
+  width: 100%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: var(--grey-2);
+  border-radius: 100%;
+}
+
+#notifications-loading::before {
+  border-radius: 100%;
+  z-index: 0;
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  background: conic-gradient(var(--grey-2) 0deg, var(--light-blue) 360deg);
+  width: 125%;
+  height: 125%;
+  transform: translate(-50%, -50%);
+  animation: notifications-loading infinite 1s;
+}
+
+@keyframes notifications-loading {
+  from {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+  to {
+    transform: translate(-50%, -50%) rotate(360deg);}
+}
+
+#notifications-list::-webkit-scrollbar {
+  width: 10px;
+}
+
+#notifications-list::-webkit-scrollbar-track {
+  background: none;
+}
+
+#notifications-list::-webkit-scrollbar-thumb {
+  background: var(--grey-1);
+  border-radius: 10px;
+}
+
+.notification {
+  display: grid;
+  grid-template-columns: 60px 1fr;
+  gap: 1rem;
+  padding: 0.5rem 1rem;
+}
+
+.notification:hover {
+  color: var(--off-white);
+  background-color: rgba(80, 80, 80, 0.3);
+}
+
+.notification small {
+  color: var(--grey-1);
+}
+
+.notification > figure {
+  aspect-ratio: 1/1;
+  height: 60px;
+  background: var(--off-white);
+  background-size: cover;
+  background-position: center;
+  border-radius: 5px;
+}
+
+.notification-caught-up {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem 1rem;
+}
+
+.notification-caught-up > p {
+  color: var(--grey-1);
+}
+
+.dropdown.active > #notifications-container {
+  display: block !important;
+}
+
+.dropdown.active > #account-nav-hitbox-login {
+  display: block !important;
+}
+
+.dropdown.active > .logo-ul-container {
+  display: block !important;
+}
+
+#account-nav-btn {
+  cursor: pointer;
+  aspect-ratio: 1/1;
+  width: 30px;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  border-radius: 100%;
+  border: none;
+}
+
+#nav-logo-center {
+  justify-self: center;
+  display: none;
 }
 
 
@@ -502,20 +738,66 @@ nav .logo-container > img {
     grid-template-columns: 1fr 1fr 1fr;
   }
 
-  .logo-ul-container {
+  #nav-logo-center {
     display: flex;
-    justify-content: center;
+  }
+
+  .logo-ul-container {
+    position: absolute;
+    z-index: 9999;
+    top: 45px;
+    left: 1.2rem;
+    display: none;
+    width: 200px;
+    background-color: var(--grey-2);
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.25);
+  }
+
+  .logo-ul-container > * {
+    padding: 1rem;
+  }
+  
+  .logo-ul-container > .logo-container {
+    border-bottom: 1px solid var(--grey-3);
+    padding: 1.4rem 1rem;
+  }
+
+  .logo-ul-container > #nav-ul {
+    padding: 0.3rem 0;
   }
 
   #hamburger-menu {
     display: block;
   }
 
-  #search-bar-li {
-    position: relative;
-    top: 0;
+  #search-btn {
     display: block;
+  }
+
+  #left-nav {
+    display: flex;
+    gap: 1.5rem;
+    align-items: center;
+  }
+
+  #search-submit {
+    border-top-right-radius: 0px !important;
+    border-bottom-right-radius: 0px !important;
+    cursor: pointer;
+  }
+
+  #search-bar-li {
+    display: flex;
+    top: 50px;
     height: auto;
+    transition: transform 100ms;
+    transform-origin: top center;
+    transform: scaleY(0);
+  }
+
+  .dropdown.active > #search-bar-li {
+    transform: scaleY(100%);
   }
 
   .search-bar {
@@ -523,20 +805,6 @@ nav .logo-container > img {
     max-width: none;
     width: 100% !important;
     top: 0;
-  }
-
-  #nav-ul {
-    position: fixed;
-    top: 50px;
-    left: 0;
-    width: 100%;
-    background-color: var(--grey-2);
-    transform: translateX(0);
-    transition: transform 200ms;
-  }
-
-  .hamburg-transform {
-    transform: translateX(-100%) !important;
   }
 
   #nav-ul li {
@@ -547,8 +815,7 @@ nav .logo-container > img {
   #nav-ul li a {
     display: block;
     width: 100%;
-    padding: 0.5rem 1.5rem !important;
-    border-bottom: 1px solid var(--grey-1);
+    padding: 0.7rem 1rem !important;
   }
 
   .credits {
@@ -618,21 +885,28 @@ nav .logo-container > img {
     display: none;
   }
 
-  #primary-nav {
-    display: flex;
-    justify-content: space-between;
+  .account-nav {
+    gap: 0.7rem;
   }
 
-  #account-nav-logout {
-    display: block !important;
+  #left-nav {
+    gap: 0.7rem;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  #notifications-relative {
+    position: static;
+  }
+  
+  #notifications-container {
+    width: calc(100vw - 3rem);
+    right: 1.5rem;
+    top: 45px;
   }
 
-  #account-nav-logout a {
-    border-bottom: none !important;
-  }
-
-  #account-nav-login li:nth-child(2) a {
-    border-bottom: 1px solid var(--grey-1);
+  .logo-container > img {
+    display: none;
   }
 }
 

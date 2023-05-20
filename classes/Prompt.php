@@ -7,7 +7,7 @@ class Prompt
     // Basic information
     private string $title;
     private string $description;
-    private int $authorId;
+    private $authorId = null;
     private int $id;
 
     // Model information
@@ -20,7 +20,7 @@ class Prompt
     private $categoryIds = null;
 
     // Prompt information
-    private bool $isFree = false;
+    private $isFree = null;
     private string $prompt;
     private string $promptInstructions;
     private int $wordCount;
@@ -62,7 +62,7 @@ class Prompt
 
     public function setDescription (string $description)
     {
-        if (strlen($description) >= 500) {
+        if (strlen($description) >= 1000) {
             throw new Exception("Description must be less than 500 characters.");
         } else if (empty($description)) {
             throw new Exception("Description cannot be empty.");
@@ -293,9 +293,8 @@ class Prompt
     }
 
 
-    public function getPrompts (string $order = "new", int $page = 1, int $approved = null): array
+    public function getPrompts (string $order = "new", int $page = 1, int $approved = null, int $limit = 14): array
     {
-        $limit = 20;
         $offset = ($page - 1) * $limit;
 
         switch ($order) {
@@ -331,6 +330,8 @@ class Prompt
                 WHERE prompts.approved = CASE WHEN :approved IS NOT NULL AND LENGTH(:approved) > 0 THEN :approved ELSE prompts.approved END
                 AND prompts.model_id IN (" . $modelIn . ")
                 AND category_prompt.category_id IN (" . $categoryIn . ")
+                AND prompts.author_id = CASE WHEN :author_id IS NOT NULL THEN :author_id ELSE prompts.author_id END
+                AND prompts.free = CASE WHEN :free IS NOT NULL THEN :free ELSE prompts.free END
                 GROUP BY prompts.id" 
                 . $sqlOrder .
                 " LIMIT :limit OFFSET :offset";
@@ -339,7 +340,9 @@ class Prompt
         $stmt = $PDO->prepare($sql);
         $stmt->bindValue(":limit", $limit, PDO::PARAM_INT);
         $stmt->bindValue(":offset", $offset, PDO::PARAM_INT);
+        $stmt->bindValue(":author_id", $this->authorId);
         $stmt->bindValue(":approved", $approved);
+        $stmt->bindValue(":free", $this->isFree);
         $stmt->execute();
         
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -355,6 +358,26 @@ class Prompt
         if ($stmt->rowCount() == 0) throw new Exception("Prompt not found.");
 
         return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
+    public static function getPromptsByUserId (int $id): array
+    {
+        $PDO = Database::getInstance();
+        $stmt = $PDO->prepare("SELECT * FROM prompts WHERE author_id = :user_id ORDER BY date_created DESC limit 20");
+        $stmt->bindValue(":user_id", $id);
+        $stmt->execute();
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public static function getAllLikedPromptsByUserId (int $id): array
+    {
+        $PDO = Database::getInstance();
+        $stmt = $PDO->prepare("SELECT prompts.* FROM prompts INNER JOIN likes ON likes.prompt_id = prompts.id WHERE likes.user_id = :user_id ORDER BY date_created DESC");
+        $stmt->bindValue(":user_id", $id);
+        $stmt->execute();
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
     public static function addView (int $id): void
@@ -446,4 +469,5 @@ class Prompt
 
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+
 }
