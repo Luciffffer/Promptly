@@ -5,35 +5,58 @@ include_once(__DIR__ . '/classes/User.php');
 include_once(__DIR__ . '/classes/Like.php');
 include_once(__DIR__ . '/classes/Comment.php');
 include_once(__DIR__ . '/classes/Date.php');
+include_once(__DIR__ . '/classes/File.php');
 
 session_start();
 
-if (!empty($_GET['id'])) {
+try {
+    if (!empty($_GET['id'])) {
 
-    $prompt = Prompt::getPromptById($_GET['id']);
-
-    $isAuthor = (isset($_SESSION['userId']) && $prompt['author_id'] == $_SESSION['userId']) ? true : false;
-
-    if ($prompt['approved'] == 0 && !$isAuthor && !isset($_SESSION['isModerator'])) {
-        Leave();
+        $prompt = Prompt::getPromptById($_GET['id']);
+    
+        $isAuthor = (isset($_SESSION['userId']) && $prompt['author_id'] == $_SESSION['userId']) ? true : false;
+    
+        if ($prompt['approved'] == 0 && !$isAuthor && !isset($_SESSION['isModerator'])) {
+            throw new Exception("Prompt not found.");
+        }
+    
+        if (!empty($_POST['delete']) && $_POST['delete'] == 'true') {
+            if ($isAuthor || isset($_SESSION['isModerator'])) {
+                $newPrompt = new Prompt();
+                $newPrompt->setId($_GET['id']);
+                $newPrompt->deletePrompt();
+                File::deleteFile($prompt['header_image']);
+                File::deleteFile($prompt['example_image1']);
+    
+                if (isset($prompt['example_image2'])) {
+                    File::deleteFile($prompt['example_image2']);
+                }
+                if (isset($prompt['example_image3'])) {
+                    File::deleteFile($prompt['example_image3']);
+                }
+                if (isset($prompt['example_image4'])) {
+                    File::deleteFile($prompt['example_image4']);
+                }
+    
+                throw new Exception("Prompt deleted successfully.");
+            }
+        }
+    
+        $model = Prompt::getModelById($prompt['model_id']);
+        $categories = Prompt::getCategoriesByPromptId($_GET['id']);
+        $author = User::getUserById($prompt['author_id']);
+        $tags = json_decode($prompt['tags'], true);
+        $AllLikes = Like::getLikes($_GET['id']);
+    
+        if (!$isAuthor) {
+            Prompt::addView($_GET['id']);
+        }
+    
+    } else {
+        throw new Exception("Prompt not found.");
     }
-
-    $model = Prompt::getModelById($prompt['model_id']);
-    $categories = Prompt::getCategoriesByPromptId($_GET['id']);
-    $author = User::getUserById($prompt['author_id']);
-    $tags = json_decode($prompt['tags'], true);
-    $AllLikes = Like::getLikes($_GET['id']);
-
-    if (!$isAuthor) {
-        Prompt::addView($_GET['id']);
-    }
-
-} else {
-    Leave();
-}
-
-function Leave() {
-    header("Location: index");
+} catch (Throwable $err) {
+    header("Location: discover");
     exit();
 }
 
@@ -53,7 +76,29 @@ function Leave() {
     <?php include_once(__DIR__ . "/partials/nav.inc.php"); ?>
     <main>
         <?php include_once(__DIR__ . "/partials/aside.inc.php"); ?>
-        <div>
+        <div style="position: relative">
+
+            <div id="feedback-container" class="hidden feedback-container-hidden">
+                <a href="#" id="feedback-close-btn">
+                    <img src="assets/images/site/cross-symbol-no-circle.svg" alt="Close">
+                </a>
+                <div id="feedback-content"></div>
+            </div>
+
+            <?php if ($isAuthor || isset($_SESSION['isModerator'])) : ?>
+                <dialog id="delete-prompt-container">
+                    <form action="" method="POST">
+                        <h2>Delete Prompt</h2>
+                        <hr>
+                        <p><strong>Are you sure you want to delete this prompt?</strong> This action cannot be undone.</p>
+                        <div id="delete-prompt-buttons">
+                            <button data-close-delete class="button primary-btn-white">Cancel</button>
+                            <button id="delete-btn" class="button" type="submit" name="delete" value="true">Delete</button>
+                        </div>
+                    </form>
+                </dialog>
+            <?php endif; ?>
+
             <header id="prompt-header" style="background-image: url(<?php echo $prompt['header_image'] ?>); cursor: default;">
                 <div></div>
             </header>
@@ -146,7 +191,26 @@ function Leave() {
                                     <a id="like-btn" href="#" aria-label="Like prompt" data-liked="<?php echo Like::isLiked($_SESSION['userId'], $_GET['id']) ? 'true' : 'false'; ?>"></a>
                                     <span id="likes-count"><?php echo $AllLikes; ?></span>
                                     <hr>
-                                    <a id="prompt-more-options-button" href="#" aria-label="More options"></a>
+                                    <div data-dropdown class="dropdown">
+                                        <button id="prompt-more-options-button" href="#" aria-label="More options" data-dropdown-btn></button>
+                                        <div id="prompt-more-options">
+                                            <a href="#" data-share-prompt-btn>
+                                                <img src="assets/images/site/share-icon.svg" alt="Share">
+                                                <span>Copy link</span>
+                                            </a>
+                                            <a href="#" id="report-prompt-btn" data-report-prompt-btn>
+                                                <img src="assets/images/site/warning-icon.svg" alt="Warning">
+                                                <span>Report prompt</span>
+                                            </a>
+                                            <?php if ($isAuthor || isset($_SESSION['isModerator'])) : ?>
+                                                <a href="#" id="delete-prompt-btn" data-delete-prompt-btn>
+                                                    <img src="assets/images/site/trash-icon-white.svg" alt="Trash">
+                                                    <span>Delete prompt</span>
+                                                </a>
+                                            <?php endif; ?>
+                                        </div>
+                                        <script src="assets/js/prompt-more-options.js"></script>
+                                    </div>
                                 </div>
                             </section>
                             <section id="prompt-author-info">

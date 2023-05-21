@@ -908,7 +908,7 @@ nav .logo-container > img {
     top: 45px;
   }
 
-  .logo-container > img {
+  #nav-logo-center > img {
     display: none;
   }
 }

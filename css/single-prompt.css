@@ -487,12 +487,19 @@ input::placeholder, textarea::placeholder {
 
 #prompt-more-options-button {
     display: block;
+    background: none;
+    border: none;
+    cursor: pointer;
     width: 1.5rem;
     height: 1.5rem;
     background-image: url(../assets/images/site/three-dots-icon.svg);
     background-size: contain;
     background-position: center;
     background-repeat: no-repeat;
+}
+
+.dropdown.active > #prompt-more-options {
+    display: block !important;
 }
 
 #get-prompt-btn {
@@ -750,4 +757,144 @@ input::placeholder, textarea::placeholder {
 
 [data-liked="true"] {
     background-image: url('../assets/images/site/heart-icon-red.svg') !important;
+}
+
+#prompt-more-options {
+    display: none;
+    position: absolute;
+    top: 110%;
+    right: 0;
+    width: 200px;
+    padding: 0.3rem 0;
+    background-color: var(--grey-2);
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px 0px #00000040;
+}
+
+#prompt-more-options > * {
+    padding: 0.7rem 1rem;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+#prompt-more-options > *:hover {
+    color: var(--off-white);
+    background-color: rgba(80, 80, 80, 0.3);
+}
+
+#prompt-more-options img {
+    aspect-ratio: 1/1;
+    width: 1.5rem;
+}
+
+#feedback-container {
+    padding: 1rem 2rem;
+    position: fixed;
+    background-color: var(--green);
+    top: 60px;
+    right: 50%;
+    z-index: 10000;
+    transform: translateX(50%);
+    border-radius: 10px;
+    transition: transform 300ms, opacity 300ms;
+
+    box-shadow: 0px 0px 10px 0px #00000040;
+}
+
+#feedback-content {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+#feedback-close-btn {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    cursor: pointer;
+    display: flex;
+    justify-content: flex-end;
+}
+
+#feedback-close-btn > img {
+    aspect-ratio: 1/1;
+    width: 1.3rem;
+}
+
+#feedback-content > img {
+    aspect-ratio: 1/1;
+    width: 2rem;
+}
+
+.feedback-container-hidden {
+    transform: translateX(50%) translateY(-10px) !important;
+    opacity: 0 !important;
+}
+
+#delete-prompt-container {
+    position: fixed;
+    z-index: 10000;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    max-width: 300px;
+    width: 100%;
+
+    background-color: var(--grey-2);
+    color: var(--off-white);
+    margin: 0 1.5rem;
+    padding: 0.3rem 0;
+    border-radius: 10px;
+    border: none;
+    box-shadow: 0px 0px 10px 0px #00000040;
+    border: 2px solid var(--red);
+}
+
+#delete-prompt-container::backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 10000;
+}
+
+#delete-prompt-container form > *:not(hr) {
+    padding: 0.7rem 1rem;
+    text-align: center;
+}
+
+#delete-prompt-container form > hr {
+    margin: 0.3rem 0;
+    border: none;
+    height: 2px;
+    background-color: var(--grey-3);
+}
+
+#delete-prompt-buttons {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    padding: 1rem;
+    margin-top: 1rem;
+}
+
+#delete-prompt-buttons > * {
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    font-family: "Montserrat", sans-serif;
+    font-size: var(--body-size);
+    font-weight: bold;
+}
+
+#delete-btn {
+    background: none;
+    border: none;
+    color: var(--red);
 }

@@ -8,6 +8,7 @@ class Prompt
     private string $title;
     private string $description;
     private $authorId = null;
+    private int $id;
 
     // Model information
     private int $modelId;
@@ -223,6 +224,12 @@ class Prompt
         return $this;
     }
 
+    public function setId (int $id)
+    {
+        $this->id = $id;
+        return $this;
+    }
+
 
     // Insert, update, delete ...
 
@@ -278,6 +285,14 @@ class Prompt
 
             if ($count == 0) throw new Exception("Server error. Something went wrong. Try again later.");
         }
+    }
+
+    public function deletePrompt(): void
+    {
+        $PDO = Database::getInstance();
+        $stmt = $PDO->prepare("DELETE FROM prompts WHERE id = :id");
+        $stmt->bindValue(":id", $this->id);
+        $stmt->execute();
     }
 
 
