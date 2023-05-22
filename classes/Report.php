@@ -10,6 +10,17 @@ class Report // Zegher please structure this a little better. Seperate the sette
     private $extraInformation;
     private $reporterId;
 
+    private array $allowedReasons = [
+        'spam',
+        'inappropriate',
+        'other'
+    ];
+
+
+    public function getAllowedReasons(): array
+    {
+        return $this->allowedReasons;
+    }
 
     public function setId(int $id): self
     {
@@ -30,6 +41,10 @@ class Report // Zegher please structure this a little better. Seperate the sette
 
     public function setReason($reason)
     {
+        if (!in_array($reason, $this->allowedReasons)) {
+            throw new Exception('Invalid reason');
+        }
+
         $this->reason = $reason;
 
         return $this;
@@ -69,6 +84,12 @@ class Report // Zegher please structure this a little better. Seperate the sette
 
     public function setExtraInformation($description)
     {
+        if (strlen($description) == 0) {
+            $description = null;
+        } else if (strlen($description) > 500) {
+            throw new Exception('Description cannot be longer than 500 characters');
+        }
+
         $this->extraInformation = $description;
 
         return $this;
@@ -79,8 +100,9 @@ class Report // Zegher please structure this a little better. Seperate the sette
     public function saveReport(): void
     {
         $PDO = Database::getInstance();
-        $stmt = $PDO->prepare("INSERT INTO reports(user_id, reason, extra_information, reporter_id) VALUES (:user_id, :reason, :extra_information, :reporter_id)");
+        $stmt = $PDO->prepare("INSERT INTO reports(user_id, prompt_id, reason, extra_information, reporter_id) VALUES (:user_id, :prompt_id, :reason, :extra_information, :reporter_id)");
         $stmt->bindValue(':user_id', $this->userId);
+        $stmt->bindValue(':prompt_id', $this->promptId);
         $stmt->bindValue(':reason', $this->reason);
         $stmt->bindValue(':extra_information', $this->extraInformation);
         $stmt->bindValue(':reporter_id', $this->reporterId);

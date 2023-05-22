@@ -6,6 +6,7 @@ include_once(__DIR__ . '/classes/Like.php');
 include_once(__DIR__ . '/classes/Comment.php');
 include_once(__DIR__ . '/classes/Date.php');
 include_once(__DIR__ . '/classes/File.php');
+include_once(__DIR__ . '/classes/Report.php');
 
 session_start();
 
@@ -96,6 +97,35 @@ try {
                             <button id="delete-btn" class="button" type="submit" name="delete" value="true">Delete</button>
                         </div>
                     </form>
+                </dialog>
+            <?php endif; ?>
+
+            <?php if (isset($_SESSION['loggedIn'])) : ?>
+                <?php
+                    $report = new Report();
+                    $allowedReasons = $report->getAllowedReasons();
+                ?>
+                <dialog id="report-prompt-container">
+                    <h2>Report Prompt</h2>
+                    <a href="#" id="close-report-btn">
+                        <img src="assets/images/site/cross-symbol-no-circle.svg" alt="Close" data-close-report>
+                    </a>
+                    <hr>
+                    <div id="report-form-content">
+                        <div class="form-part">
+                            <label for="report-reason">Reason:</label>
+                            <select data-report-reason id="report-reason">
+                                <?php foreach ($allowedReasons as $reason) : ?>
+                                    <option value="<?php echo $reason; ?>" ><?php echo $reason; ?></option>
+                                <?php endforeach; ?>
+                            </select>
+                        </div>
+                        <div class="form-part">
+                            <label for="report-extra-information">Extra information:</label>
+                            <textarea id="report-extra-information" data-report-extra-information cols="30" rows="10"></textarea>
+                        </div>
+                        <a href="#" class="button" id="submit-report-btn">Submit Report</a>
+                    </div>
                 </dialog>
             <?php endif; ?>
 
