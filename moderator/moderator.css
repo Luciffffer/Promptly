@@ -1,0 +1,100 @@
+/* TO BE APPROVED PROMPTS PAGE */
+
+.prompt:first-child{
+    border-top: 1px solid -var(--off-white);
+}
+
+.prompt{
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    border-bottom: 1px solid var(--off-white);
+
+    padding: 2rem;
+
+    background-color: -var(--light-gray);
+}
+
+.prompt-model{
+    /* position: absolute; */
+    /* margin-left: 5%; */
+}
+
+.prompt-model:first-child{
+    /* position: absolute; */
+    /* margin-left: 2%; */
+}
+
+.prompt-title-top{
+    /* position: absolute; */
+    /* margin-left: 16%; */
+}
+
+.title-tags{
+    display: flex;
+    flex-direction: column;
+}
+
+.prompt-tags{
+    display: flex;
+    flex-direction: row;
+    gap: 4px;
+    font-size: 7pt;
+
+    color: var(--light-medium-blue);
+}
+
+.prompt-images-title{
+    display: flex;
+    flex-direction: row;
+    width: 200px;
+}
+
+.img-prompt{
+    background-size: 50px 50px;
+}
+
+.prompt-images{
+    width: 200px;
+    /* margin-left: 15%; */
+    
+    display: flex;
+    flex-direction: row;
+
+    /* position: absolute; */
+    /* margin-left: 35%; */
+}
+
+.img-prompt{
+    width: 50px;
+    height: 50px;
+}
+
+#aprompt{
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    padding: 1rem
+}
+
+.buttons a{
+    background-color: var(--purple);
+    padding: 5px;
+    border-radius: 5px;
+}
+
+#btn-opmaak{
+    background-color: var(--purple);
+    padding: 5px;
+    border-radius: 5px;
+    border: none;
+    color: white;
+}
+
+#btn-opmaak2{
+    background-color: var(--off-white);
+    padding: 5px;
+    border-radius: 5px;
+    border: none;
+    color: var(--purple);
+}
+
+

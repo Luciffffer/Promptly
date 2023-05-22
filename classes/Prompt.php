@@ -34,7 +34,11 @@ class Prompt
 
     // Getters
 
-    
+    public function getId()
+    {
+        return $this->id;
+    }
+
     // Setters
 
     public function setTitle (string $title)
@@ -295,6 +299,17 @@ class Prompt
         $stmt->execute();
     }
 
+    public function approvePrompt()
+    {
+        $PDO = Database::getInstance();
+
+        $sql = "UPDATE prompts SET approved = 1 WHERE id = :id";
+
+        $statement = $PDO->prepare($sql);
+        $statement->bindValue(":id", $this->id);
+        $statement->execute();
+    }
+
 
     public function getPrompts (string $order = "new", int $page = 1, int $approved = null, int $limit = 14, string $search = null): array
     {
@@ -394,7 +409,6 @@ class Prompt
         $stmt->bindValue(":id", $id);
         $stmt->execute();
     }
-
 
     // AI model methods
 
