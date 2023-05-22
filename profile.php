@@ -108,15 +108,17 @@ if(isset($_POST['report-reason']) && isset($_POST['report-description'])){ // ze
                         </div>
                     </section>
                     <div>
-                        <section id="profile-action-section">
-                            <?php if (!isset($_SESSION['loggedIn'])) : ?>
-                                <a href="login.php" class="button">Follow</a>
-                            <?php elseif (!Follow::isFollowing($_SESSION['userId'], $_GET['id'])) : ?>
-                                <a href="#" data-follow="false" class="button">Follow</a>
-                            <?php else : ?>
-                                <a href="#" data-follow="true" class="button">Unfollow</a>
-                            <?php endif; ?>
-                        </section>
+                        <?php if (!isset($_SESSION['userId']) || $_SESSION['userId'] != $_GET['id']) : ?>
+                            <section id="profile-action-section">
+                                <?php if (!isset($_SESSION['loggedIn'])) : ?>
+                                    <a href="login.php" class="button">Follow</a>
+                                <?php elseif (!Follow::isFollowing($_SESSION['userId'], $_GET['id'])) : ?>
+                                    <a href="#" data-follow="false" class="button">Follow</a>
+                                <?php else : ?>
+                                    <a href="#" data-follow="true" class="button">Unfollow</a>
+                                <?php endif; ?>
+                            </section>
+                        <?php endif; ?>
                         <section id="profile-about-section">
                             <h2>About</h2>
                             <hr class="grey-hr">

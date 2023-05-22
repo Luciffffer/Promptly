@@ -6,7 +6,7 @@ session_start();
 
 try {
 
-    if (isset($_SESSION['userId']) && isset($_POST['followeeId'])) {
+    if (isset($_SESSION['userId']) && isset($_POST['followeeId']) && $_SESSION['userId'] != $_POST['followeeId']) {
         
         $follow = new Follow();
         $follow->setFolloweeId($_POST['followeeId']);
@@ -20,7 +20,7 @@ try {
         ];
 
     } else {
-        throw new Exception('You must be logged in and provide a followeeId to follow a user.');
+        throw new Exception("You must be logged in and provide a followeeId to follow a user. Also can't follow yourself.");
     }
 
 } catch (Throwable $err) {
