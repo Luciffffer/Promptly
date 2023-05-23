@@ -402,4 +402,11 @@ class User
         $stmt->bindValue(":id", $_POST['id']);
         $stmt->execute();
     }
+
+    public static function makeMod(){
+        $PDO = Database::getInstance();
+        $stmt = $PDO->prepare("UPDATE users SET is_moderator = 1 WHERE id = :id");
+        $stmt->bindValue(":id", $_POST['id']);
+        $stmt->execute();
+    }
 }

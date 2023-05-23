@@ -315,13 +315,28 @@ aside {
 
 #flag-icon{
     display:block;
-    padding-top: -20px;
-    margin-left: 450px;
-    margin-right: 0.5rem;
-    height: 30px;
-    width: 30px;
+    height: 20px;
+    width: 20px;
 
+    margin-top: 3px;
    
+}
+
+.report-btn{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    border-radius: 5px;
+
+    background: none !important;
+    font-weight: normal !important;
+    outline: 2px solid var(--off-white);
+
+    padding: 0.5rem 1rem;
+
+}
+
+.report-btn p{
+    margin-left: -15px;
 }
 
 #profile-header {
@@ -997,7 +1012,6 @@ aside {
     border-radius: 5px;
     border: 0px;
 
-    font-weight: 600;
     width: 100%;
 }
 
@@ -1017,7 +1031,7 @@ aside {
     
     color: white;
     height: 2rem;
-
+    
     border-radius: 10px;
     border: 0px;
 }
@@ -1033,6 +1047,16 @@ aside {
     border: 0px;
 
     height: 200px;
+}
+
+#btn-opmaak{
+    padding: 0.5rem 1rem;
+    border: 2px solid var(--red) !important ;
+    border-radius: 5px;
+    background: none;
+    font-weight: bold;
+    color: var(--red);
+    margin-top: 0;
 }
 
 

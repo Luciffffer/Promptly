@@ -65,7 +65,6 @@ if(isset($_POST['report-reason']) && isset($_POST['report-description'])){ // ze
                     <div>
                         <p style="margin-bottom: -1rem;">Account</p>
                         <h1 id="profile-header-username"><?php echo htmlspecialchars($user['username']); ?></h1>
-                        <img id="flag-icon" src="assets/images/site/flag.svg" alt="" onclick="showReport()">
                         <div id="profile-header-information">
                             <span><?php echo count($prompts); ?> Prompts</span>
                             <span data-follower-count><?php echo Follow::getFollowerCount($_GET['id']); ?> Followers</span>
@@ -119,6 +118,18 @@ if(isset($_POST['report-reason']) && isset($_POST['report-description'])){ // ze
                                 <?php else : ?>
                                     <a href="#" data-follow="true" class="button">Unfollow</a>
                                 <?php endif; ?>
+                                <div class="report-btn" onclick="showReport()">
+                                    <img id="flag-icon" src="assets/images/site/flag.svg" alt="">
+                                    <p>Report</p>
+                                </div>
+
+                                <?php if(isset($_SESSION['isModerator']) && $_SESSION['isModerator'] == true):?>
+                                    <div>
+                                        <a href="#" class="button" id="btn-opmaak" data-btn-add-mod>AddMod</a>
+                                    </div>
+                                <?php endif; ?>
+
+
                             </section>
                         <?php endif; ?>
                         <section id="profile-about-section">
@@ -183,5 +194,35 @@ var closeBtn = document.getElementById("close");
     function closeReport(){
         reportScrn.style.display = "none";
     }
+
+
+
+
+    const forms = document.querySelectorAll('.formpost');
+    forms.forEach(form => {
+        form.addEventListener('submit', e => {
+            e.preventDefault();
+            let id = e.target.dataset.id;
+            formdata = new FormData();
+            formdata.append('id', id);
+            
+            if(e.submitter.name === 'add') {
+                console.log('added this as mod');
+                console.log(id);
+                fetch('ajax/make-mod.ajax.php', {
+                    method: 'POST',
+                    body: formdata
+                }) 
+                .then(
+                    response => response.json()) //.json veranderd json naar string in js die je kan gebruiken.
+                .then(result => {
+                    console.log(result);
+                    if(result.status === 'success') {
+                        e.target.parentElement.parentElement.remove();
+                    }
+                })
+            }
+        });
+    });
 </script>
 </html>
