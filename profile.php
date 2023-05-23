@@ -154,11 +154,10 @@ if(isset($_POST['report-reason']) && isset($_POST['report-description'])){ // ze
         </div>
 
         <div id="report-screen" style="display:none"> 
-            <!-- Zegher made this and the design -->
             <h1>Report this user</h1>
             <p id="close" onclick="closeReport()">X</p>
             <form action="" method="POST">
-                <label for="report-reason">Reason</label>
+                <label for="report-reason">Reason</label><br>
                 <select name="report-reason" id="report-reason">
                     <option value="spam">Spam</option>
                     <option value="inappropriate">Inappropriate</option>

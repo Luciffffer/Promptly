@@ -41,11 +41,11 @@
             ?>                
                     <div class='prompt'>
                         <a href="../profile?id=<?php echo $report['user_id']?>">
-                            <p class="prompt-model"><?php echo $report['user_id']?></p>
+                            <p class="prompt-model"><?php echo htmlspecialchars($report['user_id'])?></p>
                         </a>
-                            <p class="prompt-title"><?php echo $report['reporter_id']?></p>
-                            <p class="prompt-title"><?php echo $report['reason'];?></p>
-                            <p class="prompt-title"><?php echo $report['extra_information'];?></p>
+                            <p class="prompt-title"><?php echo htmlspecialchars($report['reporter_id'])?></p>
+                            <p class="prompt-title"><?php echo htmlspecialchars($report['reason']);?></p>
+                            <p class="prompt-title"><?php echo htmlspecialchars($report['extra_information']);?></p>
                             <div class="buttons">
                                 <form class="formpost" action="" method="POST" data-id="<?php echo $report['id']?>">
                                     <input type="submit" id="btn-opmaak" class="button" value="Block" name="block">
@@ -63,7 +63,6 @@
     </main>
 
     <script>
-        // Zegher you can't delete all reports by a user. I changed it so it only deletes that specific report. You can make it so it deletes all reports of a specific reported account tho.
 
         const forms = document.querySelectorAll('.formpost');
         forms.forEach(form => {
@@ -81,7 +80,7 @@
                     body: formdata
                 }) 
                 .then(
-                    response => response.json()) //.json veranderd json naar string in js die je kan gebruiken.
+                    response => response.json()) 
                 .then(result => {
                     console.log(result);
                     if(result.status === 'success') {

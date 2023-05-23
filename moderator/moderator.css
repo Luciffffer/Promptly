@@ -97,4 +97,44 @@
     color: var(--purple);
 }
 
+.information{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: 1fr;
+
+    margin-top: 20px;
+    margin-left: 5%;
+
+}
+
+.img-profile{
+    height: 50px;
+    width: 50px;
+    background-size: 50px 50px;
+
+}
+
+#line{   
+    border-bottom: 1px solid white;
+}
+
+.show-moderators-grid{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: 1fr;
+    gap: 10px;
+    margin-top: 20px;
+    margin-left: 5%;
+}
+
+.information-mods{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: 1fr;
+
+    margin-top: 20px;
+    margin-left: 5%;
+
+}
+
 

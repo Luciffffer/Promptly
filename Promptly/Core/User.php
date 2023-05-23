@@ -234,6 +234,23 @@ class User
         }
     }
 
+    public function unblockUser(): void
+    {
+        $PDO = Database::getInstance();
+
+        $stmt = $PDO->prepare("UPDATE users SET blocked = 0 WHERE id = :id");
+        $stmt->bindValue(":id", $this->id);
+        $stmt->execute();
+
+        $count = $stmt->rowCount();
+
+        if ($count == 0) {
+            throw new Exception("Something went wrong with unblocking user. Try again later");
+        }
+    }
+
+    
+
     // static functions
 
     public static function verifyPassword(string $password, string $email): bool
@@ -361,5 +378,28 @@ class User
         if ($result['email_verified'] === 0) {
             throw new Exception("This account has not been verified yet. An email with a verification link has been send.");
         }
+    }
+
+    public static function getBlockedUsers(){
+        $PDO = Database::getInstance();
+        $stmt = $PDO->prepare("SELECT * FROM users WHERE blocked = 1");
+        $stmt->execute();
+        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
+    }
+
+    public static function getModerators(){
+        $PDO = Database::getInstance();
+        $stmt = $PDO->prepare("SELECT * FROM users WHERE is_moderator = 1");
+        $stmt->execute();
+        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
+    }
+
+    public static function removeMod(){
+        $PDO = Database::getInstance();
+        $stmt = $PDO->prepare("UPDATE users SET is_moderator = 0 WHERE id = :id");
+        $stmt->bindValue(":id", $_POST['id']);
+        $stmt->execute();
     }
 }
