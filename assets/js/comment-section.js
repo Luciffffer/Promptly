@@ -60,7 +60,7 @@ document.querySelector('#comment-submit-btn').addEventListener('click', e => {
 
 
 // display comments
-function createCommentCard(username, profile_picture, comment, date, commentId, userId) {
+function createCommentCard(username, profile_picture, comment, date, commentId, userId, verified = false) {
     const commentCard = document.createElement('div');
     commentCard.classList.add('comment');
 
@@ -81,6 +81,12 @@ function createCommentCard(username, profile_picture, comment, date, commentId, 
     const commentUsername = document.createElement('a');
     commentUsername.href = `profile.php?id=${userId}`;
     commentUsername.textContent = username;
+    if (verified) {
+        const verifiedIcon = document.createElement('img');
+        verifiedIcon.src = 'assets/images/site/verified-icon.svg';
+        verifiedIcon.classList.add('verified-icon');
+        commentUsername.appendChild(verifiedIcon);
+    }
     commentUsername.classList.add('white-a');
     const commentDate = document.createElement('small');
     commentDate.textContent = date;
@@ -126,7 +132,8 @@ function fillCommentSection(comments) {
             comment.comment,
             comment.date_created,
             comment.id,
-            comment.user_id
+            comment.user_id,
+            comment.verified == 1 ? true : false
         );
 
         document.querySelector('#comment-list').appendChild(commentCard);

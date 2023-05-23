@@ -67,6 +67,12 @@ if(isset($_POST['report-reason']) && isset($_POST['report-description'])){ // ze
                         <h1 id="profile-header-username"><?php echo htmlspecialchars($user['username']); ?></h1>
                         <img id="flag-icon" src="assets/images/site/flag.svg" alt="" onclick="showReport()">
                         <div id="profile-header-information">
+                            <?php if ($user['verified'] == 1) : ?>
+                                <span class="verified-span">
+                                    <img src="assets/images/site/white-checkmark.svg" alt="Verified">
+                                    <span>Verified</span>
+                                </span>
+                            <?php endif; ?>
                             <span><?php echo count($prompts); ?> Prompts</span>
                             <span data-follower-count><?php echo Follow::getFollowerCount($_GET['id']); ?> Followers</span>
                             <span><?php echo Like::getLikesByUserId($_GET['id']); ?> Likes</span>

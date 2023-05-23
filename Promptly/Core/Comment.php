@@ -77,7 +77,7 @@ class Comment
     public static function getAllCommentsInformationForDisplay(int $promptId): array
     {
         $PDO = Database::getInstance();
-        $stmt = $PDO->prepare('SELECT comments.*, users.username, users.profile_pic FROM comments INNER JOIN users ON comments.user_id = users.id WHERE comments.prompt_id = :promptId ORDER BY date_created DESC');
+        $stmt = $PDO->prepare('SELECT comments.*, users.username, users.profile_pic, users.verified FROM comments INNER JOIN users ON comments.user_id = users.id WHERE comments.prompt_id = :promptId ORDER BY date_created DESC');
         $stmt->bindValue(':promptId', $promptId, PDO::PARAM_INT);
         $stmt->execute();
         $results = $stmt->fetchAll(PDO::FETCH_ASSOC);

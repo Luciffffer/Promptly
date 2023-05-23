@@ -1003,3 +1003,14 @@ aside {
 
     font-weight: 600;
 }
+
+.verified-span {
+    display: flex;
+    gap: 0.5rem;
+    background: var(--blue-purple-gradient);
+}
+
+.verified-span > img {
+    aspect-ratio: 1/1;
+    height: 25px;
+}

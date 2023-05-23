@@ -117,7 +117,7 @@ try {
                             <label for="report-reason">Reason:</label>
                             <select data-report-reason id="report-reason">
                                 <?php foreach ($allowedReasons as $reason) : ?>
-                                    <option value="<?php echo $reason; ?>" ><?php echo $reason; ?></option>
+                                    <option value="<?php echo $reason; ?>" ><?php echo ucfirst($reason); ?></option>
                                 <?php endforeach; ?>
                             </select>
                         </div>
@@ -250,6 +250,9 @@ try {
                                     <span class="grey">By:</span>
                                     <figure style="background-image: url(<?php echo $author['profile_pic'] ?>);"></figure>
                                     <span><?php echo htmlspecialchars($author['username']); ?></span>
+                                    <?php if ($author['verified'] == 1) : ?>
+                                        <img class="verified-icon" src="assets/images/site/verified-icon.svg" alt="Verified">
+                                    <?php endif; ?>
                                 </a>
                             </section>
 
@@ -324,7 +327,12 @@ try {
                                             </a>
                                             <div>
                                                 <div class="comment-top">
-                                                    <a class="white-a" href="profile?id=<?php echo $commentUser['id'] ?>"><?php echo htmlspecialchars($commentUser['username']); ?></a>
+                                                    <a class="white-a" href="profile?id=<?php echo $commentUser['id'] ?>">
+                                                        <?php echo htmlspecialchars($commentUser['username']); ?>
+                                                        <?php if ($commentUser['verified'] == 1) : ?>
+                                                            <img class="verified-icon" src="assets/images/site/verified-icon.svg" alt="Verified">
+                                                        <?php endif; ?>
+                                                    </a>
                                                     <small><?php echo \Promptly\Helpers\Date::getElapsedtime($comment['date_created']); ?></small>
                                                 </div>
                                                 <p><?php echo nl2br(htmlspecialchars($comment['comment'])); ?></p>

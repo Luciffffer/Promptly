@@ -201,6 +201,11 @@ nav .logo-container > img {
   margin-bottom: 0.5rem;
 }
 
+.verified-icon {
+  aspect-ratio: 1/1;
+  height: 1.3rem;
+}
+
 .primary-btn {
   padding: 0.5rem 2rem;
   font-weight: bold;
