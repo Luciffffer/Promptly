@@ -1,8 +1,9 @@
 <?php 
 
-include_once(__DIR__ . "/../classes/Prompt.php");
-include_once(__DIR__ . "/../classes/Database.php");
-include_once(__DIR__ . "/../classes/Notification.php");
+require_once(__DIR__ . "/../vendor/autoload.php");
+
+use Promptly\Core\Prompt;
+use Promptly\Core\Notification;
 
 session_start();
 

@@ -1,11 +1,13 @@
 <?php 
 
-include_once(__DIR__ . "/classes/User.php");
-include_once(__DIR__ . "/classes/Prompt.php");
-include_once(__DIR__ . "/classes/Achievement.php");
-include_once(__DIR__ . "/classes/Follow.php");
-include_once(__DIR__ . "/classes/Like.php");
-include_once(__DIR__ . "/classes/Report.php");
+require_once(__DIR__ . "/vendor/autoload.php");
+
+use Promptly\Core\Prompt;
+use Promptly\Core\User;
+use Promptly\Core\Achievement;
+use Promptly\Core\Follow;
+use Promptly\Core\Like;
+use Promptly\Core\Report;
 
 session_start();
 
@@ -158,9 +160,9 @@ if(isset($_POST['report-reason']) && isset($_POST['report-description'])){ // ze
             <form action="" method="POST">
                 <label for="report-reason">Reason</label>
                 <select name="report-reason" id="report-reason">
-                    <option value="Spam">Spam</option>
-                    <option value="Inappropriate">Inappropriate</option>
-                    <option value="Other">Other</option>
+                    <option value="spam">Spam</option>
+                    <option value="inappropriate">Inappropriate</option>
+                    <option value="other">Other</option>
                 </select>
 
                 <label for="report-description"><br><br>Description</label>

@@ -1,7 +1,9 @@
 <?php
 
-include_once(__DIR__ . "/classes/Security.php");
-include_once(__DIR__ . "/classes/Prompt.php");
+require_once(__DIR__ . "/vendor/autoload.php");
+
+use Promptly\Core\Prompt;
+use Promptly\Helpers\Security;
 
 Security::onlyLoggedIn();
 

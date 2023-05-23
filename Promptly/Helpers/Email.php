@@ -1,6 +1,7 @@
 <?php
 
 require_once(__DIR__ . '/../vendor/autoload.php');
+
 use Postmark\PostmarkClient;
 
 class Email
@@ -13,36 +14,36 @@ class Email
 
     // getters
 
-    public function getToEmail(): string 
+    public function getToEmail(): string
     {
         return $this->toEmail;
     }
 
-    public function getUsername(): string 
+    public function getUsername(): string
     {
         return $this->username;
     }
 
-    public function getToken(): string 
+    public function getToken(): string
     {
         return $this->token;
     }
 
     // setters
 
-    public function setToEmail (string $email)
+    public function setToEmail(string $email)
     {
         $this->toEmail = $email;
         return $this;
     }
 
-    public function setUsername (string $username = "User")
+    public function setUsername(string $username = "User")
     {
         $this->username = $username;
         return $this;
     }
 
-    public function setToken (string $token)
+    public function setToken(string $token)
     {
         $this->token = $token;
         return $this;
@@ -53,7 +54,7 @@ class Email
     public function sendVerificationEmail(): void
     {
         $client = new PostmarkClient($this->server);
-        
+
         $sendResult = $client->sendEmailWithTemplate(
             $this->fromEmail,
             $this->toEmail,
@@ -68,15 +69,15 @@ class Email
             "company_address" => "",
             ],
             true, // Inline css
-            NULL, // Tag
-            NULL, // Track opens
-            NULL, // Reply To
-            NULL, // CC
-            NULL, // BCC
-            NULL, // Header array
-            NULL, // Attachment array
-            NULL, // Track links
-            NULL, // Metadata array
+            null, // Tag
+            null, // Track opens
+            null, // Reply To
+            null, // CC
+            null, // BCC
+            null, // Header array
+            null, // Attachment array
+            null, // Track links
+            null, // Metadata array
             "email-verification" // Message stream
         );
     }
@@ -99,15 +100,15 @@ class Email
             "company_address" => "",
             ],
             true, // Inline css
-            NULL, // Tag
-            NULL, // Track opens
-            NULL, // Reply To
-            NULL, // CC
-            NULL, // BCC
-            NULL, // Header array
-            NULL, // Attachment array
-            NULL, // Track links
-            NULL, // Metadata array
+            null, // Tag
+            null, // Track opens
+            null, // Reply To
+            null, // CC
+            null, // BCC
+            null, // Header array
+            null, // Attachment array
+            null, // Track links
+            null, // Metadata array
             "password_reset" // Message stream
         );
     }

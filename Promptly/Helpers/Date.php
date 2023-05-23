@@ -1,5 +1,9 @@
 <?php
 
+namespace Promptly\Helpers;
+
+use \DateTime;
+
 class Date
 {
     public static function getElapsedTime(string $date): string
@@ -10,13 +14,13 @@ class Date
 
         if ($interval->y > 0) {
             return $interval->y . ' year' . ($interval->y > 1 ? 's' : '') . ' ago';
-        } else if ($interval->m > 0) {
+        } elseif ($interval->m > 0) {
             return $interval->m . ' month' . ($interval->m > 1 ? 's' : '') . ' ago';
-        } else if ($interval->d > 0) {
+        } elseif ($interval->d > 0) {
             return $interval->d . ' day' . ($interval->d > 1 ? 's' : '') . ' ago';
-        } else if ($interval->h > 0) {
+        } elseif ($interval->h > 0) {
             return $interval->h . ' hour' . ($interval->h > 1 ? 's' : '') . ' ago';
-        } else if ($interval->i > 0) {
+        } elseif ($interval->i > 0) {
             return $interval->i . ' minute' . ($interval->i > 1 ? 's' : '') . ' ago';
         } else {
             return 'Just now';

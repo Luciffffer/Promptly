@@ -1,12 +1,13 @@
 <?php 
 
-include_once(__DIR__ . '/classes/Prompt.php');
-include_once(__DIR__ . '/classes/User.php');
-include_once(__DIR__ . '/classes/Like.php');
-include_once(__DIR__ . '/classes/Comment.php');
-include_once(__DIR__ . '/classes/Date.php');
-include_once(__DIR__ . '/classes/File.php');
-include_once(__DIR__ . '/classes/Report.php');
+require_once(__DIR__ . '/vendor/autoload.php');
+
+use Promptly\Core\Prompt;
+use Promptly\Core\User;
+use Promptly\Core\Like;
+use Promptly\Core\File;
+use Promptly\Core\Report;
+use Promptly\Core\Comment;
 
 session_start();
 
@@ -324,7 +325,7 @@ try {
                                             <div>
                                                 <div class="comment-top">
                                                     <a class="white-a" href="profile?id=<?php echo $commentUser['id'] ?>"><?php echo htmlspecialchars($commentUser['username']); ?></a>
-                                                    <small><?php echo Date::getElapsedtime($comment['date_created']); ?></small>
+                                                    <small><?php echo \Promptly\Helpers\Date::getElapsedtime($comment['date_created']); ?></small>
                                                 </div>
                                                 <p><?php echo nl2br(htmlspecialchars($comment['comment'])); ?></p>
                                             </div>

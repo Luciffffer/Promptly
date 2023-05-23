@@ -1,6 +1,10 @@
 <?php
 
-class Database 
+namespace Promptly\Core;
+
+use \PDO;
+
+class Database
 {
     private static $PDO;
 
@@ -9,8 +13,8 @@ class Database
         if (self::$PDO != null) {
             return self::$PDO;
         } else {
-            $config = parse_ini_file(__DIR__ . "/../config/config.ini");
-            
+            $config = parse_ini_file(__DIR__ . "/../../config/config.ini");
+
             $options = [];
 
             if (isset($config['db_ssl_cert']) && !empty($config['db_ssl_cert'])) {
@@ -19,9 +23,9 @@ class Database
                     PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT => false
                 ];
             }
-            
+
             self::$PDO = new PDO('mysql:host=' . $config['db_host'] . ';dbname=' . $config['db_name'], $config['db_user'], $config['db_password'], $options);
-            
+
             return self::$PDO;
         }
     }

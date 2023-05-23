@@ -1,5 +1,9 @@
 <?php
 
+namespace Promptly\Helpers;
+
+use \Exception;
+
 class File
 {
     private $validImageExtensions = ['jpg', 'jpeg', 'png', 'webp'];
@@ -56,11 +60,11 @@ class File
 
     public function moveImage(string $tmp_name): void
     {
-        move_uploaded_file($tmp_name, __DIR__ . '/../' . $this->path);
+        move_uploaded_file($tmp_name, __DIR__ . '/../../' . $this->path);
     }
 
     public static function deleteFile($path): void
     {
-        unlink(__DIR__ . '/../' . $path);
+        unlink(__DIR__ . '/../../' . $path);
     }
 }

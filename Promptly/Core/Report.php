@@ -1,5 +1,11 @@
 <?php
-include_once(__DIR__ . "/Database.php");
+
+namespace Promptly\Core;
+
+use \PDO;
+use \Exception;
+
+require_once(__DIR__ . "/../../vendor/autoload.php");
 
 class Report // Zegher please structure this a little better. Seperate the setters and getters pls xoxo
 {
@@ -28,7 +34,7 @@ class Report // Zegher please structure this a little better. Seperate the sette
         return $this;
     }
 
-    public function setPromptId (int $promptId)
+    public function setPromptId(int $promptId)
     {
         $this->promptId = $promptId;
         return $this;
@@ -68,8 +74,6 @@ class Report // Zegher please structure this a little better. Seperate the sette
         return $this->userId;
     }
 
-    
-
     public function setUserId(int $user_id)
     {
         $this->userId = $user_id;
@@ -86,7 +90,7 @@ class Report // Zegher please structure this a little better. Seperate the sette
     {
         if (strlen($description) == 0) {
             $description = null;
-        } else if (strlen($description) > 500) {
+        } elseif (strlen($description) > 500) {
             throw new Exception('Description cannot be longer than 500 characters');
         }
 
@@ -133,7 +137,7 @@ class Report // Zegher please structure this a little better. Seperate the sette
     public function removeReport(): void
     {
         $PDO = Database::getInstance();
-        $stmt = $PDO->prepare("DELETE FROM reports WHERE id = :id"); 
+        $stmt = $PDO->prepare("DELETE FROM reports WHERE id = :id");
         $stmt->bindValue(':id', $this->id);
         $stmt->execute();
     }

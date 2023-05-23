@@ -1,6 +1,8 @@
 <?php
 
-include_once(__DIR__ . '/../classes/Follow.php');
+require_once(__DIR__ . '/../vendor/autoload.php');
+
+use \Promptly\Core\Follow;
 
 session_start();
 

@@ -1,6 +1,8 @@
 <?php
 
-include_once(__DIR__ . "/classes/Prompt.php");
+require_once(__DIR__ . '/vendor/autoload.php');
+
+use Promptly\Core\Prompt;
 
 session_start();
 

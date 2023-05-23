@@ -1,11 +1,15 @@
 <?php
 
-require_once(__DIR__ . '/Database.php');
-require_once(__DIR__ . '/Notification.php');
+namespace Promptly\Core;
 
-class Achievement 
+use \PDO;
+
+require_once(__DIR__ . '/../../vendor/autoload.php');
+
+class Achievement
 {
-    public static function unlockAchievement ($achievementId, $userId) {
+    public static function unlockAchievement($achievementId, $userId)
+    {
         $PDO = Database::getInstance();
 
         $statement = $PDO->prepare("INSERT INTO achievement_user (achievement_id, user_id) VALUES (:achievementId, :userId)");
@@ -24,7 +28,8 @@ class Achievement
         $notification->save();
     }
 
-    public static function getAchievementById ($achievementId) {
+    public static function getAchievementById($achievementId)
+    {
         $PDO = Database::getInstance();
 
         $statement = $PDO->prepare("SELECT * FROM achievements WHERE id = :achievementId");
@@ -34,7 +39,8 @@ class Achievement
         return $statement->fetch(PDO::FETCH_ASSOC);
     }
 
-    public static function getAchievementsByUserId ($userId) {
+    public static function getAchievementsByUserId($userId)
+    {
         $PDO = Database::getInstance();
         $statement = $PDO->prepare("SELECT achievements.* FROM achievements INNER JOIN achievement_user ON achievement_user.achievement_id = achievements.id WHERE achievement_user.user_id = :userId");
         $statement->bindValue(":userId", $userId);

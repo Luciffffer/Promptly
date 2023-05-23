@@ -1,5 +1,10 @@
 <?php
-require_once(__DIR__ . "/Database.php");
+
+namespace Promptly\Core;
+
+use \PDO;
+
+require_once(__DIR__ . '/../../vendor/autoload.php');
 
 class like
 {
@@ -17,7 +22,7 @@ class like
 
     }
 
-    public static function getLikesByUserId (int $userId): int
+    public static function getLikesByUserId(int $userId): int
     {
         $pdo = Database::getInstance();
 
@@ -48,10 +53,10 @@ class like
             $stmt->execute();
             echo "added"; // don't echo stuff in classes. Just return it
         }
-        
+
     }
 
-    public static function isLiked ($userId, $promptId): bool
+    public static function isLiked($userId, $promptId): bool
     {
         $pdo = Database::getInstance();
 
@@ -64,4 +69,3 @@ class like
         return $result ? true : false;
     }
 }
-

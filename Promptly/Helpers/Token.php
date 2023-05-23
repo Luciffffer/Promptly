@@ -1,8 +1,14 @@
 <?php
 
-require_once(__DIR__ . "/Database.php");
+namespace Promptly\Helpers;
 
-class Token {
+use \PDO;
+use \Exception;
+
+require_once(__DIR__ . '/../../vendor/autoload.php');
+
+class Token
+{
     private $token;
     private $type;
     private $userId;
@@ -14,19 +20,19 @@ class Token {
         return $this->token;
     }
 
-    public function getType(): string 
+    public function getType(): string
     {
         return $this->type;
     }
 
-    public function getUserId(): int 
+    public function getUserId(): int
     {
         return $this->userId;
     }
 
     // setters
 
-    public function generateToken (string $modifier = "")
+    public function generateToken(string $modifier = "")
     {
         $randomHex = bin2hex(random_bytes(100));
         $token = md5($randomHex . time() . $modifier);
@@ -35,15 +41,17 @@ class Token {
         return $this;
     }
 
-    public function setType (string $type)
+    public function setType(string $type)
     {
-        if ($type != "password" && $type != "email") throw new Exception("Token must be of type password or email.");
+        if ($type != "password" && $type != "email") {
+            throw new Exception("Token must be of type password or email.");
+        }
 
         $this->type = $type;
         return $this;
     }
 
-    public function setUserId (int $id)
+    public function setUserId(int $id)
     {
         $this->userId = $id;
         return $this;
@@ -63,12 +71,14 @@ class Token {
         $stmt->bindValue(":type", $this->type);
         $success = $stmt->execute();
 
-        if (!$success) throw new Exception("Something went wrong with creating an email verification token. Please contact support");
+        if (!$success) {
+            throw new Exception("Something went wrong with creating an email verification token. Please contact support");
+        }
     }
 
     // get token object
 
-    public static function getTokenObject (string $token, string $type): array 
+    public static function getTokenObject(string $token, string $type): array
     {
         $PDO = Database::getInstance();
 
@@ -80,14 +90,16 @@ class Token {
         $stmt->execute();
         $result = $stmt->fetch();
 
-        if ($result == false) throw new Exception("This token does not exist or is no longer valid. If needed request a new token.");
+        if ($result == false) {
+            throw new Exception("This token does not exist or is no longer valid. If needed request a new token.");
+        }
 
         return $result;
     }
 
     // delete token
 
-    public static function deleteToken (int $id): void 
+    public static function deleteToken(int $id): void
     {
         $PDO = Database::getInstance();
 

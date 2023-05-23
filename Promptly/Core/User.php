@@ -1,8 +1,13 @@
 <?php
 
-require_once(__DIR__ . "/Database.php");
+namespace Promptly\Core;
 
-class User 
+use \PDO;
+use \Exception;
+
+require_once(__DIR__ . "/../../vendor/autoload.php");
+
+class User
 {
     private $id;
     private $username;
@@ -37,13 +42,13 @@ class User
 
     // setters
 
-    public function setId (int $id)
+    public function setId(int $id)
     {
         $this->id = $id;
         return $this;
     }
 
-    public function setUsername (string $username)
+    public function setUsername(string $username)
     {
         if (preg_match('([^a-zA-Z0-9])', $username) === 1 || strlen($username) === 0) {
             throw new Exception("Usernames is not valid. Only letters and numbers allowed");
@@ -56,25 +61,25 @@ class User
         return $this;
     }
 
-    public function setEmail (string $email)
+    public function setEmail(string $email)
     {
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
             throw new Exception("Email address is not valid.");
         } elseif (!User::checkUnique("email", $email)) {
             throw new Exception("An account with this email address already exists.");
         }
-        
+
         $this->email = $email;
 
         return $this;
     }
 
-    public function setPassword (string $password)
+    public function setPassword(string $password)
     {
         if (strlen($password) <= 8) {
             throw new Exception("Your password does not meet the given criteria.");
         }
-        
+
         $hash = password_hash($password, PASSWORD_DEFAULT, [ "cost" => 12 ]);
 
         $this->password = $hash;
@@ -82,7 +87,7 @@ class User
         return $this;
     }
 
-    public function setBiography (string $biography)
+    public function setBiography(string $biography)
     {
         if (strlen($biography) > 150) {
             throw new Exception("The allowed maximum length of a biography is 150 characters");
@@ -92,7 +97,7 @@ class User
         return $this;
     }
 
-    public function setProfileImg (string $profileImg)
+    public function setProfileImg(string $profileImg)
     {
         $this->profileImg = $profileImg;
         return $this;
@@ -177,7 +182,9 @@ class User
 
         $count = $stmt->rowCount();
 
-        if ($count == 0) throw new Exception("Something went wrong. Try again later");
+        if ($count == 0) {
+            throw new Exception("Something went wrong. Try again later");
+        }
     }
 
     public function deleteUser(): void
@@ -192,7 +199,9 @@ class User
 
         $count = $statement->rowCount();
 
-        if ($count == 0) throw new Exception("Something went wrong. Try again later");
+        if ($count == 0) {
+            throw new Exception("Something went wrong. Try again later");
+        }
     }
 
     public function deactivateUser(): void
@@ -205,7 +214,9 @@ class User
 
         $count = $stmt->rowCount();
 
-        if ($count == 0) throw new Exception("Something went wrong. Try again later");
+        if ($count == 0) {
+            throw new Exception("Something went wrong. Try again later");
+        }
     }
 
     public function blockUser(): void
@@ -218,12 +229,14 @@ class User
 
         $count = $stmt->rowCount();
 
-        if ($count == 0) throw new Exception("Something went wrong with blocking user. Try again later");
+        if ($count == 0) {
+            throw new Exception("Something went wrong with blocking user. Try again later");
+        }
     }
 
     // static functions
 
-    public static function verifyPassword (string $password, string $email): bool 
+    public static function verifyPassword(string $password, string $email): bool
     {
         $PDO = Database::getInstance();
         $statement = $PDO->prepare("SELECT * FROM `users` WHERE email = :email");
@@ -239,9 +252,9 @@ class User
         return password_verify($password, $user['password']);
     }
 
-    public static function canLogin (string $password, string $email): bool
+    public static function canLogin(string $password, string $email): bool
     {
-        
+
         if (User::verifyPassword($password, $email)) {
 
             User::checkEmailVerified($email);
@@ -260,7 +273,7 @@ class User
 
     // get user methods
 
-    public static function getUserById (int $id): array
+    public static function getUserById(int $id): array
     {
         $PDO = Database::getInstance();
         $stmt = $PDO->prepare("SELECT * FROM `users` WHERE id = :id AND active = 1");
@@ -272,11 +285,11 @@ class User
         if ($result == false) {
             throw new Exception("User with this id does not exist.");
         }
-        
+
         return $result;
     }
 
-    public static function getUserByEmail (string $email): array
+    public static function getUserByEmail(string $email): array
     {
         $PDO = Database::getInstance();
         $stmt = $PDO->prepare("SELECT * FROM `users` WHERE email = :email AND active = 1");
@@ -284,15 +297,15 @@ class User
         $stmt->execute();
 
         $result = $stmt->fetch();
-        
+
         if ($result == false) {
             throw new Exception("User with this email does not exist.");
         }
-        
+
         return $result;
     }
 
-    public static function getCreditsByUserId (int $id): int
+    public static function getCreditsByUserId(int $id): int
     {
         $PDO = Database::getInstance();
         $stmt = $PDO->prepare("SELECT credits FROM users WHERE id = :id AND active = 1");
@@ -300,14 +313,14 @@ class User
         $stmt->execute();
 
         $result = $stmt->fetch();
-        
+
         return $result['credits'];
     }
 
 
     // misc
 
-    public static function verifyEmail (string $id): void
+    public static function verifyEmail(string $id): void
     {
         $PDO = Database::getInstance();
 
@@ -323,10 +336,12 @@ class User
         $stmt->execute();
         $count = $stmt->rowCount();
 
-        if ($count == 0 && $result == false) throw new Exception("Something went wrong. Please try again later.");
+        if ($count == 0 && $result == false) {
+            throw new Exception("Something went wrong. Please try again later.");
+        }
     }
 
-    public static function checkEmailVerified (string $email)
+    public static function checkEmailVerified(string $email)
     {
         $PDO = Database::getInstance();
         $stmt = $PDO->prepare("select email_verified from users where email = :email");

@@ -1,9 +1,11 @@
 <?php 
 
-    include_once(__DIR__ . "/../classes/User.php");
-    include_once(__DIR__ . "/../classes/Security.php");
-    include_once(__DIR__ . "/../classes/Token.php");
-    include_once(__DIR__ . "/../classes/Achievement.php");
+    require_once(__DIR__ . "/../vendor/autoload.php");
+
+    use Promptly\Core\User;
+    use Promptly\Core\Achievement;
+    use Promptly\Helpers\Security;
+    use Promptly\Helpers\Token;
 
     Security::onlyNonLoggedIn();
 

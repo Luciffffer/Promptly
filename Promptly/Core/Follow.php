@@ -1,9 +1,12 @@
 <?php
 
-require_once(__DIR__ . '/Database.php');
-require_once(__DIR__ . '/User.php');
+namespace Promptly\Core;
 
-class Follow 
+use \PDO;
+
+require_once(__DIR__ . '/../../vendor/autoload.php');
+
+class Follow
 {
     private int $followeeId;
     private int $followerId;
@@ -11,13 +14,13 @@ class Follow
 
     // Setters
 
-    public function setFollowerId (int $followerId) 
+    public function setFollowerId(int $followerId)
     {
         $this->followerId = $followerId;
         return $this;
     }
 
-    public function setFolloweeId (int $followeeId) 
+    public function setFolloweeId(int $followeeId)
     {
         User::getUserById($followeeId); // check if user exists
 
@@ -70,7 +73,7 @@ class Follow
         return $stmt->fetch(PDO::FETCH_NUM)[0];
     }
 
-    public static function isFollowing (int $user_id, int $followeeId): bool
+    public static function isFollowing(int $user_id, int $followeeId): bool
     {
         $db = Database::getInstance();
         $stmt = $db->prepare('SELECT * FROM follows WHERE follower_id = :follower_id AND followee_id = :followee_id');

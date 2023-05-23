@@ -1,11 +1,13 @@
-<?php 
+<?php
 
-include_once(__DIR__ . "/../classes/Prompt.php");
-include_once(__DIR__ . "/../classes/Notification.php");
+require_once(__DIR__ . "/../vendor/autoload.php");
+
+use Promptly\Core\Prompt;
+use Promptly\Core\Notification;
 
 session_start();
 
-if (isset($_SESSION['isModerator']) && $_SESSION['isModerator'] === true){
+if (isset($_SESSION['isModerator']) && $_SESSION['isModerator'] === true) {
     $prompt = new Prompt();
     $prompt->setId($_POST['id']);
     $prompt->approvePrompt();
@@ -35,4 +37,3 @@ if (isset($_SESSION['isModerator']) && $_SESSION['isModerator'] === true){
 
 header('Content-Type: application/json');
 echo json_encode($response);
-

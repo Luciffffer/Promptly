@@ -1,9 +1,11 @@
 <?php 
 
-include_once(__DIR__ . "/../classes/Security.php");
-include_once(__DIR__ . "/../classes/Prompt.php");
-include_once(__DIR__ . "/../classes/File.php");
-include_once(__DIR__ . "/../classes/Achievement.php");
+require_once(__DIR__ . "/../vendor/autoload.php");
+
+use Promptly\Core\Prompt;
+use Promptly\Core\File;
+use Promptly\core\Achievement;
+use Promptly\Helpers\Security;
 
 Security::onlyLoggedIn();
 

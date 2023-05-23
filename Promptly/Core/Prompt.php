@@ -1,6 +1,11 @@
 <?php
 
-require_once(__DIR__ . "/Database.php");
+namespace Promptly\Core;
+
+use \PDO;
+use \Exception;
+
+require_once(__DIR__ . "/../../vendor/autoload.php");
 
 class Prompt
 {
@@ -41,11 +46,11 @@ class Prompt
 
     // Setters
 
-    public function setTitle (string $title)
+    public function setTitle(string $title)
     {
         if (strlen($title) >= 70) {
             throw new Exception("Title must be less than 70 characters.");
-        } else if (empty($title)) {
+        } elseif (empty($title)) {
             throw new Exception("Title cannot be empty.");
         }
 
@@ -53,11 +58,11 @@ class Prompt
         return $this;
     }
 
-    public function setDescription (string $description)
+    public function setDescription(string $description)
     {
         if (strlen($description) >= 1000) {
             throw new Exception("Description must be less than 500 characters.");
-        } else if (empty($description)) {
+        } elseif (empty($description)) {
             throw new Exception("Description cannot be empty.");
         }
 
@@ -65,7 +70,7 @@ class Prompt
         return $this;
     }
 
-    public function setTags (string $tags)
+    public function setTags(string $tags)
     {
         if (empty($tags)) {
             throw new Exception("Tags cannot be empty.");
@@ -77,21 +82,21 @@ class Prompt
         foreach($tags as $tag) {
             if (strlen($tag) > 20) {
                 throw new Exception("Single tag must be less than 20 characters.");
-            } else if (strlen($tag) < 2) {
+            } elseif (strlen($tag) < 2) {
                 throw new Exception("Single tag must be more than or equal to 2 characters.");
-            } else if (preg_match('/([^a-zA-Z0-9\s])/', $tag) === 1) {
+            } elseif (preg_match('/([^a-zA-Z0-9\s])/', $tag) === 1) {
                 throw new Exception("Tags can only contain letters, numbers, and spaces.");
             }
         };
 
         $tags = json_encode($tags);
-        
+
         $this->tags = $tags;
         return $this;
     }
 
-    public function setCategories (string $categories)
-    {   
+    public function setCategories(string $categories)
+    {
         $categoryIds = json_decode($categories);
 
         if (empty($categoryIds)) {
@@ -114,7 +119,7 @@ class Prompt
         return $this;
     }
 
-    public function setModelId (int $modelId)
+    public function setModelId(int $modelId)
     {
         $PDO = Database::getInstance();
         $stmt = $PDO->prepare("select * from ai_models where id = :id");
@@ -129,7 +134,7 @@ class Prompt
         return $this;
     }
 
-    public function setModels (string $modelIds)
+    public function setModels(string $modelIds)
     {
         $modelIds = json_decode($modelIds);
 
@@ -153,10 +158,10 @@ class Prompt
         return $this;
     }
 
-    public function setModelVersion (string $modelVersion)
+    public function setModelVersion(string $modelVersion)
     {
         $modelVersions = Prompt::getModelVersions($this->modelId);
-        
+
         if (!in_array($modelVersion, $modelVersions)) {
             throw new Exception("Given version does not match with the given model");
         }
@@ -165,7 +170,7 @@ class Prompt
         return $this;
     }
 
-    public function setPrompt (string $prompt)
+    public function setPrompt(string $prompt)
     {
         if (empty($prompt)) {
             throw new Exception("Prompt cannot be empty.");
@@ -176,7 +181,7 @@ class Prompt
         return $this;
     }
 
-    public function setPromptInstructions (string $instructions)
+    public function setPromptInstructions(string $instructions)
     {
         if (empty($instructions)) {
             throw new Exception("Instructions cannot be empty");
@@ -186,49 +191,49 @@ class Prompt
         return $this;
     }
 
-    public function setAuthorId (int $id)
+    public function setAuthorId(int $id)
     {
         $this->authorId = $id;
         return $this;
     }
 
-    public function setIsFree (bool $free)
+    public function setIsFree(bool $free)
     {
         $this->isFree = $free;
         return $this;
     }
 
-    public function setHeaderImage (string $imgPath)
+    public function setHeaderImage(string $imgPath)
     {
         $this->headerImage = $imgPath;
         return $this;
     }
 
-    public function setExampleImage1 (string $imgPath)
+    public function setExampleImage1(string $imgPath)
     {
         $this->exampleImage1 = $imgPath;
         return $this;
     }
 
-    public function setExampleImage2 (string $imgPath)
+    public function setExampleImage2(string $imgPath)
     {
         $this->exampleImage2 = $imgPath;
         return $this;
     }
 
-    public function setExampleImage3 (string $imgPath)
+    public function setExampleImage3(string $imgPath)
     {
         $this->exampleImage3 = $imgPath;
         return $this;
     }
 
-    public function setExampleImage4 (string $imgPath)
+    public function setExampleImage4(string $imgPath)
     {
         $this->exampleImage4 = $imgPath;
         return $this;
     }
 
-    public function setId (int $id)
+    public function setId(int $id)
     {
         $this->id = $id;
         return $this;
@@ -272,7 +277,9 @@ class Prompt
 
         $count = $stmt->rowCount();
 
-        if ($count == 0) throw new Exception("Server error. Something went wrong. Try again later.");
+        if ($count == 0) {
+            throw new Exception("Server error. Something went wrong. Try again later.");
+        }
 
 
         // INSERT CATEGORIES
@@ -287,7 +294,9 @@ class Prompt
 
             $count = $stmt->rowCount();
 
-            if ($count == 0) throw new Exception("Server error. Something went wrong. Try again later.");
+            if ($count == 0) {
+                throw new Exception("Server error. Something went wrong. Try again later.");
+            }
         }
     }
 
@@ -311,7 +320,7 @@ class Prompt
     }
 
 
-    public function getPrompts (string $order = "new", int $page = 1, int $approved = null, int $limit = 14, string $search = null): array
+    public function getPrompts(string $order = "new", int $page = 1, int $approved = null, int $limit = 14, string $search = null): array
     {
         $offset = ($page - 1) * $limit;
 
@@ -353,7 +362,7 @@ class Prompt
                 AND (prompts.title LIKE CASE WHEN :search IS NOT NULL THEN :search ELSE prompts.title END
                 OR prompts.description LIKE CASE WHEN :search IS NOT NULL THEN :search ELSE prompts.description END
                 OR prompts.tags LIKE CASE WHEN :search IS NOT NULL THEN :search ELSE prompts.tags END)
-                GROUP BY prompts.id" 
+                GROUP BY prompts.id"
                 . $sqlOrder .
                 " LIMIT :limit OFFSET :offset"; // Look at this beauty. It's absolutely disgusting. I love it.
 
@@ -366,23 +375,25 @@ class Prompt
         $stmt->bindValue(":free", $this->isFree);
         $stmt->bindValue(":search", "%" . $search . "%");
         $stmt->execute();
-        
+
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public static function getPromptById (int $id): array
+    public static function getPromptById(int $id): array
     {
         $PDO = Database::getInstance();
         $stmt = $PDO->prepare("SELECT * FROM prompts WHERE id = :id");
         $stmt->bindValue(":id", $id);
         $stmt->execute();
 
-        if ($stmt->rowCount() == 0) throw new Exception("Prompt not found.");
+        if ($stmt->rowCount() == 0) {
+            throw new Exception("Prompt not found.");
+        }
 
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
-    public static function getPromptsByUserId (int $id): array
+    public static function getPromptsByUserId(int $id): array
     {
         $PDO = Database::getInstance();
         $stmt = $PDO->prepare("SELECT * FROM prompts WHERE author_id = :user_id ORDER BY date_created DESC limit 20");
@@ -392,7 +403,7 @@ class Prompt
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public static function getAllLikedPromptsByUserId (int $id): array
+    public static function getAllLikedPromptsByUserId(int $id): array
     {
         $PDO = Database::getInstance();
         $stmt = $PDO->prepare("SELECT prompts.* FROM prompts INNER JOIN likes ON likes.prompt_id = prompts.id WHERE likes.user_id = :user_id ORDER BY date_created DESC");
@@ -402,7 +413,7 @@ class Prompt
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public static function addView (int $id): void
+    public static function addView(int $id): void
     {
         $PDO = Database::getInstance();
         $stmt = $PDO->prepare("UPDATE prompts SET views = views + 1 WHERE id = :id");
@@ -412,7 +423,7 @@ class Prompt
 
     // AI model methods
 
-    public static function getModelById (int $id): array 
+    public static function getModelById(int $id): array
     {
         $PDO = Database::getInstance();
         $stmt = $PDO->prepare("select * from ai_models where id = :id");
@@ -455,7 +466,7 @@ class Prompt
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public static function getCategoriesByPromptId (int $id): array
+    public static function getCategoriesByPromptId(int $id): array
     {
         $PDO = Database::getInstance();
         $stmt = $PDO->prepare("SELECT categories.* FROM categories JOIN category_prompt ON categories.id = category_prompt.category_id WHERE category_prompt.prompt_id = :id");

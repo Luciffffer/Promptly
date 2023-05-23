@@ -1,8 +1,10 @@
 <?php 
 
-include_once(__DIR__ . "/../classes/Report.php");
-include_once(__DIR__ . "/../classes/User.php");
-include_once(__DIR__ . "/../classes/Notification.php");
+require_once(__DIR__ . "/../vendor/autoload.php");
+
+use \Promptly\Core\Notification;
+use \Promptly\Core\Report;
+use \Promptly\Core\User;
 
 session_start();
 

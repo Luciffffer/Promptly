@@ -1,7 +1,11 @@
 <?php
-    include_once(__DIR__ . "/../classes/Prompt.php");
-    include_once(__DIR__ . "/../classes/User.php");
-    include_once(__DIR__ . "/../classes/Security.php"); 
+
+    require_once(__DIR__ . "/../vendor/autoload.php");
+
+    use Promptly\Core\Prompt;
+    use Promptly\Core\User;
+    use Promptly\Helpers\Security;
+
     // include_once("../ajax/remove-prompt.ajax.php"); 
     Security::onlyModerator();
 

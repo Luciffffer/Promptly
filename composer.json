@@ -1,4 +1,16 @@
 {
+    "autoload": {
+        "psr-4": {
+            "Promptly\\Core\\": "Promptly/Core/",
+            "Promptly\\Helpers\\": "Promptly/Helpers/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Lucifer",
+            "email": "contact@lucifarian.be"
+        }
+    ],
     "require": {
         "wildbit/postmark-php": "^4.0"
     }

@@ -18,6 +18,8 @@ class ComposerStaticInit12aa15473cf8f560767e7df7a14473a4
         array (
             'Psr\\Http\\Message\\' => 17,
             'Psr\\Http\\Client\\' => 16,
+            'Promptly\\Helpers\\' => 17,
+            'Promptly\\Core\\' => 14,
         ),
         'G' => 
         array (
@@ -30,12 +32,20 @@ class ComposerStaticInit12aa15473cf8f560767e7df7a14473a4
     public static $prefixDirsPsr4 = array (
         'Psr\\Http\\Message\\' => 
         array (
-            0 => __DIR__ . '/..' . '/psr/http-message/src',
-            1 => __DIR__ . '/..' . '/psr/http-factory/src',
+            0 => __DIR__ . '/..' . '/psr/http-factory/src',
+            1 => __DIR__ . '/..' . '/psr/http-message/src',
         ),
         'Psr\\Http\\Client\\' => 
         array (
             0 => __DIR__ . '/..' . '/psr/http-client/src',
+        ),
+        'Promptly\\Helpers\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/Promptly/Helpers',
+        ),
+        'Promptly\\Core\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/Promptly/Core',
         ),
         'GuzzleHttp\\Psr7\\' => 
         array (

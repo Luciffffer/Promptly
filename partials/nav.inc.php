@@ -1,7 +1,6 @@
 <?php
 
-include_once($_SERVER['DOCUMENT_ROOT'] . __ROOT__ . "classes/Notification.php");
-include_once($_SERVER['DOCUMENT_ROOT'] . __ROOT__ . "classes/User.php");
+require_once(__DIR__ . '/../vendor/autoload.php');
 
 ?><nav id="primary-nav" 
     data-root="<?php echo __ROOT__; ?>" 
@@ -40,14 +39,14 @@ include_once($_SERVER['DOCUMENT_ROOT'] . __ROOT__ . "classes/User.php");
         <?php if (isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] === true) : ?>
 
             <?php
-                $credits = User::getCreditsByUserId($_SESSION['userId']);
+                $credits = \Promptly\Core\User::getCreditsByUserId($_SESSION['userId']);
             ?>
 
             <p class="credits hide-media-query"><?php echo $credits; ?> credits</p>
             <div id="notifications-relative" data-dropdown class="dropdown">
                 <button id="notifications-btn" data-dropdown-btn>
                     <?php 
-                        $ntCount = Notification::getNonViewedNotificationCountByUserId($_SESSION['userId']);
+                        $ntCount = \Promptly\Core\Notification::getNonViewedNotificationCountByUserId($_SESSION['userId']);
                         echo $ntCount > 0 ? '<span id="notification-count">' . $ntCount . '</span>' : ''; 
                     ?>
                 </button>

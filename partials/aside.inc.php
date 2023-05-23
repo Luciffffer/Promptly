@@ -1,6 +1,8 @@
 <?php 
 
-include_once($_SERVER['DOCUMENT_ROOT'] . __ROOT__ . 'classes/Prompt.php');
+require_once(__DIR__ . '/../vendor/autoload.php');
+
+use Promptly\Core\Prompt;
 
 $navModels = Prompt::getAllModels();
 

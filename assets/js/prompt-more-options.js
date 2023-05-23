@@ -55,19 +55,21 @@ document.querySelector('#submit-report-btn').addEventListener('click', e => {
 })
 
 // delete prompt
-document.querySelector('[data-delete-prompt-btn]').addEventListener('click', e => {
-    e.preventDefault();
-    document.querySelector('#delete-prompt-container').showModal();
-    document.body.style.overflowY = 'hidden';
-    document.body.style.height = '100vh';
-})
-
-document.querySelector('[data-close-delete]').addEventListener('click', e => {
-    e.preventDefault();
-    document.querySelector('#delete-prompt-container').close();
-    document.body.style.overflowY = 'auto';
-    document.body.style.height = 'auto';
-})
+if (document.querySelector('[data-delete-prompt-btn]') !== null) {
+    document.querySelector('[data-delete-prompt-btn]').addEventListener('click', e => {
+        e.preventDefault();
+        document.querySelector('#delete-prompt-container').showModal();
+        document.body.style.overflowY = 'hidden';
+        document.body.style.height = '100vh';
+    })
+    
+    document.querySelector('[data-close-delete]').addEventListener('click', e => {
+        e.preventDefault();
+        document.querySelector('#delete-prompt-container').close();
+        document.body.style.overflowY = 'auto';
+        document.body.style.height = 'auto';
+    })
+}
 
 
 // feedback

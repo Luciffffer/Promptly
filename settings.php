@@ -1,13 +1,16 @@
 <?php 
 
-include_once(__DIR__ . "/classes/Security.php");
-include_once(__DIR__ . "/classes/User.php");
-include_once(__DIR__ . "/classes/Prompt.php");
-include_once(__DIR__ . "/classes/File.php");
-include_once(__DIR__ . "/classes/Like.php");
-include_once(__DIR__ . "/classes/Follow.php");
+require_once(__DIR__ . "/vendor/autoload.php");
+
+use Promptly\Core\Prompt;
+use Promptly\Core\User;
+use Promptly\Core\Like;
+use Promptly\Core\Follow;
+use Promptly\Helpers\File;
+use Promptly\Helpers\Security;
 
 Security::onlyLoggedIn();
+
 $user = User::getUserById($_SESSION['userId']);
 $prompt = new Prompt();
 $prompt->setAuthorId($user['id']);

@@ -1,6 +1,10 @@
 <?php
 
-require_once(__DIR__ . '/Database.php');
+namespace Promptly\Core;
+
+use \PDO;
+
+require_once(__DIR__ . "/../../vendor/autoload.php");
 
 class Notification
 {
@@ -12,25 +16,25 @@ class Notification
 
     // Setters
 
-    public function setMessage (string $message)
+    public function setMessage(string $message)
     {
         $this->message = $message;
         return $this;
     }
 
-    public function setUserId (int $userId) 
+    public function setUserId(int $userId)
     {
         $this->userId = $userId;
         return $this;
     }
 
-    public function setLink (string $link)
+    public function setLink(string $link)
     {
         $this->link = $link;
         return $this;
     }
 
-    public function setImage (string $image)
+    public function setImage(string $image)
     {
         $this->image = $image;
         return $this;
@@ -51,7 +55,7 @@ class Notification
         $statement->execute();
     }
 
-    public static function setViewedByUserId (int $userId): void
+    public static function setViewedByUserId(int $userId): void
     {
         $PDO = Database::getInstance();
 
@@ -63,7 +67,7 @@ class Notification
 
     // Get notifications
 
-    public static function getNonViewedNotificationCountByUserId (int $userId)
+    public static function getNonViewedNotificationCountByUserId(int $userId)
     {
         $PDO = Database::getInstance();
 
@@ -80,7 +84,7 @@ class Notification
         }
     }
 
-    public static function getNotificationsByUserId (int $userId): array
+    public static function getNotificationsByUserId(int $userId): array
     {
         $PDO = Database::getInstance();
 

@@ -1,7 +1,10 @@
 <?php
 
-class Security {
-    public static function onlyNonLoggedIn (): void
+namespace Promptly\Helpers;
+
+class Security
+{
+    public static function onlyNonLoggedIn(): void
     {
         session_start();
         if (isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] === true) {
@@ -9,7 +12,7 @@ class Security {
         }
     }
 
-    public static function onlyLoggedIn (): void
+    public static function onlyLoggedIn(): void
     {
         session_start();
         if (!isset($_SESSION['loggedIn']) || $_SESSION['loggedIn'] === false) {
@@ -17,7 +20,8 @@ class Security {
         }
     }
 
-    public static function onlyModerator(){
+    public static function onlyModerator()
+    {
         session_start();
         if (!isset($_SESSION['isModerator']) || $_SESSION['isModerator'] === false) {
             header("location: http://". $_SERVER['HTTP_HOST'] . __ROOT__ . "index");
