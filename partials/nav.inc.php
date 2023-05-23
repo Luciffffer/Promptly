@@ -64,7 +64,12 @@ require_once(__DIR__ . '/../vendor/autoload.php');
                     <div id="account-nav-profile-info">
                         <figure style="background-image: url(<?php echo __ROOT__ . htmlspecialchars($_SESSION['profile-pic']); ?>)" aria-label="Profile pic"></figure>
                         <div>
-                            <p><?php echo htmlspecialchars($_SESSION['username']); ?></p>
+                            <p style="display: flex; gap: 0.5rem; align-items:center">
+                                <?php echo htmlspecialchars($_SESSION['username']); ?>
+                                <?php if (isset($_SESSION['verified']) && $_SESSION['verified'] === true) : ?>
+                                    <img src="<?php echo __ROOT__; ?>assets/images/site/verified-icon.svg" alt="Verified" class="verified-icon" style="height: 1.2rem">
+                                <?php endif; ?>
+                            </p>
                             <small><?php echo $credits; ?> credits</small>
                         </div>
                     </div>

@@ -18,6 +18,8 @@
                 $_SESSION['profile-pic'] = $user['profile_pic'];
                 $_SESSION['loggedIn'] = true;
 
+                if ($user['verified'] === 1) $_SESSION['verified'] = true;
+
                 if ($user['is_moderator'] === 1) $_SESSION['isModerator'] = true;
 
                 header('location: index');
