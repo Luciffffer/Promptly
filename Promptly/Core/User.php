@@ -271,6 +271,14 @@ class User
         }
     }
 
+    public static function verifyUser($userId): void
+    {
+        $PDO = Database::getInstance();
+        $stmt = $PDO->prepare("UPDATE users SET verified = 1 WHERE id = :id");
+        $stmt->bindValue(":id", $userId);
+        $stmt->execute();
+    }
+
     // get user methods
 
     public static function getUserById(int $id): array
