@@ -14,21 +14,6 @@
     background-color: -var(--light-gray);
 }
 
-.prompt-model{
-    /* position: absolute; */
-    /* margin-left: 5%; */
-}
-
-.prompt-model:first-child{
-    /* position: absolute; */
-    /* margin-left: 2%; */
-}
-
-.prompt-title-top{
-    /* position: absolute; */
-    /* margin-left: 16%; */
-}
-
 .title-tags{
     display: flex;
     flex-direction: column;
@@ -137,4 +122,73 @@
 
 }
 
+#header-title{
+    margin-left: 5%;
+    margin-top: 20px;
+}
 
+#grid-mod-tools{
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: 1fr;
+    gap: 5rem;
+
+    position: absolute;
+    left: 20%;
+    top: 20%;
+
+    height: 300px;
+    width: 500px;
+    
+}
+@media only screen and (max-width: 1110px) {
+    #grid-mod-tools{
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        grid-template-rows: repeat(2, 1fr);
+        grid-column-gap: 10px;
+        grid-row-gap: 10px;
+        left: 15%;
+        width: 400px;
+    }
+}
+@media only screen and (max-width: 500px) {
+    #grid-mod-tools{
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        grid-template-rows: repeat(2, 1fr);
+        grid-column-gap: 10px;
+        grid-row-gap: 10px;
+        left: 5%;
+        width: 400px;
+        height: 300px;
+    }
+}
+
+#apr-prompts{
+    background-color: var(--purple);
+    padding: 5px;
+    border-radius: 5px;
+    font-weight: bold;
+}
+
+#rep-user{
+    background-color: var(--light-medium-blue);
+    padding: 5px;
+    border-radius: 5px;
+    font-weight: bold;
+}
+
+#blocked{
+    background-color: var(--dark-blue);
+    padding: 5px;
+    border-radius: 5px;
+    font-weight: bold;
+}
+
+#rem{
+    background-color: var(--red);
+    padding: 5px;
+    border-radius: 5px;
+    font-weight: bold;
+}

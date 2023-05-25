@@ -42,10 +42,10 @@
                 foreach($prompts as $prompt){
                     $tags = json_decode($prompt['tags']); ?>                
                     <div class='prompt'>
-                            <p class="prompt-model"><?php echo $prompt['model_id']?></p>
+                            <p class="prompt-model"><?php echo htmlspecialchars($prompt['model_id'])?></p>
                             <div class="title-tags">
-                                <a href="../prompt?id=<?php echo $prompt['id']?>">
-                                    <p class="prompt-title"><?php echo $prompt['title']?></p>
+                                <a href="../prompt?id=<?php echo htmlspecialchars($prompt['id'])?>">
+                                    <p class="prompt-title"><?php echo htmlspecialchars($prompt['title'])?></p>
                                 </a>
                                 <p class="prompt-tags">
                                 <?php foreach($tags as $key => $tag): 
@@ -53,7 +53,7 @@
                                         break;
                                     }
                                     ?>
-                                    <span><?php echo $tag;?></span>
+                                    <span><?php echo htmlspecialchars($tag);?></span>
                                 <?php endforeach; ?>
                                 </p>
                             </div>

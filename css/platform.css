@@ -1039,13 +1039,10 @@ aside {
 #report-description{
     width: 100%;
     background-color: var(--dark-grey);
-
     color: white;
     height: 5rem;
-
     border-radius: 10px;
     border: 0px;
-
     height: 200px;
 }
 
@@ -1056,7 +1053,6 @@ aside {
     background: none;
     font-weight: bold;
     color: var(--red);
-    margin-top: 0;
 }
 
 
