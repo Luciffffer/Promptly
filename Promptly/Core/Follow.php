@@ -2,7 +2,7 @@
 
 namespace Promptly\Core;
 
-use \PDO;
+use PDO;
 
 require_once(__DIR__ . '/../../vendor/autoload.php');
 
@@ -14,13 +14,13 @@ class Follow
 
     // Setters
 
-    public function setFollowerId(int $followerId)
+    public function setFollowerId(int $followerId): self
     {
         $this->followerId = $followerId;
         return $this;
     }
 
-    public function setFolloweeId(int $followeeId)
+    public function setFolloweeId(int $followeeId): self
     {
         User::getUserById($followeeId); // check if user exists
 
