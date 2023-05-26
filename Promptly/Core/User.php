@@ -15,6 +15,7 @@ class User
     private $email;
     private $biography;
     private $profileImg;
+    private $credits = null;
 
 
     // getters
@@ -103,6 +104,12 @@ class User
         return $this;
     }
 
+    public function setCredits(int $credits): self
+    {
+        $this->credits = $credits;
+        return $this;
+    }
+
 
     // Check if certain value is unique or already in the database.
     public static function checkUnique($columnName, $value): bool
@@ -167,6 +174,10 @@ class User
                     profile_pic = case
                                     when :profileImg is not null and length(:profileImg) > 0 then :profileImg
                                     else profile_pic
+                                end,
+                    credits =   case
+                                    when :credits is not null then :credits
+                                    else credits
                                 end
                 WHERE id = :id
         ";
@@ -177,6 +188,7 @@ class User
         $stmt->bindValue(":password", $this->password);
         $stmt->bindValue(":biography", $this->biography);
         $stmt->bindValue(":profileImg", $this->profileImg);
+        $stmt->bindValue(":credits", $this->credits);
         $stmt->bindValue(":id", $this->id);
         $stmt->execute();
 

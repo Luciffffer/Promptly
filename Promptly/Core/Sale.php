@@ -1,5 +1,7 @@
 <?php
 
+namespace Promptly\Core;
+
 require_once(__DIR__ . "/../../vendor/autoload.php");
 
 use \PDO;
@@ -32,5 +34,20 @@ class Sale
         $stmt->bindValue(':userId', $this->userId, PDO::PARAM_INT);
         $stmt->bindValue(':promptId', $this->promptId, PDO::PARAM_INT);
         $stmt->execute();
+    }
+
+
+    // Get from DB
+
+    public static function saleExists(int $userId, int $promptId): bool
+    {
+        $PDO = Database::getInstance();
+        $stmt = $PDO->prepare('SELECT COUNT(*) FROM sales WHERE user_id = :userId AND prompt_id = :promptId');
+        $stmt->bindValue(':userId', $userId, PDO::PARAM_INT);
+        $stmt->bindValue(':promptId', $promptId, PDO::PARAM_INT);
+        $stmt->execute();
+
+        $result = $stmt->fetch(PDO::FETCH_NUM);
+        return $result[0] > 0;
     }
 }

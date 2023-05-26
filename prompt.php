@@ -17,11 +17,20 @@ try {
         $prompt = Prompt::getPromptById($_GET['id']);
     
         $isAuthor = (isset($_SESSION['userId']) && $prompt['author_id'] == $_SESSION['userId']) ? true : false;
+
+        // check if prompt has been bought
+        if (isset($_SESSION['userId'])) {
+            $promptBought = Promptly\Core\Sale::saleExists($_SESSION['userId'], $_GET['id']);
+        } else {
+            $promptBought = false;
+        }
     
+        // check if prompt approved
         if ($prompt['approved'] == 0 && !$isAuthor && !isset($_SESSION['isModerator'])) {
             throw new Exception("Prompt not found.");
         }
     
+        // delete prompt
         if (!empty($_POST['delete']) && $_POST['delete'] == 'true') {
             if ($isAuthor || isset($_SESSION['isModerator'])) {
                 $newPrompt = new Prompt();
@@ -200,23 +209,24 @@ try {
                         <?php else: ?>
                             <section id="single-prompt-action-section">
                                 <div>
-                                    <?php if ($isAuthor || (isset($_SESSION['isModerator']) && $_SESSION['isModerator'] === true)) : ?>
+                                    <?php if ($isAuthor || $promptBought || (isset($_SESSION['isModerator']) && $_SESSION['isModerator'] === true)) : ?>
                                         <div id="prompt-gotten-container">
                                             <img src="assets/images/site/success-icon.svg" alt="Checkmark">
                                             <span>You own this prompt!</span>
                                         </div>
                                     <?php elseif ($prompt['free']) : ?>
-                                        <a class="button" id="get-prompt-btn" href="#">
+                                        <a class="button" id="get-prompt-btn" href="#" data-get-btn>
                                             <img src="assets/images/site/plus-circle-icon.svg" alt="Get icon">
-                                            <span>Get prompt for free!</span>    
+                                            <span>Get prompt for free!</span>
                                         </a>
                                     <?php else : ?>
-                                        <a class="button" id="get-prompt-btn" href="#">
+                                        <a class="button" id="get-prompt-btn" href="#" data-get-btn>
                                             <img src="assets/images/site/plus-circle-icon.svg" alt="Get icon">
                                             <span>Get prompt</span>
                                         </a>
                                         <small>It's only 1 credit!</small>
                                     <?php endif; ?>
+                                    <script src="assets/js/get-prompt-ajax.js" defer></script>
                                 </div>
                                 <div id="single-prompt-action-section-right">
                                     <a id="like-btn" href="#" aria-label="Like prompt" data-liked="<?php echo Like::isLiked($_SESSION['userId'], $_GET['id']) ? 'true' : 'false'; ?>"></a>
@@ -256,7 +266,7 @@ try {
                                 </a>
                             </section>
 
-                                <?php if ($isAuthor || isset($_SESSION['isModerator'])) : // if prompt has been bought or author is the same as session userid ?>
+                                <?php if ($isAuthor || $promptBought || isset($_SESSION['isModerator'])) : ?>
 
                                     <section id="prompt-section">
                                         <h2>The <span class="blue-text">Prompt:</span></h2>
