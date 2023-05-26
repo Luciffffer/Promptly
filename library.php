@@ -12,6 +12,7 @@ if (!empty($_GET['page'])) {
     switch ($_GET['page']) {
         case "bought":
             $page = "bought";
+            $prompts = Prompt::getBoughtPromptsByUserId($_SESSION['userId']);
             break;
         case "liked":
             $page = "liked";

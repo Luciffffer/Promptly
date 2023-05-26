@@ -379,6 +379,16 @@ class Prompt
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    public static function getBoughtPromptsByUserId(int $userId): array
+    {
+        $PDO = Database::getInstance();
+        $stmt = $PDO->prepare("SELECT prompts.* FROM prompts INNER JOIN sales ON prompts.id = sales.prompt_id WHERE sales.user_id = :user_id");
+        $stmt->bindValue(":user_id", $userId);
+        $stmt->execute();
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
     public static function getPromptById(int $id): array
     {
         $PDO = Database::getInstance();
