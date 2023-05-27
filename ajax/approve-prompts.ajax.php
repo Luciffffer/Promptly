@@ -42,7 +42,22 @@ if (isset($_SESSION['isModerator']) && $_SESSION['isModerator'] === true) {
         $notification->setLink("profile.php?id=" . $prompt['author_id']);
         $notification->setImage("assets/images/site/verified-notification-icon.svg");
         $notification->save();
-    }       
+    }
+    
+    // give user credits
+    if (Prompt::getApprovedPromptsCount($prompt['author_id']) % 5 == 0) {
+        $user = new User();
+        $user->setId($prompt['author_id']);
+        $user->setCredits(User::getCreditsByUserId($prompt['author_id']) + 1);
+        $user->updateUser();
+
+        $notification = new Notification();
+        $notification->setMessage("You have earned 1 credit because 5 of your prompts have been approved!");
+        $notification->setUserId($prompt['author_id']);
+        $notification->setLink("profile.php?id=" . $prompt['author_id']);
+        $notification->setImage("assets/images/site/money-notification-cover.svg");
+        $notification->save();
+    }
 
 } else {
     $response = [

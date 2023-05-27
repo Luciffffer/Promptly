@@ -2,9 +2,11 @@
 
 namespace Promptly\Core;
 
+require_once(__DIR__ . "/../../vendor/autoload.php");
+
 use \PDO;
 
-require_once(__DIR__ . "/../../vendor/autoload.php");
+// This is my type of stuff. I love doing little things like this.
 
 class Notification
 {

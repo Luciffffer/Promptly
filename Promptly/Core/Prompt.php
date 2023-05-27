@@ -389,6 +389,16 @@ class Prompt
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    public static function getApprovedPromptsCount($userId): int
+    {
+        $PDO = Database::getInstance();
+        $stmt = $PDO->prepare("SELECT COUNT(*) FROM prompts WHERE approved = 1 AND author_id = :user_id");
+        $stmt->bindValue(":user_id", $userId, pdo::PARAM_INT);
+        $stmt->execute();
+
+        return $stmt->fetch()[0];
+    }
+
     public static function getPromptById(int $id): array
     {
         $PDO = Database::getInstance();
