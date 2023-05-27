@@ -136,11 +136,11 @@ function createPromptCard ({title = '', tags = '', headerImage = '', id = '', mo
     if (!isLoading) {
         const promptCardGetBtn = document.createElement("a");
         promptCardGetBtn.href = `prompt.php?id=${id}`;
-        promptCardGetBtn.classList.add("prompt-card-get-btn");
+        promptCardGetBtn.classList.add("prompt-card-arrow");
 
         const promptCardGetBtnImg = document.createElement("img");
-        promptCardGetBtnImg.src = 'assets/images/site/plus-circle-icon.svg';
-        promptCardGetBtnImg.alt = "Get this prompt";
+        promptCardGetBtnImg.src = 'assets/images/site/arrow-right.svg';
+        promptCardGetBtnImg.alt = "Arrow";
         promptCardGetBtn.append(promptCardGetBtnImg);
 
         promptCardBody.append(promptCardGetBtn);

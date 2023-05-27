@@ -124,8 +124,8 @@ if (!empty($_GET['page'])) {
                                             <?php endfor; ?>
                                         </small>
                                     </div>
-                                    <a href="#" class="button prompt-card-get-btn">
-                                        <img src="assets/images/site/plus-circle-icon.svg" alt="Get Prompt">
+                                    <a href="prompt?id=<?php echo $prompt['id']; ?>" class="button prompt-card-arrow">
+                                        <img src="assets/images/site/arrow-right.svg" alt="Arrow">
                                     </a>
                                 </div>
                             </div>

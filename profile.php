@@ -24,7 +24,7 @@ try {
 
         $prompt = new Prompt();
         $prompt->setAuthorId($_GET['id']);
-        $prompts = $prompt->getPrompts(order: $order, approved: 1);
+        $prompts = $prompt->getPrompts(order: $order, approved: 1, limit: 100); // should use infinite scroll, but not enough time
     } else {
         throw new Exception("No user id set in the url");
     }
@@ -106,8 +106,8 @@ if(isset($_POST['report-reason']) && isset($_POST['report-description'])){ // ze
                                                 <?php endfor; ?>
                                             </small>
                                         </div>
-                                        <a href="#" class="button prompt-card-get-btn">
-                                            <img src="assets/images/site/plus-circle-icon.svg" alt="Get Prompt">
+                                        <a href="prompt?id=<?php echo $prompt['id']; ?>" class="button prompt-card-arrow">
+                                            <img src="assets/images/site/arrow-right.svg" alt="Arrow">
                                         </a>
                                     </div>
                                 </div>

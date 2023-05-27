@@ -870,6 +870,9 @@ aside {
     color: var(--grey-3);
 }
 
+.prompt-card-arrow {
+    padding: 0.3rem;
+}
 
 /* LIBRARY PAGE */
 
