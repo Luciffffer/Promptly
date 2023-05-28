@@ -119,8 +119,8 @@ if(isset($_POST['report-reason']) && isset($_POST['report-description'])){ // ze
                             <section id="profile-action-section">
                                 <?php if (!isset($_SESSION['loggedIn'])) : ?>
                                     <a href="login.php" class="button">Follow</a>
-                                    <a href="login.php" class="button">
-                                        <img id="flag-icon" src="assets/images/site/flag.svg" alt="" onclick="showReport()">
+                                    <a href="login.php" id="profile-report-btn" class="button">
+                                        <img id="flag-icon" src="assets/images/site/flag.svg" alt="">
                                         <span>Report</span>
                                     </a>
                                 <?php else : ?>
@@ -168,24 +168,26 @@ if(isset($_POST['report-reason']) && isset($_POST['report-description'])){ // ze
             </div>
         </div>
 
-        <div id="report-screen" style="display:none"> 
-            <!-- Zegher made this and the design -->
-            <h1>Report this user</h1>
-            <p id="close" onclick="closeReport()">X</p>
-            <form action="" method="POST">
-                <label for="report-reason">Reason</label>
-                <select name="report-reason" id="report-reason">
-                    <option value="spam">Spam</option>
-                    <option value="inappropriate">Inappropriate</option>
-                    <option value="other">Other</option>
-                </select>
+        <?php if (isset($_SESSION['userId']) && $_SESSION['userId'] != $_GET['id']) : ?>
+            <div id="report-screen" style="display:none"> 
+                <!-- Zegher made this and the design -->
+                <h1>Report this user</h1>
+                <p id="close" onclick="closeReport()">X</p>
+                <form action="" method="POST">
+                    <label for="report-reason">Reason</label>
+                    <select name="report-reason" id="report-reason">
+                        <option value="spam">Spam</option>
+                        <option value="inappropriate">Inappropriate</option>
+                        <option value="other">Other</option>
+                    </select>
 
-                <label for="report-description"><br><br>Description</label>
-                <textarea name="report-description" id="report-description" cols="30" rows="10"></textarea>
+                    <label for="report-description"><br><br>Description</label>
+                    <textarea name="report-description" id="report-description" cols="30" rows="10"></textarea>
 
-                <input id="rpt-btn" type="submit" value="Report">
-            </form>
-        </div>
+                    <input id="rpt-btn" type="submit" value="Report">
+                </form>
+            </div>
+        <?php endif; ?>
     </main>
 </body>
 <script>
