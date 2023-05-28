@@ -327,17 +327,6 @@ aside {
     gap: 2rem;
 }
 
-#flag-icon{
-    display:block;
-    padding-top: -20px;
-    margin-left: 450px;
-    margin-right: 0.5rem;
-    height: 30px;
-    width: 30px;
-
-   
-}
-
 #profile-header {
     padding: 0 3rem;
     background-color: var(--grey-2);
@@ -1026,4 +1015,15 @@ aside {
     cursor: pointer;
 
     font-weight: 600;
+}
+
+.verified-span {
+    display: flex;
+    gap: 0.5rem;
+    background: var(--blue-purple-gradient);
+}
+
+.verified-span > img {
+    aspect-ratio: 1/1;
+    height: 25px;
 }
