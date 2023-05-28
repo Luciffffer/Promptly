@@ -65,7 +65,6 @@ if(isset($_POST['report-reason']) && isset($_POST['report-description'])){ // ze
                     <div>
                         <p style="margin-bottom: -1rem;">Account</p>
                         <h1 id="profile-header-username"><?php echo htmlspecialchars($user['username']); ?></h1>
-                        <img id="flag-icon" src="assets/images/site/flag.svg" alt="" onclick="showReport()">
                         <div id="profile-header-information">
                             <?php if ($user['verified'] == 1) : ?>
                                 <span class="verified-span">
@@ -120,10 +119,20 @@ if(isset($_POST['report-reason']) && isset($_POST['report-description'])){ // ze
                             <section id="profile-action-section">
                                 <?php if (!isset($_SESSION['loggedIn'])) : ?>
                                     <a href="login.php" class="button">Follow</a>
-                                <?php elseif (!Follow::isFollowing($_SESSION['userId'], $_GET['id'])) : ?>
-                                    <a href="#" data-follow="false" class="button">Follow</a>
+                                    <a href="login.php" class="button">
+                                        <img id="flag-icon" src="assets/images/site/flag.svg" alt="" onclick="showReport()">
+                                        <span>Report</span>
+                                    </a>
                                 <?php else : ?>
-                                    <a href="#" data-follow="true" class="button">Unfollow</a>
+                                    <?php if (!Follow::isFollowing($_SESSION['userId'], $_GET['id'])) : ?>
+                                        <a href="#" data-follow="false" class="button">Follow</a>
+                                    <?php else : ?>
+                                        <a href="#" data-follow="true" class="button">Unfollow</a>
+                                    <?php endif; ?>
+                                    <a href="#" class="button" id="profile-report-btn" onclick="showReport()">
+                                        <img id="flag-icon" src="assets/images/site/flag.svg" alt="flag">
+                                        <span>Report</span>
+                                    </a>
                                 <?php endif; ?>
                             </section>
                         <?php endif; ?>
