@@ -90,7 +90,7 @@ require_once(__DIR__ . '/../vendor/autoload.php');
                     </ul>
                     <?php if (isset($_SESSION['isModerator']) && $_SESSION['isModerator'] === true) : ?>
                         <hr>
-                        <a href="#" id="account-nav-mod-btn">
+                        <a href="<?php echo __ROOT__; ?>moderator/mod-screen" id="account-nav-mod-btn">
                             <img src="<?php echo __ROOT__; ?>assets/images/site/shield-icon.svg" alt="Shield">
                             <span>Moderator section</span>
                         </a>
