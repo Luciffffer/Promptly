@@ -37,6 +37,20 @@ body {
     -webkit-text-fill-color: transparent;
 }
 
+#discover-filter-form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.filter-dropdown {
+    width: 100%;
+    max-width: 800px;
+    margin-top: 1rem;
+    text-align: left;
+}
+
 .discover-header-rect {
     position: absolute;
     z-index: 0 !important;

@@ -10,6 +10,9 @@ $prompt = new Prompt();
 $popularPrompts = $prompt->getPrompts(order: "popular", approved: 1, limit: 10);
 $newPrompts = $prompt->getPrompts(order: "new", approved: 1, limit: 10);
 
+$categories = Prompt::getAllCategories();
+$models = Prompt::getAllModels();
+
 ?><!DOCTYPE html>
 <html lang="en">
 <head>
@@ -31,24 +34,125 @@ $newPrompts = $prompt->getPrompts(order: "new", approved: 1, limit: 10);
             <header id="discover-header">
                 <h1><span id="discover-text">Discover</span> Prompts</h1>
                 <p>Discover what promptly has to offer. From the most popular prompts to niche specific prompts.</p>
-                <div id="filter-btn-container">
-                    <a data-filterBtn="models" href="#" class="filter-btn button">
-                        <h3>Models</h3>
-                        <img src="assets/images/site/arrow-right.svg" alt="Arrow right">
-                    </a>
-                    <a data-filterBtn="categories" href="#" class="filter-btn button">
-                        <h3>Categories</h3>
-                        <img src="assets/images/site/arrow-right.svg" alt="Arrow right">
-                    </a>
-                    <a href="all-prompts?free=1" class="filter-btn button">
-                        <h3>Free</h3>
-                        <img src="assets/images/site/arrow-right.svg" alt="Arrow right">
-                    </a>
-                    <input data-input="categories" class="hidden" type="text" name="categories"></input>
-                    <input data-input="models" class="hidden" type="text" name="models"></input>
-                </div>
+
+                <form action="all-prompts" id="discover-filter-form">
+                    <div id="filter-btn-container">
+                        <a data-filterBtn="models" href="#" class="filter-btn button">
+                            <h3>Models</h3>
+                            <img src="assets/images/site/arrow-right.svg" alt="Arrow right">
+                        </a>
+                        <a data-filterBtn="categories" href="#" class="filter-btn button">
+                            <h3>Categories</h3>
+                            <img src="assets/images/site/arrow-right.svg" alt="Arrow right">
+                        </a>
+                        <a data-free-btn href="all-prompts?order=popular&free=1" class="filter-btn button">
+                            <h3>Free</h3>
+                            <img src="assets/images/site/arrow-right.svg" alt="Arrow right">
+                        </a>
+                        <input data-input="categories" class="hidden" type="text" name="categories"></input>
+                        <input data-input="models" class="hidden" type="text" name="models"></input>
+                        <input data-input="free" class="hidden" type="text" name="free"></input>
+                    </div>
+
+                    <div data-filterDropdown="categories" class="filter-dropdown filter-dropdown-hidden hidden">
+                        <div class="filter-dropdown-grid">
+                            <?php foreach($categories as $category) : ?>
+                                <span data-id="<?php echo $category['id']; ?>">
+                                    <?php echo $category['title']; ?>
+                                </span>
+                            <?php endforeach; ?>
+                        </div>
+                        <input class="primary-btn-white button" type="submit" value="Apply filters">
+                    </div>
+                    <div data-filterDropdown="models" class="filter-dropdown filter-dropdown-hidden hidden">
+                        <div class="filter-dropdown-grid">
+                            <?php foreach($models as $model) : ?>
+                                <span data-id="<?php echo $model['id']; ?>">
+                                    <?php echo $model['name']; ?>
+                                </span>
+                            <?php endforeach; ?>
+                        </div>
+                        <input class="primary-btn-white button" type="submit" value="Apply filters">
+                    </div>
+                </form>
+
                 <figure class="discover-header-rect" id="discover-header-rect-1"></figure>
                 <figure class="discover-header-rect" id="discover-header-rect-2"></figure>
+
+                <script>
+                    // These filter buttons are such a horrendous monstrosity that i've made.
+                    // If i ever work on this project again, I'm gonna redo this whole thing.
+                    // At least i've learned a lot about drop downs. The further along the project, the better the dropdowns got.
+
+                    // check children of filter dropdowns
+                    document.querySelectorAll(".filter-dropdown-grid").forEach(dropdownGrid => {
+                        dropdownGrid.addEventListener("click", e => {
+                            if (e.target !== e.currentTarget) {
+                                e.target.classList.toggle("filter-dropdown-checked");
+                                setInputValues();
+                            }
+                        });
+                    });
+
+                    // set input values
+                    function setInputValues() {
+                        const categoriesInput = document.querySelector("[data-input='categories']");
+                        const modelsInput = document.querySelector("[data-input='models']");
+                        const categoriesChecked = document.querySelectorAll("[data-filterDropdown='categories'] .filter-dropdown-checked");
+                        const modelsChecked = document.querySelectorAll("[data-filterDropdown='models'] .filter-dropdown-checked");
+                        let categoriesValue = "";
+                        let modelsValue = "";
+
+                        categoriesChecked.forEach((category, i) => {
+                            categoriesValue += category.dataset.id;
+                            if (i < categoriesChecked.length - 1) categoriesValue += ",";
+                        });
+                        modelsChecked.forEach((model, i) => {
+                            modelsValue += model.dataset.id;
+                            if (i < modelsChecked.length - 1) modelsValue += ",";
+                        });
+
+                        categoriesInput.value = categoriesValue;
+                        modelsInput.value = modelsValue;
+                    }
+
+                    // show/hide dropdowns
+                    document.querySelector("#filter-btn-container").addEventListener("click", e => {
+                        if (e.target.dataset.filterbtn !== undefined) {
+                            e.preventDefault();
+                            const dropdown = document.querySelector(`[data-filterDropdown="${e.target.dataset.filterbtn}"]`);
+                            const input = document.querySelector(`[data-input="${e.target.dataset.filterbtn}"]`);
+                            const arrow = e.target.querySelector(`[data-filterBtn="${e.target.dataset.filterbtn}"] > img`);
+
+                            if (dropdown.classList.contains("filter-dropdown-hidden")) {
+
+                                dropdown.classList.remove("hidden");
+                                setTimeout(() => {
+                                    dropdown.classList.remove("filter-dropdown-hidden");
+                                }, 20);
+                                arrow.classList.add("filter-btn-open");
+
+                            } else {
+
+                                dropdown.classList.add("filter-dropdown-hidden");
+                                dropdown.addEventListener("transitionend", function() {
+                                    dropdown.classList.add("hidden");
+                                }, {
+                                    once: true
+                                });
+                                arrow.classList.remove("filter-btn-open");
+
+                            }
+                        }
+                    });
+
+                    document.querySelector("[data-free-btn]").addEventListener('click', e => {
+                        e.preventDefault();
+
+                        document.querySelector("[data-input='free']").value = 1;
+                        document.querySelector("#discover-filter-form").submit();
+                    });
+                </script>
             </header>
             <div class="discover-lines">
                 <section class="discover-prompts-list-section">

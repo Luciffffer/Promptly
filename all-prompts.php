@@ -165,6 +165,10 @@ $models = Prompt::getAllModels();
                     <?php endif; ?>
                 </form>
                 <script>
+                    // These filter buttons are such a horrendous monstrosity that i've made.
+                    // If i ever work on this project again, I'm gonna redo this whole thing.
+                    // At least i've learned a lot about drop downs. The further along the project, the better the dropdowns got.
+
                     // check children of filter dropdowns
                     document.querySelectorAll(".filter-dropdown-grid").forEach(dropdownGrid => {
                         dropdownGrid.addEventListener("click", e => {
