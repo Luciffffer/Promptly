@@ -3,7 +3,7 @@
 require_once(__DIR__ . "/../vendor/autoload.php");
 
 use Promptly\Core\Prompt;
-use Promptly\Core\File;
+use Promptly\Helpers\File;
 use Promptly\core\Achievement;
 use Promptly\Helpers\Security;
 
