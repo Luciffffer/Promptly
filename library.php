@@ -9,7 +9,7 @@ Security::onlyLoggedIn();
 
 if (!empty($_GET['page'])) {
 
-    switch ($_GET['page']) {
+    switch ($_GET['page']) { // Should use infintie scroll for this. Not enough time rn
         case "bought":
             $page = "bought";
             $prompts = Prompt::getBoughtPromptsByUserId($_SESSION['userId']);
@@ -22,7 +22,7 @@ if (!empty($_GET['page'])) {
             $page = "yours";
             $prompt = new Prompt();
             $prompt->setAuthorId($_SESSION['userId']);
-            $prompts = $prompt->getPrompts(order: 'new');
+            $prompts = $prompt->getPrompts(order: 'new', limit: 40);
             break;
         default:
             $page = "liked";
