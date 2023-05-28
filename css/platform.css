@@ -327,6 +327,17 @@ aside {
     gap: 2rem;
 }
 
+#flag-icon{
+    display:block;
+    padding-top: -20px;
+    margin-left: 450px;
+    margin-right: 0.5rem;
+    height: 30px;
+    width: 30px;
+
+   
+}
+
 #profile-header {
     padding: 0 3rem;
     background-color: var(--grey-2);
@@ -979,6 +990,11 @@ aside {
     background-color: var(--red);
 }
 
+#report-screen h1{
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+}
+
 #report-screen{
     position:fixed;
     padding:25px;
@@ -988,17 +1004,18 @@ aside {
     left: 35%;
     top: 25%;
 
-    background-color: var(--purple);
-
-    filter: drop-shadow(5px 5px 53px var(--off-white));
-
+    background-color: var(--grey-2);
+    color: white;
 }
 
 #rpt-btn{
-    color: var(--purple);
-    background-color: white;
+    color: var(--white);
+    background-color: var(--red);
     padding: 5px;
     border-radius: 5px;
+    border: 0px;
+
+    width: 100%;
 }
 
 #close{
@@ -1009,15 +1026,4 @@ aside {
     cursor: pointer;
 
     font-weight: 600;
-}
-
-.verified-span {
-    display: flex;
-    gap: 0.5rem;
-    background: var(--blue-purple-gradient);
-}
-
-.verified-span > img {
-    aspect-ratio: 1/1;
-    height: 25px;
 }

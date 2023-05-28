@@ -170,11 +170,10 @@ if(isset($_POST['report-reason']) && isset($_POST['report-description'])){ // ze
 
         <?php if (isset($_SESSION['userId']) && $_SESSION['userId'] != $_GET['id']) : ?>
             <div id="report-screen" style="display:none"> 
-                <!-- Zegher made this and the design -->
                 <h1>Report this user</h1>
                 <p id="close" onclick="closeReport()">X</p>
                 <form action="" method="POST">
-                    <label for="report-reason">Reason</label>
+                    <label for="report-reason">Reason</label><br>
                     <select name="report-reason" id="report-reason">
                         <option value="spam">Spam</option>
                         <option value="inappropriate">Inappropriate</option>
@@ -201,5 +200,35 @@ var closeBtn = document.getElementById("close");
     function closeReport(){
         reportScrn.style.display = "none";
     }
+
+
+
+
+    const forms = document.querySelectorAll('.formpost');
+    forms.forEach(form => {
+        form.addEventListener('submit', e => {
+            e.preventDefault();
+            let id = e.target.dataset.id;
+            formdata = new FormData();
+            formdata.append('id', id);
+            
+            if(e.submitter.name === 'add') {
+                console.log('added this as mod');
+                console.log(id);
+                fetch('ajax/make-mod.ajax.php', {
+                    method: 'POST',
+                    body: formdata
+                }) 
+                .then(
+                    response => response.json()) //.json veranderd json naar string in js die je kan gebruiken.
+                .then(result => {
+                    console.log(result);
+                    if(result.status === 'success') {
+                        e.target.parentElement.parentElement.remove();
+                    }
+                })
+            }
+        });
+    });
 </script>
 </html>

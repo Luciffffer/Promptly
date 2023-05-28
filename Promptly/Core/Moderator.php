@@ -16,4 +16,6 @@ class Moderator extends User
         $statement->execute();
         // $result = $statement->fetch(PDO::FETCH_ASSOC);
     }
+
+   
 }
