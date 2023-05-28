@@ -4,7 +4,7 @@ require_once(__DIR__ . "/../vendor/autoload.php");
 
 use Promptly\Core\Prompt;
 use Promptly\Helpers\File;
-use Promptly\core\Achievement;
+use Promptly\Core\Achievement;
 use Promptly\Helpers\Security;
 
 Security::onlyLoggedIn();

@@ -150,7 +150,7 @@ try {
                             <p id="single-prompt-top-left">
                                 <span aria-label="Amount of people that bought the prompt">
                                     <img src="assets/images/site/plus-circle-icon.svg" alt="Buy icon">
-                                    6
+                                    <?php echo \Promptly\Core\Sale::getSaleCountByPromptId($_GET['id']); ?>
                                 </span>
                                 <span><?php echo htmlspecialchars($prompt['word_count']); ?> words</span>
                                 <?php if ($prompt['approved']) : ?>

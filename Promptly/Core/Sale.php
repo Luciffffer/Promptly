@@ -50,4 +50,15 @@ class Sale
         $result = $stmt->fetch(PDO::FETCH_NUM);
         return $result[0] > 0;
     }
+
+    public static function getSaleCountByPromptId(int $promptId): int
+    {
+        $PDO = Database::getInstance();
+        $stmt = $PDO->prepare('SELECT COUNT(*) FROM sales WHERE prompt_id = :promptId');
+        $stmt->bindValue(':promptId', $promptId, PDO::PARAM_INT);
+        $stmt->execute();
+
+        $result = $stmt->fetch(PDO::FETCH_NUM);
+        return $result[0];
+    }
 }
