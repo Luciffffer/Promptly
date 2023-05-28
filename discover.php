@@ -36,7 +36,7 @@ $models = Prompt::getAllModels();
                 <p>Discover what promptly has to offer. From the most popular prompts to niche specific prompts.</p>
 
                 <form action="all-prompts" id="discover-filter-form">
-                    <div id="filter-btn-container">
+                    <div id="filter-btn-container" style="justify-content: center;">
                         <a data-filterBtn="models" href="#" class="filter-btn button">
                             <h3>Models</h3>
                             <img src="assets/images/site/arrow-right.svg" alt="Arrow right">
@@ -193,8 +193,8 @@ $models = Prompt::getAllModels();
                                                 <?php endfor; ?>
                                             </small>
                                         </div>
-                                        <a href="#" class="button prompt-card-get-btn">
-                                            <img src="assets/images/site/plus-circle-icon.svg" alt="Get Prompt">
+                                        <a href="prompt?id=<?php echo $prompt['id']; ?>" class="button prompt-card-arrow">
+                                            <img src="assets/images/site/arrow-right.svg" alt="Arrow">
                                         </a>
                                     </div>
                                 </div>
@@ -247,8 +247,8 @@ $models = Prompt::getAllModels();
                                                 <?php endfor; ?>
                                             </small>
                                         </div>
-                                        <a href="#" class="button prompt-card-get-btn">
-                                            <img src="assets/images/site/plus-circle-icon.svg" alt="Get Prompt">
+                                        <a href="prompt?id=<?php echo $prompt['id']; ?>" class="button prompt-card-arrow">
+                                            <img src="assets/images/site/arrow-right.svg" alt="Arrow">
                                         </a>
                                     </div>
                                 </div>
@@ -264,6 +264,43 @@ $models = Prompt::getAllModels();
                     </div>
                 </section>
             </div>
+            <section class="center-parent">
+                <div class="center" id="top-users">
+                    <?php
+                        $topUsers = Promptly\Core\User::getUserIdsWithMostSales();
+                    ?>
+                    <h2>Top Users of The Week 🔥</h2>
+                    <p>Users with the most prompts sold this week.</p>
+                    <div id="top-users-card-container">
+                        <?php foreach($topUsers as $key => $topUser) : ?>
+
+                            <?php $user = \Promptly\Core\User::getUserById($topUser['id']); ?>
+                            
+                            <div class="top-user-card">
+                                <span class="top-user-card-number">#<?php echo $key + 1; ?></span>
+                                <a class="white-a" href="profile?id=<?php echo $user['id']; ?>">
+                                    <div class="top-user-card-pic-outer">
+                                        <div class="top-user-card-pic-inner">
+                                            <figure class="top-user-card-profile-pic" style="background-image: url(<?php echo $user['profile_pic']; ?>);"></figure>
+                                        </div>
+                                    </div>
+                                    <h3><?php echo htmlspecialchars($user['username']); ?></h3>
+                                </a>
+                                <p><span class="blue-text"><?php echo $topUser['sales']; ?> prompts</span> sold</p>
+                                <div>
+                                    <a class="top-user-btn button" href="profile?id=<?php echo $user['id']; ?>">View Profile</a>
+                                </div>
+                            </div>
+
+                        <?php endforeach; ?>
+                    </div>
+                </div>
+            </section>
+            <section class="center-parent" style="display: flex; justify-content: center; margin-bottom: 3rem">
+                <div class="center">
+                    <a href="all-prompts?order=popular" class="discover-end-btn button">View all prompts</a>
+                </div>
+            </section>
         </div>
     <main>
 </body>

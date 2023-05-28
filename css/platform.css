@@ -243,6 +243,8 @@ aside {
     background: none !important;
     font-weight: normal !important;
     outline: 2px solid var(--off-white);
+    display: flex;
+    align-items: center;
 }
 
 #profile-action-section {
@@ -260,6 +262,8 @@ aside {
     padding: 0.5rem 1rem;
     border-radius: 5px;
     background: var(--blue-purple-gradient);
+    display: flex;
+    align-items: center;
 }
 
 #profile-report-btn {
@@ -629,6 +633,7 @@ aside {
 #filter-btn-container {
     display: flex;
     align-items: center;
+    flex-wrap: wrap;
     gap: 1rem;
 }
 

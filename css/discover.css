@@ -179,6 +179,127 @@ main {
     background-color: #202124cc;
 }
 
+#top-users {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+
+    text-align: center;
+
+    padding-top: 4rem;
+    padding-bottom: 4rem;
+}
+
+#top-users-card-container {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+
+    margin: 2rem 0;
+    width: 100%;
+    max-width: 800px;
+}
+
+.top-user-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+
+    position: relative;
+
+    padding: 2rem 1rem;
+    width: 100%;
+    max-width: 250px;
+
+    border-radius: 0.5rem;
+    background-color: var(--grey-2);
+}
+
+.top-user-card > a {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+}
+
+.top-user-card-profile-pic {
+    aspect-ratio: 1/1;
+    width: 100%;
+    max-width: 100px;
+    border-radius: 50%;
+
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.top-user-card-pic-outer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    aspect-ratio: 1/1;
+    width: 100%;
+    max-width: 106px;
+    border-radius: 50%;
+
+    background: var(--blue-purple-gradient);
+    overflow: hidden;
+}
+
+.top-user-card-pic-inner {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    aspect-ratio: 1/1;
+    width: 100%;
+    max-width: 104px;
+    border-radius: 50%;
+
+    background-color: var(--grey-2);
+}
+
+.top-user-card-number {
+    font-size: 1.3rem;
+    font-weight: 600;
+
+    position: absolute;
+    top: 0.7rem;
+    right: 1rem;
+
+    color: var(--grey-1);
+}
+
+.top-user-btn {
+    padding: 0.3rem 1rem;
+    color: var(--light-blue);
+    border: 2px solid var(--light-blue);
+    border-radius: 5px;
+    display: block;
+    margin-top: 1rem;
+}
+
+.top-user-btn:hover {
+    color: var(--light-blue) !important;
+}
+
+.discover-end-btn {
+    display: block;
+    padding: 0.5rem 2rem;
+    background: var(--blue-purple-gradient);
+    font-weight: bold;
+    border-radius: 5px;
+}
+
+.discover-end-btn:hover {
+    color: var(--off-white) !important;
+}
+
 @media screen and (max-width: 1000px) {
     #discover-header-rect-1 {
         width: 300px;
@@ -200,6 +321,16 @@ main {
     }
 
     [data-scroll="left"], [data-scroll="right"] {
+        display: none;
+    }
+
+    #discover-header-rect-2 {
+        top: -210px;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .discover-prompts-top-hide {
         display: none;
     }
 }

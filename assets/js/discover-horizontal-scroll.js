@@ -4,7 +4,11 @@ function setHorScrollSize() { // sshhhh don't tell anyone. This is an awful appr
     const bodyWidth = document.body.getBoundingClientRect().width;
     const asideWidth = document.querySelector('aside').getBoundingClientRect().width;
 
-    width = bodyWidth - asideWidth;
+    if (bodyWidth > 600) {
+        width = bodyWidth - asideWidth;
+    } else {
+        width = bodyWidth;
+    }
     const horScrolls = document.querySelectorAll(".discover-prompts-list");
 
     horScrolls.forEach(horScroll => {

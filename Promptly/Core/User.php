@@ -325,6 +325,24 @@ class User
         return $result;
     }
 
+    public static function getUserIdsWithMostSales(int $limit = 3, int $timespan = 7): array
+    {
+        $sql = 'SELECT prompts.author_id AS id, COUNT(*) AS sales FROM sales
+                INNER JOIN prompts ON sales.prompt_id = prompts.id
+                WHERE sales.date_created >= DATE_SUB(NOW(), INTERVAL :timespan DAY) 
+                GROUP BY prompts.author_id 
+                ORDER BY sales DESC 
+                LIMIT :limit';
+
+        $PDO = Database::getInstance();
+        $stmt = $PDO->prepare($sql);
+        $stmt->bindValue(':timespan', $timespan, PDO::PARAM_INT);
+        $stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
+        $stmt->execute();
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
     public static function getCreditsByUserId(int $id): int
     {
         $PDO = Database::getInstance();
